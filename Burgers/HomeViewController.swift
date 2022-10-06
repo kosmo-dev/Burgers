@@ -9,23 +9,62 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
-    let dataSource: [MenuItem] = [
-        MenuItem(name: "Black Mamba", description: "What do people think when they hear about us? Of course, about the magnificent \"Black Mamba\". This is a burger that has no equal. An unexpected combination of cherries and marbled beef does not leave indifferent even the most skeptical guests", ingredientsDiscription: "With cherry, bacon and cheddar", price: 530, id: 101, photoURL: "https://burgerheroes.ru/pn/content/products_img/6041e3c391768.png"),
-        MenuItem(name: "Special Agent", description: "Eternal classic plays with new colors in our Special Agent. The secret of its taste is in fresh products, self-made sauces and in a steak beef patty. And this superhero saves from hunger with a bang!", ingredientsDiscription: "With cheddar and self-made ketchup", price: 420, id: 102, photoURL: "https://burgerheroes.ru/pn/content/products_img/2.png")
-    ]
+    var requestTask: Task<Void, Never>? = nil
+
+    var dataSource: [MenuItem] = []
+    var imageSource: [Int: UIImage] = [:]
 
     // MARK: Outlets
     @IBOutlet weak var collectionView: UICollectionView!
 
 
-    // MARK: Functions
+    // MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         collectionView.dataSource = self
         collectionView.delegate = self
+
+        update()
     }
 
+    // MARK: Functions
+
+    func update() {
+        requestTask?.cancel()
+
+        requestTask = Task {
+            print("Start task")
+            if let menuItemsDecoded = try? await MenuItemRequest().send() {
+                var newDataSource = [MenuItem]()
+                for i in menuItemsDecoded {
+                    newDataSource.append(i.value)
+                }
+                self.dataSource = newDataSource
+                print("success \(dataSource)")
+            } else {
+                self.dataSource = []
+                print("failed \(dataSource)")
+            }
+
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+
+            print("Start downloading photos")
+            print(dataSource)
+            for menuItem in dataSource {
+                print(menuItem.photoURL)
+                if let image = try? await MenuItemImageRequest().send(url: menuItem.photoURL) {
+                    imageSource[menuItem.id] = image
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
+                }
+            }
+            print(imageSource)
+        }
+    }
 }
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -38,7 +77,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuItemCell", for: indexPath) as? MenuItemCollectionViewCell else { return UICollectionViewCell() }
 
         let menuItem = dataSource[indexPath.row]
-        cell.configureCell(title: menuItem.name, price: menuItem.price, ingredientsDescription: menuItem.ingredientsDiscription, image: nil)
+        let image: UIImage? = imageSource[menuItem.id]
+        cell.configureCell(title: menuItem.name, price: menuItem.price, ingredientsDescription: menuItem.ingredientsDescription, image: image)
 
         return cell
     }

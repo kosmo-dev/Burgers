@@ -16,6 +16,7 @@
 		3DED089E28EE1439000DEA5D /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DED089D28EE1439000DEA5D /* MenuItem.swift */; };
 		3DED08A028EE15F8000DEA5D /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DED089F28EE15F8000DEA5D /* APIRequest.swift */; };
 		3DED08A428EE165D000DEA5D /* MenuItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DED08A328EE165D000DEA5D /* MenuItemCollectionViewCell.swift */; };
+		3DED08A628EE28CB000DEA5D /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DED08A528EE28CB000DEA5D /* APIService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		3DED089D28EE1439000DEA5D /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		3DED089F28EE15F8000DEA5D /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		3DED08A328EE165D000DEA5D /* MenuItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemCollectionViewCell.swift; sourceTree = "<group>"; };
+		3DED08A528EE28CB000DEA5D /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				3DED088928EE05CC000DEA5D /* SceneDelegate.swift */,
 				3DED089B28EE1415000DEA5D /* HomeViewController.swift */,
 				3DED089D28EE1439000DEA5D /* MenuItem.swift */,
+				3DED08A528EE28CB000DEA5D /* APIService.swift */,
 				3DED089F28EE15F8000DEA5D /* APIRequest.swift */,
 				3DED08A328EE165D000DEA5D /* MenuItemCollectionViewCell.swift */,
 				3DED088D28EE05CC000DEA5D /* Main.storyboard */,
@@ -148,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DED088828EE05CC000DEA5D /* AppDelegate.swift in Sources */,
+				3DED08A628EE28CB000DEA5D /* APIService.swift in Sources */,
 				3DED089E28EE1439000DEA5D /* MenuItem.swift in Sources */,
 				3DED08A428EE165D000DEA5D /* MenuItemCollectionViewCell.swift in Sources */,
 				3DED088A28EE05CC000DEA5D /* SceneDelegate.swift in Sources */,

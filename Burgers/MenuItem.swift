@@ -7,11 +7,23 @@
 
 import Foundation
 
-struct MenuItem {
-    let name: String
-    let description: String
-    let ingredientsDiscription: String
-    let price: Int
+struct MenuItem: Codable {
+    let menuItemDescription: String
     let id: Int
+    let ingredientsDescription: String
+    let name: String
     let photoURL: String
+    let price: Int
+    let type: String
+
+    enum CodingKeys: String, CodingKey {
+        case menuItemDescription = "description"
+        case id, ingredientsDescription, name, photoURL, price, type
+    }
+}
+
+typealias MenuItems = [String: MenuItem]
+
+struct Test: Codable {
+    let test1: String
 }
