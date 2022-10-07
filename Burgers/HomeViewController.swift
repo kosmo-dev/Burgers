@@ -6,13 +6,23 @@
 //
 
 import UIKit
+//import FirebaseStorage
 
 class HomeViewController: UIViewController {
 
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, MenuItem>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, MenuItem>
+
+    enum Section {
+        case menu
+    }
+
     var requestTask: Task<Void, Never>? = nil
 
-    var dataSource: [MenuItem] = []
+    var menuItems: [MenuItem] = []
     var imageSource: [Int: UIImage] = [:]
+
+    lazy var dataSource = configureDataSource()
 
     // MARK: Outlets
     @IBOutlet weak var collectionView: UICollectionView!
@@ -21,9 +31,6 @@ class HomeViewController: UIViewController {
     // MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        collectionView.dataSource = self
-        collectionView.delegate = self
 
         update()
     }
@@ -34,54 +41,50 @@ class HomeViewController: UIViewController {
         requestTask?.cancel()
 
         requestTask = Task {
-            print("Start task")
             if let menuItemsDecoded = try? await MenuItemRequest().send() {
                 var newDataSource = [MenuItem]()
                 for i in menuItemsDecoded {
                     newDataSource.append(i.value)
                 }
-                self.dataSource = newDataSource
-                print("success \(dataSource)")
+                self.menuItems = newDataSource
             } else {
-                self.dataSource = []
-                print("failed \(dataSource)")
-            }
+                self.menuItems = []
 
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
             }
+            applySnaphot()
 
-            print("Start downloading photos")
-            print(dataSource)
-            for menuItem in dataSource {
-                print(menuItem.photoURL)
+            for menuItem in menuItems {
                 if let image = try? await MenuItemImageRequest().send(url: menuItem.photoURL) {
                     imageSource[menuItem.id] = image
-                    DispatchQueue.main.async {
-                        self.collectionView.reloadData()
-                    }
+                    updateSnaphot(with: [menuItem])
                 }
             }
-            print(imageSource)
         }
     }
-}
 
-extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSource.count
+    func configureDataSource() -> DataSource {
+        let dataSource = DataSource(collectionView: collectionView) { (collectionView, indexPath, menuItem) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuItemCell", for: indexPath) as? MenuItemCollectionViewCell
+            let image: UIImage? = self.imageSource[menuItem.id]
+            cell?.configureCell(title: menuItem.name, price: menuItem.price, ingredientsDescription: menuItem.ingredientsDescription, image: image)
+            return cell
+        }
+        return dataSource
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func applySnaphot() {
+        var snapshot = Snapshot()
 
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuItemCell", for: indexPath) as? MenuItemCollectionViewCell else { return UICollectionViewCell() }
+        snapshot.appendSections([.menu])
+        snapshot.appendItems(menuItems, toSection: .menu)
 
-        let menuItem = dataSource[indexPath.row]
-        let image: UIImage? = imageSource[menuItem.id]
-        cell.configureCell(title: menuItem.name, price: menuItem.price, ingredientsDescription: menuItem.ingredientsDescription, image: image)
-
-        return cell
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 
+    func updateSnaphot(with items: [MenuItem]) {
+        var snapshot = dataSource.snapshot()
+        snapshot.reloadItems(items)
 
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
 }

@@ -37,16 +37,16 @@ extension APIRequest {
 
         switch requestType {
         case .data:
-            print(components.url?.absoluteString)
+//            print(components.url?.absoluteString)
             urlString = components.url?.absoluteString ?? ""
-            print(urlString)
+//            print(urlString)
             urlString += ".json"
         case .image:
             urlString = components.url?.absoluteString ?? ""
         }
 
         var url = URL(string: urlString)!
-        print(url)
+//        print(url)
 
         var request = URLRequest(url: url)
 
@@ -73,15 +73,11 @@ extension APIRequest where Response: Decodable {
 
     func send() async throws -> Response {
         let (data, response) = try await URLSession.shared.data(for: request)
-        print(response)
 
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {throw APIRequestError.itemsNotFound}
-        print(data)
-        print(String(data: data, encoding: .utf8))
 
         let decoder = JSONDecoder()
         let decoded = try decoder.decode(Response.self, from: data)
-        print("this is decoded \(decoded)")
 
         return decoded
     }

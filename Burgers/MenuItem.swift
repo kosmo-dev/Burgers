@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MenuItem: Codable {
+struct MenuItem: Codable, Hashable {
     let menuItemDescription: String
     let id: Int
     let ingredientsDescription: String
@@ -20,10 +20,12 @@ struct MenuItem: Codable {
         case menuItemDescription = "description"
         case id, ingredientsDescription, name, photoURL, price, type
     }
-}
 
-typealias MenuItems = [String: MenuItem]
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 
-struct Test: Codable {
-    let test1: String
+    static func == (lhs: MenuItem, rhs: MenuItem) -> Bool {
+        return lhs.id == rhs.id
+    }
 }

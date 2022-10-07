@@ -95,6 +95,8 @@
 			dependencies = (
 			);
 			name = Burgers;
+			packageProductDependencies = (
+			);
 			productName = Burgers;
 			productReference = 3DED088428EE05CC000DEA5D /* Burgers.app */;
 			productType = "com.apple.product-type.application";
@@ -123,6 +125,8 @@
 				Base,
 			);
 			mainGroup = 3DED087B28EE05CC000DEA5D;
+			packageReferences = (
+			);
 			productRefGroup = 3DED088528EE05CC000DEA5D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

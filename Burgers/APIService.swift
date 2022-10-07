@@ -10,7 +10,7 @@ import UIKit
 
 struct MenuItemRequest: APIRequest {
     
-    typealias Response = MenuItems
+    typealias Response = [String: MenuItem]
     var path: String = "/menu"
     var requestType: APIRequestType = .data
 }
