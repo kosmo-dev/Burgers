@@ -32,6 +32,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        collectionView.collectionViewLayout = generateLayout()
         update()
     }
 
@@ -47,6 +48,7 @@ class HomeViewController: UIViewController {
                     newDataSource.append(i.value)
                 }
                 self.menuItems = newDataSource
+                self.menuItems = self.menuItems.sorted { $0.id < $1.id }
             } else {
                 self.menuItems = []
 
@@ -86,5 +88,20 @@ class HomeViewController: UIViewController {
         snapshot.reloadItems(items)
 
         dataSource.apply(snapshot, animatingDifferences: false)
+    }
+
+    func generateLayout() -> UICollectionViewCompositionalLayout {
+
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1/4))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+
+        group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+
+        let section = NSCollectionLayoutSection(group: group)
+
+        return UICollectionViewCompositionalLayout(section: section)
     }
 }
