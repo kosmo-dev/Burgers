@@ -36,6 +36,8 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        collectionView.delegate = self
+
         collectionView.collectionViewLayout = generateLayout()
         collectionView.register(HeaderReusableView.self, forSupplementaryViewOfKind: "header", withReuseIdentifier: HeaderReusableView.reuseIdentifier)
 
@@ -68,14 +70,7 @@ class HomeViewController: UIViewController {
 
             applySnaphot()
 
-            await withTaskGroup(of: Void.self, body: { taskGroup in
-                taskGroup.addTask {
-                    await self.fetchPhoto(from: self.newsItems)
-                }
-                taskGroup.addTask {
-                    await self.fetchPhoto(from: self.menuItems)
-                }
-            })
+            await fetchPhoto(from: newsItems)
         }
 
     }
@@ -191,6 +186,22 @@ class HomeViewController: UIViewController {
                     imageSource[item.newsItem.id] = image
                 }
                 updateSnaphot(with: [item])
+            }
+        }
+    }
+}
+
+extension HomeViewController: UICollectionViewDelegate {
+
+    func getMenuItem(indexPath: IndexPath) -> Item {
+        return menuItems[indexPath.row]
+    }
+
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+
+        if !imageSource.contains(where: { $0.key == menuItems[indexPath.row].menuItem.id }) {
+            Task {
+                await fetchPhoto(from: [getMenuItem(indexPath: indexPath)])
             }
         }
     }
