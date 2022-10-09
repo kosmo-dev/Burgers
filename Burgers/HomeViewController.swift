@@ -21,6 +21,7 @@ class HomeViewController: UIViewController {
 
     var menuItems: [MenuItem] = []
     var imageSource: [Int: UIImage] = [:]
+    var menuHeaders = ["BURGERS", "SNACKS", "SALADS", "STEAKS", "DRINKS"]
 
     lazy var dataSource = configureDataSource()
 
@@ -33,6 +34,9 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
 
         collectionView.collectionViewLayout = generateLayout()
+        collectionView.register(HeaderReusableView.self, forSupplementaryViewOfKind: "header", withReuseIdentifier: HeaderReusableView.reuseIdentifier)
+
+
         update()
     }
 
@@ -71,6 +75,12 @@ class HomeViewController: UIViewController {
             cell?.configureCell(title: menuItem.name, price: menuItem.price, ingredientsDescription: menuItem.ingredientsDescription, image: image)
             return cell
         }
+        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) -> UICollectionReusableView? in
+
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: "header", withReuseIdentifier: HeaderReusableView.reuseIdentifier, for: indexPath) as! HeaderReusableView
+            headerView.setupView(self.menuHeaders)
+            return headerView
+        }
         return dataSource
     }
 
@@ -98,10 +108,19 @@ class HomeViewController: UIViewController {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1/4))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
-        group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
 
         let section = NSCollectionLayoutSection(group: group)
 
-        return UICollectionViewCompositionalLayout(section: section)
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30))
+        let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: "header", alignment: .top)
+        headerItem.pinToVisibleBounds = true
+        headerItem.zIndex = 2
+
+        section.boundarySupplementaryItems = [headerItem]
+
+        let layout = UICollectionViewCompositionalLayout(section: section)
+
+        return layout
     }
 }

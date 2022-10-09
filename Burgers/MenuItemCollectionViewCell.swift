@@ -26,6 +26,7 @@ class MenuItemCollectionViewCell: UICollectionViewCell {
         self.price.text = "\(price) P"
         self.ingredientsDescription.text = ingredientsDescription
         self.imageView.image = image ?? UIImage(systemName: "photo")
+        print("cell configured")
     }
 
     // MARK: - Actions

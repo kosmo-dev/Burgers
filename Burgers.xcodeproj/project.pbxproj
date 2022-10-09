@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D22C9D528F1A5B900BD768A /* HeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D22C9D428F1A5B900BD768A /* HeaderReusableView.swift */; };
 		3DED088828EE05CC000DEA5D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DED088728EE05CC000DEA5D /* AppDelegate.swift */; };
 		3DED088A28EE05CC000DEA5D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DED088928EE05CC000DEA5D /* SceneDelegate.swift */; };
 		3DED088F28EE05CC000DEA5D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DED088D28EE05CC000DEA5D /* Main.storyboard */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D22C9D428F1A5B900BD768A /* HeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderReusableView.swift; sourceTree = "<group>"; };
 		3DED088428EE05CC000DEA5D /* Burgers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Burgers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DED088728EE05CC000DEA5D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3DED088928EE05CC000DEA5D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				3DED088728EE05CC000DEA5D /* AppDelegate.swift */,
 				3DED088928EE05CC000DEA5D /* SceneDelegate.swift */,
 				3DED089B28EE1415000DEA5D /* HomeViewController.swift */,
+				3D22C9D428F1A5B900BD768A /* HeaderReusableView.swift */,
 				3DED089D28EE1439000DEA5D /* MenuItem.swift */,
 				3DED08A528EE28CB000DEA5D /* APIService.swift */,
 				3DED089F28EE15F8000DEA5D /* APIRequest.swift */,
@@ -156,6 +159,7 @@
 			files = (
 				3DED088828EE05CC000DEA5D /* AppDelegate.swift in Sources */,
 				3DED08A628EE28CB000DEA5D /* APIService.swift in Sources */,
+				3D22C9D528F1A5B900BD768A /* HeaderReusableView.swift in Sources */,
 				3DED089E28EE1439000DEA5D /* MenuItem.swift in Sources */,
 				3DED08A428EE165D000DEA5D /* MenuItemCollectionViewCell.swift in Sources */,
 				3DED088A28EE05CC000DEA5D /* SceneDelegate.swift in Sources */,
