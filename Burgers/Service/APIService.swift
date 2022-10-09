@@ -15,6 +15,16 @@ struct MenuItemRequest: APIRequest {
     var requestType: APIRequestType = .data
 }
 
+struct NewsItemRequest: APIRequest {
+    typealias Response = [NewsItem]
+
+    var path: String = "/news"
+
+    var requestType: APIRequestType = .data
+
+
+}
+
 struct MenuItemImageRequest {
     func send(url: String) async throws -> UIImage {
 

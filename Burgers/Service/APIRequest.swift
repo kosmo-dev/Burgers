@@ -37,18 +37,15 @@ extension APIRequest {
 
         switch requestType {
         case .data:
-//            print(components.url?.absoluteString)
             urlString = components.url?.absoluteString ?? ""
-//            print(urlString)
             urlString += ".json"
         case .image:
             urlString = components.url?.absoluteString ?? ""
         }
 
-        var url = URL(string: urlString)!
-//        print(url)
+        let url = URL(string: urlString)!
 
-        var request = URLRequest(url: url)
+        let request = URLRequest(url: url)
 
         return request
     }

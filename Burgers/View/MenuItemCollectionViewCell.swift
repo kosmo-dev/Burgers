@@ -8,6 +8,7 @@
 import UIKit
 
 class MenuItemCollectionViewCell: UICollectionViewCell {
+    static let reuseIdentifier = "MenuItemCellReuseIdentifier"
 
     // MARK: - Outlets
     @IBOutlet weak var title: UILabel!
@@ -21,10 +22,12 @@ class MenuItemCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
     }
 
-    func configureCell(title: String, price: Int, ingredientsDescription: String, image: UIImage?) {
-        self.title.text = title.uppercased()
-        self.price.text = "\(price) P"
-        self.ingredientsDescription.text = ingredientsDescription
+    func configureCell(menuItem: MenuItem?, image: UIImage?) {
+        if let menuItem {
+            self.title.text = menuItem.name.uppercased()
+            self.price.text = "\(menuItem.price) P"
+            self.ingredientsDescription.text = menuItem.ingredientsDescription
+        }
         self.imageView.image = image ?? UIImage(systemName: "photo")
     }
 
