@@ -18,8 +18,10 @@ class NewsItemCollectionViewCell: UICollectionViewCell {
     }
 
     func configureCell(_ title: String?, _ image: UIImage?) {
+        self.layer.borderWidth = 1
+        self.layer.cornerRadius = 15
+
         newsImageView.tintColor = .label
-        titleLabel.backgroundColor = .systemBackground
 
         if let title {
             titleLabel.text = title

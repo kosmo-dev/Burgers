@@ -23,7 +23,7 @@ class HomeViewController: UIViewController {
     var menuItems: [Item] = []
     var newsItems: [Item] = []
     var imageSource: [Int: UIImage] = [:]
-    var menuHeaders = ["BURGERS", "SNACKS", "SALADS", "STEAKS", "DRINKS"]
+    var menuHeaders = ["BURGERS", "BOWLS", "SNACKS", "SALADS", "STEAKS", "DRINKS"]
     var sections: [Section] = []
 
     lazy var dataSource = configureDataSource()
@@ -49,11 +49,9 @@ class HomeViewController: UIViewController {
 
         requestTask = Task {
             if let menuItemsDecoded = try? await MenuItemRequest().send() {
-                var newDataSource = [Item]()
                 for i in menuItemsDecoded {
-                    newDataSource.append(Item.menu(i.value))
+                    menuItems.append(Item.menu(i.value))
                 }
-                self.menuItems = newDataSource
                 self.menuItems = self.menuItems.sorted(by: {$0.menuItem.id < $1.menuItem.id})
             } else {
                 self.menuItems = []
@@ -70,13 +68,16 @@ class HomeViewController: UIViewController {
 
             applySnaphot()
 
-            for menuItem in menuItems {
-                if let image = try? await MenuItemImageRequest().send(url: menuItem.menuItem.photoCompressedURL) {
-                    imageSource[menuItem.menuItem.id] = image
-                    updateSnaphot(with: [menuItem])
+            await withTaskGroup(of: Void.self, body: { taskGroup in
+                taskGroup.addTask {
+                    await self.fetchPhoto(from: self.newsItems)
                 }
-            }
+                taskGroup.addTask {
+                    await self.fetchPhoto(from: self.menuItems)
+                }
+            })
         }
+
     }
 
     func configureDataSource() -> DataSource {
@@ -87,7 +88,8 @@ class HomeViewController: UIViewController {
             switch section {
             case .news:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsItemCollectionViewCell.reuseIdentifier, for: indexPath) as? NewsItemCollectionViewCell
-                cell?.configureCell(item.newsItem.name, nil)
+                let image: UIImage? = self.imageSource[item.newsItem.id]
+                cell?.configureCell(item.newsItem.name, image)
                 return cell
 
             case .menu:
@@ -135,10 +137,10 @@ class HomeViewController: UIViewController {
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalWidth(1/2))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalWidth(1/2.5))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
-                group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
+                group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 16, trailing: 8)
 
                 let section = NSCollectionLayoutSection(group: group)
                 section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
@@ -167,5 +169,29 @@ class HomeViewController: UIViewController {
             }
         }
         return layout
+    }
+
+    func fetchPhoto(from itemsArray: [Item]) async {
+
+        for item in itemsArray {
+            var url: String {
+                switch item {
+                case .menu(let menu):
+                    return menu.photoCompressedURL
+                case .news(let news):
+                    return news.photoURL
+                }
+            }
+
+            if let image = try? await MenuItemImageRequest().send(url: url) {
+                switch item {
+                case .menu(_):
+                    imageSource[item.menuItem.id] = image
+                case .news(_):
+                    imageSource[item.newsItem.id] = image
+                }
+                updateSnaphot(with: [item])
+            }
+        }
     }
 }
