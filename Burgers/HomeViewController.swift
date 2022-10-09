@@ -60,7 +60,7 @@ class HomeViewController: UIViewController {
             applySnaphot()
 
             for menuItem in menuItems {
-                if let image = try? await MenuItemImageRequest().send(url: menuItem.photoURL) {
+                if let image = try? await MenuItemImageRequest().send(url: menuItem.photoCompressedURL) {
                     imageSource[menuItem.id] = image
                     updateSnaphot(with: [menuItem])
                 }

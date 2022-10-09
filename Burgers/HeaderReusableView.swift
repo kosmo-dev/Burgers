@@ -40,16 +40,7 @@ class HeaderReusableView: UICollectionReusableView {
         addSubview(scrollView)
 
         scrollView.addSubview(stackView)
-
-//        for i in 0...50 {
-//            let label = UILabel()
-//            label.translatesAutoresizingMaskIntoConstraints = false
-//            label.text = "Label \(i)"
-//            label.font = UIFont.systemFont(ofSize: 22, weight: .black)
-//
-//            stackView.addArrangedSubview(label)
-//        }
-
+        
         for menuHeader in menuHeaders {
             let label = UILabel()
             label.translatesAutoresizingMaskIntoConstraints = false

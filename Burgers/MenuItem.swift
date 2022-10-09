@@ -13,12 +13,13 @@ struct MenuItem: Codable, Hashable {
     let ingredientsDescription: String
     let name: String
     let photoURL: String
+    let photoCompressedURL: String
     let price: Int
     let type: String
 
     enum CodingKeys: String, CodingKey {
         case menuItemDescription = "description"
-        case id, ingredientsDescription, name, photoURL, price, type
+        case id, ingredientsDescription, name, photoURL, price, type, photoCompressedURL
     }
 
     func hash(into hasher: inout Hasher) {
