@@ -10,6 +10,9 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
+    let toMenuItemSegue = "toMenuItemSegue"
+    let toNewsItemSegue = "toNewsItemSegue"
+
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
 
@@ -91,6 +94,7 @@ class HomeViewController: UIViewController {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuItemCollectionViewCell.reuseIdentifier, for: indexPath) as? MenuItemCollectionViewCell
                 let image: UIImage? = self.imageSource[item.menuItem.id]
                 cell?.configureCell(menuItem: item.menuItem, image: image)
+                cell?.delegate = self
                 return cell
             }
         }
@@ -189,6 +193,22 @@ class HomeViewController: UIViewController {
             }
         }
     }
+
+    @IBSegueAction func showMenuItem(_ coder: NSCoder, sender: UICollectionViewCell?) -> MenuItemViewController? {
+        guard let cell = sender,
+              let indexPath = collectionView.indexPath(for: cell),
+              let item = dataSource.itemIdentifier(for: indexPath)?.menuItem else {return nil}
+        let image = imageSource[item.id]
+        return MenuItemViewController(coder: coder, menuItem: item, image: image)
+    }
+
+    @IBSegueAction func showNewsItem(_ coder: NSCoder, sender: UICollectionViewCell?) -> NewsItemViewController? {
+        guard let cell = sender,
+              let indexPath = collectionView.indexPath(for: cell),
+              let item = dataSource.itemIdentifier(for: indexPath)?.newsItem else {return nil}
+        let image = imageSource[item.id]
+        return NewsItemViewController(coder: coder, newsItem: item, image: image)
+    }
 }
 
 extension HomeViewController: UICollectionViewDelegate {
@@ -204,5 +224,11 @@ extension HomeViewController: UICollectionViewDelegate {
                 await fetchPhoto(from: [getMenuItem(indexPath: indexPath)])
             }
         }
+    }
+}
+
+extension HomeViewController: MenuItemCellDelegate {
+    func chooseButtonWasTapped(cell: MenuItemCollectionViewCell) {
+        performSegue(withIdentifier: toMenuItemSegue, sender: cell)
     }
 }

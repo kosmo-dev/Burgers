@@ -7,17 +7,26 @@
 
 import UIKit
 
+protocol MenuItemCellDelegate {
+    func chooseButtonWasTapped(cell: MenuItemCollectionViewCell)
+}
+
 class MenuItemCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "MenuItemCellReuseIdentifier"
 
-    // MARK: - Outlets
+    // MARK: Outlets
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var price: UILabel!
     @IBOutlet weak var ingredientsDescription: UILabel!
     @IBOutlet weak var chooseButton: UIButton!
     @IBOutlet weak var imageView: UIImageView!
 
-    // MARK: - Functions
+    // MARK: Variables
+    var delegate: MenuItemCellDelegate?
+    var menuItem: MenuItem?
+    var image: UIImage?
+
+    // MARK: Functions
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -29,10 +38,13 @@ class MenuItemCollectionViewCell: UICollectionViewCell {
             self.ingredientsDescription.text = menuItem.ingredientsDescription
         }
         self.imageView.image = image ?? UIImage(systemName: "photo")
+        self.menuItem = menuItem
+        self.image = image
     }
 
-    // MARK: - Actions
+    // MARK: Actions
     @IBAction func chooseButtonTapped(_ sender: UIButton) {
+        delegate?.chooseButtonWasTapped(cell: self)
     }
 
 }
