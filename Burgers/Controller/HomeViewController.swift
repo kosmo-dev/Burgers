@@ -8,7 +8,7 @@
 import UIKit
 //import FirebaseStorage
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, OrderControlling {
 
     let toMenuItemSegue = "toMenuItemSegue"
     let toNewsItemSegue = "toNewsItemSegue"
@@ -28,6 +28,7 @@ class HomeViewController: UIViewController {
     var imageSource: [Int: UIImage] = [:]
     var menuHeaders = ["BURGERS", "BOWLS", "SNACKS", "SALADS", "STEAKS", "DRINKS"]
     var sections: [Section] = []
+    lazy var headerView = HeaderReusableView()
 
     lazy var dataSource = configureDataSource()
 
@@ -102,6 +103,7 @@ class HomeViewController: UIViewController {
 
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: "header", withReuseIdentifier: HeaderReusableView.reuseIdentifier, for: indexPath) as! HeaderReusableView
             headerView.setupView(self.menuHeaders)
+            self.headerView = headerView
             return headerView
         }
         return dataSource

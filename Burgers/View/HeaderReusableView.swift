@@ -14,8 +14,10 @@ class HeaderReusableView: UICollectionReusableView {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsHorizontalScrollIndicator = false
+        scrollView.backgroundColor = .systemBackground
         return scrollView
     }()
+
     var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -28,7 +30,6 @@ class HeaderReusableView: UICollectionReusableView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
     }
 
     required init?(coder: NSCoder) {
@@ -36,24 +37,15 @@ class HeaderReusableView: UICollectionReusableView {
     }
 
     func setupView(_ menuHeaders: [String]) {
-        scrollView.backgroundColor = .systemBackground
         addSubview(scrollView)
-
         scrollView.addSubview(stackView)
-        
         for menuHeader in menuHeaders {
-            let label = UILabel()
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.text = "\(menuHeader)"
-            label.font = UIFont.systemFont(ofSize: 22, weight: .black)
-
-            stackView.addArrangedSubview(label)
+            stackView.addArrangedSubview(makeLabel(with: menuHeader))
         }
-
         setupLayout()
     }
 
-    func setupLayout() {
+    private func setupLayout() {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -68,5 +60,18 @@ class HeaderReusableView: UICollectionReusableView {
             stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
             stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, constant: 8),
         ])
+    }
+
+    private func makeLabel(with menuHeader: String) -> UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "\(menuHeader)"
+        label.font = UIFont.systemFont(ofSize: 22, weight: .black)
+
+        return label
+    }
+
+    func scrollViewTo(offset: Int) {
+        self.scrollView.setContentOffset(CGPoint(x: offset, y: 0), animated: true)
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MenuItemViewController: UIViewController {
+class MenuItemViewController: UIViewController, OrderControlling {
 
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -15,6 +15,7 @@ class MenuItemViewController: UIViewController {
     @IBOutlet weak var decriptionLabel: UILabel!
 
     @IBOutlet weak var chooseButton: UIButton!
+
     var menuItem: MenuItem
     var menuImage: UIImage?
 
@@ -37,6 +38,7 @@ class MenuItemViewController: UIViewController {
     }
 
     @IBAction func chooseButtonTapped(_ sender: UIButton) {
+        self.orderController.addToOrder(menuItem)
+        dismiss(animated: true)
     }
-    
 }
