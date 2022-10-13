@@ -14,6 +14,8 @@
 		3D5D9A2428F36B10006B8E78 /* MenuItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A2328F36B10006B8E78 /* MenuItemViewController.swift */; };
 		3D5D9A2628F4AC62006B8E78 /* NewsItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A2528F4AC62006B8E78 /* NewsItemViewController.swift */; };
 		3D5D9A2828F539FB006B8E78 /* OrderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A2728F539FB006B8E78 /* OrderController.swift */; };
+		3D5D9A3028F5E329006B8E78 /* OrderControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A2F28F5E329006B8E78 /* OrderControllerTests.swift */; };
+		3D5D9A4A28F5FED8006B8E78 /* BurgersAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A4928F5FED8006B8E78 /* BurgersAPITests.swift */; };
 		3DED088828EE05CC000DEA5D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DED088728EE05CC000DEA5D /* AppDelegate.swift */; };
 		3DED088A28EE05CC000DEA5D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DED088928EE05CC000DEA5D /* SceneDelegate.swift */; };
 		3DED088F28EE05CC000DEA5D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DED088D28EE05CC000DEA5D /* Main.storyboard */; };
@@ -26,6 +28,23 @@
 		3DED08A628EE28CB000DEA5D /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DED08A528EE28CB000DEA5D /* APIService.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3D5D9A3128F5E329006B8E78 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3DED087C28EE05CC000DEA5D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3DED088328EE05CC000DEA5D;
+			remoteInfo = Burgers;
+		};
+		3D5D9A4B28F5FED8006B8E78 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3DED087C28EE05CC000DEA5D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3DED088328EE05CC000DEA5D;
+			remoteInfo = Burgers;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		3D22C9D428F1A5B900BD768A /* HeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderReusableView.swift; sourceTree = "<group>"; };
 		3D5D9A1D28F2C7EF006B8E78 /* NewsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItem.swift; sourceTree = "<group>"; };
@@ -34,6 +53,10 @@
 		3D5D9A2328F36B10006B8E78 /* MenuItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemViewController.swift; sourceTree = "<group>"; };
 		3D5D9A2528F4AC62006B8E78 /* NewsItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItemViewController.swift; sourceTree = "<group>"; };
 		3D5D9A2728F539FB006B8E78 /* OrderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderController.swift; sourceTree = "<group>"; };
+		3D5D9A2D28F5E329006B8E78 /* BurgersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BurgersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D5D9A2F28F5E329006B8E78 /* OrderControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderControllerTests.swift; sourceTree = "<group>"; };
+		3D5D9A4728F5FED8006B8E78 /* BurgersAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BurgersAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D5D9A4928F5FED8006B8E78 /* BurgersAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BurgersAPITests.swift; sourceTree = "<group>"; };
 		3DED088428EE05CC000DEA5D /* Burgers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Burgers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DED088728EE05CC000DEA5D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3DED088928EE05CC000DEA5D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +72,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3D5D9A2A28F5E329006B8E78 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D5D9A4428F5FED8006B8E78 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3DED088128EE05CC000DEA5D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -99,10 +136,28 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		3D5D9A2E28F5E329006B8E78 /* BurgersTests */ = {
+			isa = PBXGroup;
+			children = (
+				3D5D9A2F28F5E329006B8E78 /* OrderControllerTests.swift */,
+			);
+			path = BurgersTests;
+			sourceTree = "<group>";
+		};
+		3D5D9A4828F5FED8006B8E78 /* BurgersAPITests */ = {
+			isa = PBXGroup;
+			children = (
+				3D5D9A4928F5FED8006B8E78 /* BurgersAPITests.swift */,
+			);
+			path = BurgersAPITests;
+			sourceTree = "<group>";
+		};
 		3DED087B28EE05CC000DEA5D = {
 			isa = PBXGroup;
 			children = (
 				3DED088628EE05CC000DEA5D /* Burgers */,
+				3D5D9A2E28F5E329006B8E78 /* BurgersTests */,
+				3D5D9A4828F5FED8006B8E78 /* BurgersAPITests */,
 				3DED088528EE05CC000DEA5D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -111,6 +166,8 @@
 			isa = PBXGroup;
 			children = (
 				3DED088428EE05CC000DEA5D /* Burgers.app */,
+				3D5D9A2D28F5E329006B8E78 /* BurgersTests.xctest */,
+				3D5D9A4728F5FED8006B8E78 /* BurgersAPITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -135,6 +192,42 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3D5D9A2C28F5E329006B8E78 /* BurgersTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3D5D9A3328F5E329006B8E78 /* Build configuration list for PBXNativeTarget "BurgersTests" */;
+			buildPhases = (
+				3D5D9A2928F5E329006B8E78 /* Sources */,
+				3D5D9A2A28F5E329006B8E78 /* Frameworks */,
+				3D5D9A2B28F5E329006B8E78 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3D5D9A3228F5E329006B8E78 /* PBXTargetDependency */,
+			);
+			name = BurgersTests;
+			productName = BurgersTests;
+			productReference = 3D5D9A2D28F5E329006B8E78 /* BurgersTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3D5D9A4628F5FED8006B8E78 /* BurgersAPITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3D5D9A4D28F5FED8006B8E78 /* Build configuration list for PBXNativeTarget "BurgersAPITests" */;
+			buildPhases = (
+				3D5D9A4328F5FED8006B8E78 /* Sources */,
+				3D5D9A4428F5FED8006B8E78 /* Frameworks */,
+				3D5D9A4528F5FED8006B8E78 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3D5D9A4C28F5FED8006B8E78 /* PBXTargetDependency */,
+			);
+			name = BurgersAPITests;
+			productName = BurgersAPITests;
+			productReference = 3D5D9A4728F5FED8006B8E78 /* BurgersAPITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		3DED088328EE05CC000DEA5D /* Burgers */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3DED089828EE05CE000DEA5D /* Build configuration list for PBXNativeTarget "Burgers" */;
@@ -164,6 +257,14 @@
 				LastSwiftUpdateCheck = 1400;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
+					3D5D9A2C28F5E329006B8E78 = {
+						CreatedOnToolsVersion = 14.0;
+						TestTargetID = 3DED088328EE05CC000DEA5D;
+					};
+					3D5D9A4628F5FED8006B8E78 = {
+						CreatedOnToolsVersion = 14.0;
+						TestTargetID = 3DED088328EE05CC000DEA5D;
+					};
 					3DED088328EE05CC000DEA5D = {
 						CreatedOnToolsVersion = 14.0;
 					};
@@ -185,11 +286,27 @@
 			projectRoot = "";
 			targets = (
 				3DED088328EE05CC000DEA5D /* Burgers */,
+				3D5D9A2C28F5E329006B8E78 /* BurgersTests */,
+				3D5D9A4628F5FED8006B8E78 /* BurgersAPITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3D5D9A2B28F5E329006B8E78 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D5D9A4528F5FED8006B8E78 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3DED088228EE05CC000DEA5D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -203,6 +320,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3D5D9A2928F5E329006B8E78 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3D5D9A3028F5E329006B8E78 /* OrderControllerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D5D9A4328F5FED8006B8E78 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3D5D9A4A28F5FED8006B8E78 /* BurgersAPITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3DED088028EE05CC000DEA5D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -226,6 +359,19 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		3D5D9A3228F5E329006B8E78 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3DED088328EE05CC000DEA5D /* Burgers */;
+			targetProxy = 3D5D9A3128F5E329006B8E78 /* PBXContainerItemProxy */;
+		};
+		3D5D9A4C28F5FED8006B8E78 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3DED088328EE05CC000DEA5D /* Burgers */;
+			targetProxy = 3D5D9A4B28F5FED8006B8E78 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		3DED088D28EE05CC000DEA5D /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -246,6 +392,94 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3D5D9A3428F5E329006B8E78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WEZ4D5M6R9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vadimkuzmin.BurgersTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Burgers.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Burgers";
+			};
+			name = Debug;
+		};
+		3D5D9A3528F5E329006B8E78 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WEZ4D5M6R9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vadimkuzmin.BurgersTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Burgers.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Burgers";
+			};
+			name = Release;
+		};
+		3D5D9A4E28F5FED8006B8E78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WEZ4D5M6R9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vadimkuzmin.BurgersAPITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Burgers.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Burgers";
+			};
+			name = Debug;
+		};
+		3D5D9A4F28F5FED8006B8E78 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WEZ4D5M6R9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vadimkuzmin.BurgersAPITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Burgers.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Burgers";
+			};
+			name = Release;
+		};
 		3DED089628EE05CE000DEA5D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -417,6 +651,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3D5D9A3328F5E329006B8E78 /* Build configuration list for PBXNativeTarget "BurgersTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3D5D9A3428F5E329006B8E78 /* Debug */,
+				3D5D9A3528F5E329006B8E78 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3D5D9A4D28F5FED8006B8E78 /* Build configuration list for PBXNativeTarget "BurgersAPITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3D5D9A4E28F5FED8006B8E78 /* Debug */,
+				3D5D9A4F28F5FED8006B8E78 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3DED087F28EE05CC000DEA5D /* Build configuration list for PBXProject "Burgers" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
