@@ -16,6 +16,9 @@
 		3D5D9A2828F539FB006B8E78 /* OrderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A2728F539FB006B8E78 /* OrderController.swift */; };
 		3D5D9A3028F5E329006B8E78 /* OrderControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A2F28F5E329006B8E78 /* OrderControllerTests.swift */; };
 		3D5D9A4A28F5FED8006B8E78 /* BurgersAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A4928F5FED8006B8E78 /* BurgersAPITests.swift */; };
+		3D5D9A5F28F93486006B8E78 /* CacheController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A5E28F93486006B8E78 /* CacheController.swift */; };
+		3D5D9A6128F93A77006B8E78 /* OrderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A6028F93A77006B8E78 /* OrderCollectionViewCell.swift */; };
+		3D5D9A6328F97416006B8E78 /* OrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A6228F97416006B8E78 /* OrderViewController.swift */; };
 		3DED088828EE05CC000DEA5D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DED088728EE05CC000DEA5D /* AppDelegate.swift */; };
 		3DED088A28EE05CC000DEA5D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DED088928EE05CC000DEA5D /* SceneDelegate.swift */; };
 		3DED088F28EE05CC000DEA5D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DED088D28EE05CC000DEA5D /* Main.storyboard */; };
@@ -57,6 +60,9 @@
 		3D5D9A2F28F5E329006B8E78 /* OrderControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderControllerTests.swift; sourceTree = "<group>"; };
 		3D5D9A4728F5FED8006B8E78 /* BurgersAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BurgersAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5D9A4928F5FED8006B8E78 /* BurgersAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BurgersAPITests.swift; sourceTree = "<group>"; };
+		3D5D9A5E28F93486006B8E78 /* CacheController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheController.swift; sourceTree = "<group>"; };
+		3D5D9A6028F93A77006B8E78 /* OrderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCollectionViewCell.swift; sourceTree = "<group>"; };
+		3D5D9A6228F97416006B8E78 /* OrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewController.swift; sourceTree = "<group>"; };
 		3DED088428EE05CC000DEA5D /* Burgers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Burgers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DED088728EE05CC000DEA5D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3DED088928EE05CC000DEA5D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +118,7 @@
 				3D22C9D428F1A5B900BD768A /* HeaderReusableView.swift */,
 				3DED08A328EE165D000DEA5D /* MenuItemCollectionViewCell.swift */,
 				3D5D9A2128F2CC5B006B8E78 /* NewsItemCollectionViewCell.swift */,
+				3D5D9A6028F93A77006B8E78 /* OrderCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -122,7 +129,9 @@
 				3DED089B28EE1415000DEA5D /* HomeViewController.swift */,
 				3D5D9A2328F36B10006B8E78 /* MenuItemViewController.swift */,
 				3D5D9A2528F4AC62006B8E78 /* NewsItemViewController.swift */,
+				3D5D9A6228F97416006B8E78 /* OrderViewController.swift */,
 				3D5D9A2728F539FB006B8E78 /* OrderController.swift */,
+				3D5D9A5E28F93486006B8E78 /* CacheController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -342,10 +351,13 @@
 			files = (
 				3D5D9A2228F2CC5B006B8E78 /* NewsItemCollectionViewCell.swift in Sources */,
 				3D5D9A2028F2C93C006B8E78 /* Item.swift in Sources */,
+				3D5D9A5F28F93486006B8E78 /* CacheController.swift in Sources */,
 				3DED088828EE05CC000DEA5D /* AppDelegate.swift in Sources */,
 				3DED08A628EE28CB000DEA5D /* APIService.swift in Sources */,
 				3D5D9A2628F4AC62006B8E78 /* NewsItemViewController.swift in Sources */,
 				3D22C9D528F1A5B900BD768A /* HeaderReusableView.swift in Sources */,
+				3D5D9A6128F93A77006B8E78 /* OrderCollectionViewCell.swift in Sources */,
+				3D5D9A6328F97416006B8E78 /* OrderViewController.swift in Sources */,
 				3D5D9A2828F539FB006B8E78 /* OrderController.swift in Sources */,
 				3DED089E28EE1439000DEA5D /* MenuItem.swift in Sources */,
 				3D5D9A2428F36B10006B8E78 /* MenuItemViewController.swift in Sources */,

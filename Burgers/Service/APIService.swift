@@ -17,12 +17,8 @@ struct MenuItemRequest: APIRequest {
 
 struct NewsItemRequest: APIRequest {
     typealias Response = [NewsItem]
-
     var path: String = "/news"
-
     var requestType: APIRequestType = .data
-
-
 }
 
 struct MenuItemImageRequest {

@@ -12,7 +12,7 @@ class MenuItemViewController: UIViewController, OrderControlling {
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var decriptionLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
 
     @IBOutlet weak var chooseButton: UIButton!
 
@@ -31,14 +31,19 @@ class MenuItemViewController: UIViewController, OrderControlling {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
+    }
+
+    func setupView() {
         itemImageView.image = menuImage ?? UIImage(systemName: "photo")
         titleLabel.text = menuItem.name.uppercased()
         priceLabel.text = "\(menuItem.price) P"
-        decriptionLabel.text = menuItem.menuItemDescription
+        descriptionLabel.text = menuItem.menuItemDescription
     }
 
+
     @IBAction func chooseButtonTapped(_ sender: UIButton) {
-        self.orderController.addToOrder(menuItem)
+        orderController.addToOrder(menuItem)
         dismiss(animated: true)
     }
 }

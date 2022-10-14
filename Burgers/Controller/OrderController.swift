@@ -20,7 +20,7 @@ extension OrderControlling {
 }
 
 class OrderController {
-    private var order: [MenuItem] = []
+    private(set) var order: [MenuItem] = []
 
     func addToOrder(_ item: MenuItem) {
         order.append(item)
