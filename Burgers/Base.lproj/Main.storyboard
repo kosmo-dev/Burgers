@@ -148,7 +148,7 @@
                             <constraint firstItem="eXr-eY-uxy" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="akH-GQ-t29"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="M93-R2-kQp"/>
+                    <tabBarItem key="tabBarItem" title="Item" selectedImage="menucard" catalog="system" id="M93-R2-kQp"/>
                     <connections>
                         <outlet property="collectionView" destination="eXr-eY-uxy" id="RYa-8v-CLG"/>
                     </connections>
@@ -318,20 +318,71 @@
                                 <rect key="frame" x="16" y="147" width="343" height="523.66666666666663"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WgW-fn-5gc">
-                                    <size key="itemSize" width="164" height="238"/>
+                                    <size key="itemSize" width="164" height="271"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OrderCollectionViewCellReuseIdentifier" id="WTp-Qw-5c4" customClass="OrderCollectionViewCell" customModule="Burgers" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="164" height="238"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="164" height="271"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="sE8-IJ-Z93">
-                                            <rect key="frame" x="0.0" y="0.0" width="164" height="238"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="164" height="271"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="e5g-Ax-OGl">
+                                                    <rect key="frame" x="0.0" y="0.0" width="164" height="271"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RjL-r6-iHU">
+                                                            <rect key="frame" x="0.0" y="0.0" width="164" height="164"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" secondItem="RjL-r6-iHU" secondAttribute="height" multiplier="1:1" id="ouY-tW-hYL"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="oeb-aw-DUy">
+                                                            <rect key="frame" x="59" y="168" width="46" height="64.666666666666686"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="C1u-18-bUi">
+                                                            <rect key="frame" x="14.666666666666671" y="236.66666666666666" width="134.66666666666663" height="34.333333333333343"/>
+                                                            <subviews>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U7d-VL-9Eh">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="31.666666666666668" height="34.333333333333336"/>
+                                                                    <state key="normal" title="Button"/>
+                                                                    <buttonConfiguration key="configuration" style="plain" title="-"/>
+                                                                </button>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LZp-6e-h3D">
+                                                                    <rect key="frame" x="44.666666666666671" y="0.0" width="42.666666666666671" height="34.333333333333336"/>
+                                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8in-5B-RLN">
+                                                                    <rect key="frame" x="100.33333333333333" y="0.0" width="34.333333333333329" height="34.333333333333336"/>
+                                                                    <state key="normal" title="Button"/>
+                                                                    <buttonConfiguration key="configuration" style="plain" title="+"/>
+                                                                </button>
+                                                            </subviews>
+                                                        </stackView>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="e5g-Ax-OGl" secondAttribute="trailing" id="K9z-el-FIq"/>
+                                                <constraint firstItem="e5g-Ax-OGl" firstAttribute="leading" secondItem="sE8-IJ-Z93" secondAttribute="leading" id="XUk-o9-lyC"/>
+                                                <constraint firstAttribute="bottom" secondItem="e5g-Ax-OGl" secondAttribute="bottom" id="ZkR-T7-jfW"/>
+                                                <constraint firstItem="e5g-Ax-OGl" firstAttribute="top" secondItem="sE8-IJ-Z93" secondAttribute="top" id="r6h-Cw-Oji"/>
+                                            </constraints>
                                         </collectionViewCellContentView>
-                                        <size key="customSize" width="164" height="238"/>
+                                        <size key="customSize" width="164" height="271"/>
+                                        <connections>
+                                            <outlet property="menuItemImageView" destination="RjL-r6-iHU" id="6E0-Z2-H5x"/>
+                                            <outlet property="menuItemTitleLabel" destination="oeb-aw-DUy" id="n5u-Mg-Mnw"/>
+                                            <outlet property="numberOfItemsLabel" destination="LZp-6e-h3D" id="HnN-Zd-mb4"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -348,7 +399,7 @@
                             <constraint firstItem="GtP-zj-Kg5" firstAttribute="leading" secondItem="fvY-fH-I7a" secondAttribute="leading" constant="50" id="z0v-vU-Wfz"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="Cp3-St-bCg"/>
+                    <tabBarItem key="tabBarItem" title="Item" selectedImage="bag" catalog="system" id="Cp3-St-bCg"/>
                     <connections>
                         <outlet property="collectionView" destination="2ye-e4-JT7" id="Xwh-og-bri"/>
                         <outlet property="placeOrderButton" destination="GtP-zj-Kg5" id="8CW-eQ-UvI"/>
@@ -367,6 +418,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" systemColor="labelColor"/>
                     </tabBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="ZcE-IE-Cmh"/>
@@ -380,6 +432,8 @@
     </scenes>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
     <resources>
+        <image name="bag" catalog="system" width="128" height="128"/>
+        <image name="menucard" catalog="system" width="108" height="128"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

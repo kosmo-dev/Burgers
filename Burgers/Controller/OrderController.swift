@@ -19,21 +19,33 @@ extension OrderControlling {
     }
 }
 
+protocol OrderControllerDelegate {
+    func numberOfItemsInOrderChanged(_ count: Int)
+}
+
 class OrderController {
-    private(set) var order: [MenuItem] = []
+    private(set) var order: [OrderItem] = []
+
+    var delegate: OrderControllerDelegate?
 
     func addToOrder(_ item: MenuItem) {
-        order.append(item)
+        if let index = order.firstIndex(where: {$0.menuItem.id == item.id}) {
+            order[index].counts += 1
+        } else {
+            order.append(OrderItem(menuItem: item, counts: 1))
+        }
+        delegate?.numberOfItemsInOrderChanged(order.count)
     }
 
     func removeFromOrder(_ item: MenuItem) {
-        if let index = order.firstIndex(of: item) {
-            order.remove(at: index)
+        if let index = order.firstIndex(where: {$0.menuItem.id == item.id}) {
+            if order[index].counts > 1 {
+                order[index].counts -= 1
+            } else {
+                order.remove(at: index)
+            }
+            delegate?.numberOfItemsInOrderChanged(order.count)
         }
-    }
-
-    func fetchOrder() -> [MenuItem] {
-        return order
     }
 }
 

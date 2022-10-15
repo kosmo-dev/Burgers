@@ -25,7 +25,6 @@ class HomeViewController: UIViewController, OrderControlling, CacheControlling {
 
     var menuItems: [Item] = []
     var newsItems: [Item] = []
-//    var imageSource: [Int: UIImage] = [:]
     var menuHeaders = ["BURGERS", "BOWLS", "SNACKS", "SALADS", "STEAKS", "DRINKS"]
     var sections: [Section] = []
     lazy var headerView = HeaderReusableView()
@@ -35,6 +34,13 @@ class HomeViewController: UIViewController, OrderControlling, CacheControlling {
     // MARK: Outlets
     @IBOutlet weak var collectionView: UICollectionView!
 
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        tabBarItem.image = UIImage(systemName: "menucard")
+        tabBarItem.selectedImage = UIImage(systemName: "menucard.fill")
+        tabBarItem.title = "Menu"
+    }
 
     // MARK: View Life Cycle
     override func viewDidLoad() {
@@ -226,7 +232,6 @@ extension HomeViewController: UICollectionViewDelegate {
 
 extension HomeViewController: MenuItemCellDelegate {
     func chooseButtonWasTapped(cell: MenuItemCollectionViewCell) {
-//        performSegue(withIdentifier: toMenuItemSegue, sender: cell)
         if let menuItem = cell.menuItem {
             orderController.addToOrder(menuItem)
         }
