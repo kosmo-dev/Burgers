@@ -215,7 +215,6 @@ class HomeViewController: UIViewController, OrderControlling, CacheControlling {
 }
 
 extension HomeViewController: UICollectionViewDelegate {
-
     func getMenuItem(indexPath: IndexPath) -> Item {
         return menuItems[indexPath.row]
     }

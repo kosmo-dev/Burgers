@@ -26,7 +26,7 @@ final class OrderControllerTests: XCTestCase {
 
         sut.addToOrder(givenItem)
 
-        let order = sut.fetchOrder().first!
+        let order = sut.order.first!.menuItem
 
         XCTAssertTrue(order == givenItem)
     }
@@ -39,7 +39,7 @@ final class OrderControllerTests: XCTestCase {
         sut.addToOrder(givenSecondItem)
         sut.removeFromOrder(givenFirstItem)
 
-        let order = sut.fetchOrder().first!
+        let order = sut.order.first!.menuItem
 
         XCTAssertTrue(order == givenSecondItem)
     }

@@ -25,27 +25,40 @@ protocol OrderControllerDelegate {
 
 class OrderController {
     private(set) var order: [OrderItem] = []
+    private(set) var totalCount = 0
 
     var delegate: OrderControllerDelegate?
 
     func addToOrder(_ item: MenuItem) {
         if let index = order.firstIndex(where: {$0.menuItem.id == item.id}) {
             order[index].counts += 1
+            totalCount += 1
         } else {
             order.append(OrderItem(menuItem: item, counts: 1))
+            totalCount += 1
         }
-        delegate?.numberOfItemsInOrderChanged(order.count)
+        delegate?.numberOfItemsInOrderChanged(totalCount)
     }
 
     func removeFromOrder(_ item: MenuItem) {
         if let index = order.firstIndex(where: {$0.menuItem.id == item.id}) {
             if order[index].counts > 1 {
                 order[index].counts -= 1
+                totalCount -= 1
             } else {
                 order.remove(at: index)
+                totalCount -= 1
             }
-            delegate?.numberOfItemsInOrderChanged(order.count)
+            delegate?.numberOfItemsInOrderChanged(totalCount)
         }
+    }
+
+    func countTotalPrice() -> Int {
+        let priceArray = order.map { item in
+            item.menuItem.price * item.counts
+        }
+        let total = priceArray.reduce(0, +)
+        return total
     }
 }
 

@@ -11,8 +11,8 @@ class OrderViewController: UIViewController, OrderControllerDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var placeOrderButton: UIButton!
-
-    var itemsCount = 0
+    @IBOutlet weak var totalPriceLabel: UILabel!
+    @IBOutlet weak var totalLabel: UILabel!
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -35,26 +35,59 @@ class OrderViewController: UIViewController, OrderControllerDelegate {
         super.viewWillAppear(animated)
 
         collectionView.reloadData()
+
+        checkOrderButton()
+        checkTotalPrice()
     }
 
     func numberOfItemsInOrderChanged(_ count: Int) {
         tabBarItem.badgeValue = "\(count)"
+        if let collectionView = collectionView {
+            collectionView.reloadData()
+        }
+        if orderController.totalCount == 0 {
+            tabBarItem.badgeValue = nil
+        }
+        checkOrderButton()
+        checkTotalPrice()
     }
 
     func generateLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalHeight(1/3))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .absolute(230))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 3)
         group.interItemSpacing = .fixed(8)
+        group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0)
 
         let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0)
 
         return UICollectionViewCompositionalLayout(section: section)
     }
 
     @IBAction func placeOrderButtonTapped(_ sender: UIButton) {
+    }
+
+    func checkOrderButton() {
+        guard let placeOrderButton = placeOrderButton else {return}
+        if orderController.totalCount > 0 {
+            placeOrderButton.isHidden = false
+        } else {
+            placeOrderButton.isHidden = true
+        }
+    }
+    func checkTotalPrice() {
+        guard let totalPriceLabel = totalPriceLabel else {return}
+        if orderController.totalCount > 0 {
+            totalPriceLabel.isHidden = false
+            totalLabel.isHidden = false
+            totalPriceLabel.text = "\(orderController.countTotalPrice()) P"
+        } else {
+            totalPriceLabel.isHidden = true
+            totalLabel.isHidden = true
+        }
     }
 }
 
@@ -68,7 +101,18 @@ extension OrderViewController: UICollectionViewDataSource, UICollectionViewDeleg
         let orderItem = orderController.order[indexPath.row]
         let image = cacheController.images[orderItem.menuItem.id] ?? UIImage(systemName: "photo")!
         cell?.setupView(menuItem: orderItem.menuItem, numberOfItems: orderItem.counts, image: image)
+        cell?.delegate = self
         return cell ?? UICollectionViewCell()
+    }
+}
+
+extension OrderViewController: OrderCollectionViewCellDelegate {
+    func addItemButtonTapped(item: MenuItem) {
+        orderController.addToOrder(item)
+    }
+
+    func removeItemButtonTapped(item: MenuItem) {
+        orderController.removeFromOrder(item)
     }
 
 
