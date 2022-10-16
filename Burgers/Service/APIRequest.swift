@@ -15,7 +15,6 @@ protocol APIRequest {
     var request: URLRequest { get }
     var putData: Data? { get }
     var requestType: APIRequestType { get }
-
 }
 
 extension APIRequest {
@@ -45,7 +44,12 @@ extension APIRequest {
 
         let url = URL(string: urlString)!
 
-        let request = URLRequest(url: url)
+        var request = URLRequest(url: url)
+
+        if let data = putData {
+            request.httpBody = data
+            request.httpMethod = "POST"
+        }
 
         return request
     }

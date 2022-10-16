@@ -324,8 +324,42 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OrderCollectionViewCellReuseIdentifier" id="WTp-Qw-5c4" customClass="OrderCollectionViewCell" customModule="Burgers" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="156" height="229"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OrderCollectionViewCellReuseIdentifier" id="BMp-zG-8cQ" customClass="OrderCollectionViewCell" customModule="Burgers" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="67"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="fjs-Zp-Pza">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="67"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8HO-Lg-Da1">
+                                                    <rect key="frame" x="8" y="38.666666666666664" width="327" height="20.333333333333336"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AH9-7m-McP">
+                                                    <rect key="frame" x="8" y="8.0000000000000018" width="327" height="22.666666666666671"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="AH9-7m-McP" firstAttribute="leading" secondItem="fjs-Zp-Pza" secondAttribute="leading" constant="8" id="6G0-9v-JvO"/>
+                                                <constraint firstAttribute="bottom" secondItem="8HO-Lg-Da1" secondAttribute="bottom" constant="8" id="MdB-7A-Dtb"/>
+                                                <constraint firstAttribute="trailing" secondItem="8HO-Lg-Da1" secondAttribute="trailing" constant="8" id="PMv-4k-ES3"/>
+                                                <constraint firstItem="8HO-Lg-Da1" firstAttribute="top" secondItem="AH9-7m-McP" secondAttribute="bottom" constant="8" id="bds-AI-bNJ"/>
+                                                <constraint firstItem="AH9-7m-McP" firstAttribute="top" secondItem="fjs-Zp-Pza" secondAttribute="top" constant="8" id="o5A-ZD-444"/>
+                                                <constraint firstItem="8HO-Lg-Da1" firstAttribute="leading" secondItem="fjs-Zp-Pza" secondAttribute="leading" constant="8" id="vjh-fy-MEM"/>
+                                                <constraint firstAttribute="trailing" secondItem="AH9-7m-McP" secondAttribute="trailing" constant="8" id="xp9-tq-f3U"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="343" height="67"/>
+                                        <connections>
+                                            <outlet property="orderStatusLabel" destination="8HO-Lg-Da1" id="lGd-Bk-FIf"/>
+                                            <outlet property="orderStatusView" destination="AH9-7m-McP" id="s5x-XT-m59"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OrderItemCollectionViewCellReuseIdentifier" id="WTp-Qw-5c4" customClass="OrderItemCollectionViewCell" customModule="Burgers" customModuleProvider="target">
+                                        <rect key="frame" x="93.666666666666671" y="77" width="156" height="229"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="sE8-IJ-Z93">
                                             <rect key="frame" x="0.0" y="0.0" width="156" height="229"/>
@@ -346,8 +380,8 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="C1u-18-bUi">
-                                                            <rect key="frame" x="10.666666666666671" y="170.33333333333334" width="134.66666666666663" height="34.333333333333343"/>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="C1u-18-bUi">
+                                                            <rect key="frame" x="15.666666666666664" y="170.33333333333334" width="124.66666666666669" height="34.333333333333343"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U7d-VL-9Eh">
                                                                     <rect key="frame" x="0.0" y="0.0" width="31.666666666666668" height="34.333333333333336"/>
@@ -358,14 +392,14 @@
                                                                         <action selector="removeItemButtonTapped:" destination="WTp-Qw-5c4" eventType="touchUpInside" id="heS-Ma-t8n"/>
                                                                     </connections>
                                                                 </button>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LZp-6e-h3D">
-                                                                    <rect key="frame" x="44.666666666666671" y="0.0" width="42.666666666666671" height="34.333333333333336"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LZp-6e-h3D">
+                                                                    <rect key="frame" x="39.666666666666671" y="0.0" width="42.666666666666671" height="34.333333333333336"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8in-5B-RLN">
-                                                                    <rect key="frame" x="100.33333333333333" y="0.0" width="34.333333333333329" height="34.333333333333336"/>
+                                                                    <rect key="frame" x="90.333333333333329" y="0.0" width="34.333333333333329" height="34.333333333333336"/>
                                                                     <color key="tintColor" systemColor="labelColor"/>
                                                                     <state key="normal" title="Button"/>
                                                                     <buttonConfiguration key="configuration" style="plain" title="+"/>

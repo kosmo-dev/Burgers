@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D1E810628FBD70B00F2EF9D /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1E810528FBD70B00F2EF9D /* Order.swift */; };
+		3D1E810828FBDBC300F2EF9D /* OrderDataSourceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1E810728FBDBC300F2EF9D /* OrderDataSourceItem.swift */; };
+		3D1E810A28FBDD9600F2EF9D /* OrderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1E810928FBDD9600F2EF9D /* OrderCollectionViewCell.swift */; };
 		3D22C9D528F1A5B900BD768A /* HeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D22C9D428F1A5B900BD768A /* HeaderReusableView.swift */; };
 		3D5D9A1E28F2C7EF006B8E78 /* NewsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A1D28F2C7EF006B8E78 /* NewsItem.swift */; };
 		3D5D9A2028F2C93C006B8E78 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A1F28F2C93C006B8E78 /* Item.swift */; };
@@ -17,7 +20,7 @@
 		3D5D9A3028F5E329006B8E78 /* OrderControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A2F28F5E329006B8E78 /* OrderControllerTests.swift */; };
 		3D5D9A4A28F5FED8006B8E78 /* BurgersAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A4928F5FED8006B8E78 /* BurgersAPITests.swift */; };
 		3D5D9A5F28F93486006B8E78 /* CacheController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A5E28F93486006B8E78 /* CacheController.swift */; };
-		3D5D9A6128F93A77006B8E78 /* OrderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A6028F93A77006B8E78 /* OrderCollectionViewCell.swift */; };
+		3D5D9A6128F93A77006B8E78 /* OrderItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A6028F93A77006B8E78 /* OrderItemCollectionViewCell.swift */; };
 		3D5D9A6328F97416006B8E78 /* OrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A6228F97416006B8E78 /* OrderViewController.swift */; };
 		3D79E1A428FAA14500F165E7 /* OrderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D79E1A328FAA14500F165E7 /* OrderItem.swift */; };
 		3DED088828EE05CC000DEA5D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DED088728EE05CC000DEA5D /* AppDelegate.swift */; };
@@ -50,6 +53,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3D1E810528FBD70B00F2EF9D /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		3D1E810728FBDBC300F2EF9D /* OrderDataSourceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDataSourceItem.swift; sourceTree = "<group>"; };
+		3D1E810928FBDD9600F2EF9D /* OrderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCollectionViewCell.swift; sourceTree = "<group>"; };
 		3D22C9D428F1A5B900BD768A /* HeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderReusableView.swift; sourceTree = "<group>"; };
 		3D5D9A1D28F2C7EF006B8E78 /* NewsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItem.swift; sourceTree = "<group>"; };
 		3D5D9A1F28F2C93C006B8E78 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -62,7 +68,7 @@
 		3D5D9A4728F5FED8006B8E78 /* BurgersAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BurgersAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5D9A4928F5FED8006B8E78 /* BurgersAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BurgersAPITests.swift; sourceTree = "<group>"; };
 		3D5D9A5E28F93486006B8E78 /* CacheController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheController.swift; sourceTree = "<group>"; };
-		3D5D9A6028F93A77006B8E78 /* OrderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCollectionViewCell.swift; sourceTree = "<group>"; };
+		3D5D9A6028F93A77006B8E78 /* OrderItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		3D5D9A6228F97416006B8E78 /* OrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewController.swift; sourceTree = "<group>"; };
 		3D79E1A328FAA14500F165E7 /* OrderItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderItem.swift; sourceTree = "<group>"; };
 		3DED088428EE05CC000DEA5D /* Burgers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Burgers.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,6 +117,8 @@
 				3D5D9A1D28F2C7EF006B8E78 /* NewsItem.swift */,
 				3D5D9A1F28F2C93C006B8E78 /* Item.swift */,
 				3D79E1A328FAA14500F165E7 /* OrderItem.swift */,
+				3D1E810528FBD70B00F2EF9D /* Order.swift */,
+				3D1E810728FBDBC300F2EF9D /* OrderDataSourceItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -121,7 +129,8 @@
 				3D22C9D428F1A5B900BD768A /* HeaderReusableView.swift */,
 				3DED08A328EE165D000DEA5D /* MenuItemCollectionViewCell.swift */,
 				3D5D9A2128F2CC5B006B8E78 /* NewsItemCollectionViewCell.swift */,
-				3D5D9A6028F93A77006B8E78 /* OrderCollectionViewCell.swift */,
+				3D5D9A6028F93A77006B8E78 /* OrderItemCollectionViewCell.swift */,
+				3D1E810928FBDD9600F2EF9D /* OrderCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -355,16 +364,19 @@
 				3D5D9A2228F2CC5B006B8E78 /* NewsItemCollectionViewCell.swift in Sources */,
 				3D5D9A2028F2C93C006B8E78 /* Item.swift in Sources */,
 				3D5D9A5F28F93486006B8E78 /* CacheController.swift in Sources */,
+				3D1E810628FBD70B00F2EF9D /* Order.swift in Sources */,
 				3DED088828EE05CC000DEA5D /* AppDelegate.swift in Sources */,
 				3DED08A628EE28CB000DEA5D /* APIService.swift in Sources */,
 				3D5D9A2628F4AC62006B8E78 /* NewsItemViewController.swift in Sources */,
 				3D22C9D528F1A5B900BD768A /* HeaderReusableView.swift in Sources */,
-				3D5D9A6128F93A77006B8E78 /* OrderCollectionViewCell.swift in Sources */,
+				3D5D9A6128F93A77006B8E78 /* OrderItemCollectionViewCell.swift in Sources */,
 				3D5D9A6328F97416006B8E78 /* OrderViewController.swift in Sources */,
+				3D1E810A28FBDD9600F2EF9D /* OrderCollectionViewCell.swift in Sources */,
 				3D5D9A2828F539FB006B8E78 /* OrderController.swift in Sources */,
 				3DED089E28EE1439000DEA5D /* MenuItem.swift in Sources */,
 				3D79E1A428FAA14500F165E7 /* OrderItem.swift in Sources */,
 				3D5D9A2428F36B10006B8E78 /* MenuItemViewController.swift in Sources */,
+				3D1E810828FBDBC300F2EF9D /* OrderDataSourceItem.swift in Sources */,
 				3DED08A428EE165D000DEA5D /* MenuItemCollectionViewCell.swift in Sources */,
 				3DED088A28EE05CC000DEA5D /* SceneDelegate.swift in Sources */,
 				3DED08A028EE15F8000DEA5D /* APIRequest.swift in Sources */,

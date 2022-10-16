@@ -26,6 +26,7 @@ class HomeViewController: UIViewController, OrderControlling, CacheControlling {
     var menuItems: [Item] = []
     var newsItems: [Item] = []
     var menuHeaders = ["BURGERS", "BOWLS", "SNACKS", "SALADS", "STEAKS", "DRINKS"]
+    
     var sections: [Section] = []
     lazy var headerView = HeaderReusableView()
 

@@ -7,7 +7,15 @@
 
 import Foundation
 
-struct OrderItem {
+struct OrderItem: Encodable, Hashable {
     var menuItem: MenuItem
     var counts: Int
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(menuItem.id)
+    }
+
+    static func == (lhs: OrderItem, rhs: OrderItem) -> Bool {
+        return lhs.menuItem.id == rhs.menuItem.id && lhs.counts == rhs.counts
+    }
 }

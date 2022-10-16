@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 struct MenuItemRequest: APIRequest {
-    
     typealias Response = [String: MenuItem]
     var path: String = "/menu"
     var requestType: APIRequestType = .data
@@ -18,6 +17,22 @@ struct MenuItemRequest: APIRequest {
 struct NewsItemRequest: APIRequest {
     typealias Response = [NewsItem]
     var path: String = "/news"
+    var requestType: APIRequestType = .data
+}
+
+struct PlaceOrderRequest: APIRequest {
+    typealias Response = Void
+
+    var orderToPut: [OrderItem]
+
+    var path = "/orders"
+
+    var putData: Data? {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .secondsSince1970
+        return try? encoder.encode(orderToPut)
+    }
+
     var requestType: APIRequestType = .data
 }
 

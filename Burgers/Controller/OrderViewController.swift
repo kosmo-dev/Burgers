@@ -7,12 +7,25 @@
 
 import UIKit
 
-class OrderViewController: UIViewController, OrderControllerDelegate {
+class OrderViewController: UIViewController, OrderControllerDelegate, OrderControlling, CacheControlling {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var placeOrderButton: UIButton!
     @IBOutlet weak var totalPriceLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
+
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, OrderDataSourceItem>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, OrderDataSourceItem>
+
+    enum Section {
+        case orders
+        case currentOrder
+    }
+    var sections: [Section] = []
+    lazy var dataSource = configureDataSource()
+
+    var orders: [OrderDataSourceItem] = []
+    var currentOrderItem: [OrderDataSourceItem] = []
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -25,8 +38,8 @@ class OrderViewController: UIViewController, OrderControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.delegate = self
-        collectionView.dataSource = self
+
+        applySnaphot()
 
         collectionView.collectionViewLayout = generateLayout()
     }
@@ -34,7 +47,7 @@ class OrderViewController: UIViewController, OrderControllerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        collectionView.reloadData()
+        applySnaphot()
 
         checkOrderButton()
         checkTotalPrice()
@@ -42,8 +55,10 @@ class OrderViewController: UIViewController, OrderControllerDelegate {
 
     func numberOfItemsInOrderChanged(_ count: Int) {
         tabBarItem.badgeValue = "\(count)"
-        if let collectionView = collectionView {
-            collectionView.reloadData()
+        currentOrderItem = orderController.order.map({OrderDataSourceItem.orderItem($0)})
+
+        if collectionView != nil {
+            applySnaphot()
         }
         if orderController.totalCount == 0 {
             tabBarItem.badgeValue = nil
@@ -67,7 +82,45 @@ class OrderViewController: UIViewController, OrderControllerDelegate {
         return UICollectionViewCompositionalLayout(section: section)
     }
 
-    @IBAction func placeOrderButtonTapped(_ sender: UIButton) {
+    func configureDataSource() -> DataSource {
+        let dataSource = DataSource(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
+
+            let section = self.sections[indexPath.section]
+
+            switch section {
+            case .currentOrder:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OrderItemCollectionViewCell.reuseIdentifier, for: indexPath) as? OrderItemCollectionViewCell
+                let image = self.cacheController.images[item.orderItem.menuItem.id] ?? UIImage(systemName: "photo")!
+                cell?.configureView(menuItem: item.orderItem.menuItem, numberOfItems: item.orderItem.counts, image: image)
+                print(item.orderItem.counts)
+                cell?.delegate = self
+                return cell
+            case .orders:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OrderCollectionViewCell.reuseIdentifier, for: indexPath) as? OrderCollectionViewCell
+                cell?.configureView()
+                return cell
+            }
+        }
+        return dataSource
+    }
+
+    func applySnaphot() {
+        var snapshot = Snapshot()
+
+        snapshot.appendSections([.currentOrder, .orders])
+        snapshot.appendItems(currentOrderItem, toSection: .currentOrder)
+        snapshot.appendItems(orders, toSection: .orders)
+
+        sections = snapshot.sectionIdentifiers
+
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+
+    func updateSnapshot() {
+        var snapshot = dataSource.snapshot()
+        snapshot.reloadSections([.currentOrder])
+
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 
     func checkOrderButton() {
@@ -89,24 +142,18 @@ class OrderViewController: UIViewController, OrderControllerDelegate {
             totalLabel.isHidden = true
         }
     }
-}
 
-extension OrderViewController: UICollectionViewDataSource, UICollectionViewDelegate, OrderControlling, CacheControlling {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return orderController.order.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OrderCollectionViewCell.reuseIdentifier, for: indexPath) as? OrderCollectionViewCell
-        let orderItem = orderController.order[indexPath.row]
-        let image = cacheController.images[orderItem.menuItem.id] ?? UIImage(systemName: "photo")!
-        cell?.setupView(menuItem: orderItem.menuItem, numberOfItems: orderItem.counts, image: image)
-        cell?.delegate = self
-        return cell ?? UICollectionViewCell()
+    @IBAction func placeOrderButtonTapped(_ sender: UIButton) {
+        Task {
+            var orderRequest = PlaceOrderRequest(orderToPut: orderController.order)
+            orderRequest.path += "/\(UUID())"
+            try await orderRequest.send()
+            orderController.clearOrder()
+        }
     }
 }
 
-extension OrderViewController: OrderCollectionViewCellDelegate {
+extension OrderViewController: OrderItemCollectionViewCellDelegate {
     func addItemButtonTapped(item: MenuItem) {
         orderController.addToOrder(item)
     }
