@@ -17,6 +17,6 @@ struct Order: Hashable {
     }
 
     static func == (lhs: Order, rhs: Order) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.id == rhs.id && lhs.status == rhs.status
     }
 }
