@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pIo-FS-tSE">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -18,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eXr-eY-uxy">
-                                <rect key="frame" x="0.0" y="97" width="375" height="632"/>
+                                <rect key="frame" x="0.0" y="113.66666666666669" width="375" height="615.33333333333326"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="J7n-1J-hNc">
                                     <size key="itemSize" width="351" height="125"/>
@@ -94,21 +95,25 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HEY-2x-zgx">
-                                                            <rect key="frame" x="0.0" y="95" width="82.333333333333329" height="30"/>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HEY-2x-zgx" customClass="CustomButton" customModule="Burgers" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="95" width="97.666666666666671" height="30"/>
+                                                            <color key="backgroundColor" systemColor="labelColor"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="30" id="Jb1-MO-Oip"/>
                                                             </constraints>
                                                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <buttonConfiguration key="configuration" style="filled" title="Choose">
-                                                                <color key="baseForegroundColor" systemColor="systemBackgroundColor"/>
-                                                                <color key="baseBackgroundColor" systemColor="labelColor"/>
-                                                            </buttonConfiguration>
+                                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                            <state key="normal" title="Choose">
+                                                                <color key="titleColor" systemColor="systemBackgroundColor"/>
+                                                            </state>
                                                             <connections>
                                                                 <action selector="chooseButtonTapped:" destination="J6K-9H-0jL" eventType="touchUpInside" id="PpY-kT-Chf"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="HEY-2x-zgx" firstAttribute="width" secondItem="SWl-u7-VdM" secondAttribute="width" multiplier="0.5" id="WyO-HT-MAK"/>
+                                                    </constraints>
                                                 </stackView>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0uV-tk-kdX">
                                                     <rect key="frame" x="195" y="0.0" width="156" height="125"/>
@@ -138,17 +143,26 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BURGERS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="30v-91-9n4">
+                                <rect key="frame" x="16" y="55" width="343" height="50.666666666666657"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="37"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="eXr-eY-uxy" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="3IJ-Ki-JBL"/>
+                            <constraint firstItem="eXr-eY-uxy" firstAttribute="top" secondItem="30v-91-9n4" secondAttribute="bottom" constant="8" id="3IJ-Ki-JBL"/>
                             <constraint firstItem="eXr-eY-uxy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="AXa-J7-lIB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="30v-91-9n4" secondAttribute="trailing" constant="16" id="K5R-DA-3Nb"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eXr-eY-uxy" secondAttribute="trailing" id="S1Q-wY-lsG"/>
                             <constraint firstItem="eXr-eY-uxy" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="akH-GQ-t29"/>
+                            <constraint firstItem="30v-91-9n4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="i2w-BZ-2FY"/>
+                            <constraint firstItem="30v-91-9n4" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="8" id="vJn-eg-tfn"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" selectedImage="menucard" catalog="system" id="M93-R2-kQp"/>
+                    <tabBarItem key="tabBarItem" title="Item" id="M93-R2-kQp"/>
                     <connections>
                         <outlet property="collectionView" destination="eXr-eY-uxy" id="RYa-8v-CLG"/>
                     </connections>
@@ -241,13 +255,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ccr-sa-Nup">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ccr-sa-Nup" customClass="CustomButton" customModule="Burgers" customModuleProvider="target">
                                 <rect key="frame" x="50" y="686" width="275" height="35"/>
+                                <color key="backgroundColor" systemColor="labelColor"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Choose">
-                                    <backgroundConfiguration key="background">
-                                        <color key="backgroundColor" systemColor="labelColor"/>
-                                    </backgroundConfiguration>
                                     <color key="baseForegroundColor" systemColor="systemBackgroundColor"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -301,13 +313,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GtP-zj-Kg5">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GtP-zj-Kg5" customClass="CustomButton" customModule="Burgers" customModuleProvider="target">
                                 <rect key="frame" x="50" y="678.66666666666663" width="275" height="34.333333333333371"/>
+                                <color key="backgroundColor" systemColor="labelColor"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Place Order">
-                                    <backgroundConfiguration key="background">
-                                        <color key="backgroundColor" systemColor="labelColor"/>
-                                    </backgroundConfiguration>
                                     <color key="baseForegroundColor" systemColor="systemBackgroundColor"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -315,7 +325,7 @@
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2ye-e4-JT7">
-                                <rect key="frame" x="16" y="146.99999999999997" width="343" height="495.33333333333326"/>
+                                <rect key="frame" x="16" y="63" width="343" height="579.33333333333337"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WgW-fn-5gc">
                                     <size key="itemSize" width="156" height="229"/>
@@ -341,13 +351,13 @@
                                                     <rect key="frame" x="8" y="32" width="327" height="27"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8HO-Lg-Da1">
-                                                            <rect key="frame" x="0.0" y="2.6666666666666643" width="67.666666666666671" height="21.666666666666668"/>
+                                                            <rect key="frame" x="0.0" y="2.6666666666666643" width="43.666666666666664" height="21.666666666666668"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZPR-uz-jjo">
-                                                            <rect key="frame" x="75.666666666666671" y="0.0" width="251.33333333333331" height="27"/>
+                                                            <rect key="frame" x="51.666666666666657" y="0.0" width="275.33333333333337" height="27"/>
                                                         </imageView>
                                                     </subviews>
                                                 </stackView>
@@ -380,13 +390,13 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="156" height="229"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RjL-r6-iHU">
-                                                            <rect key="frame" x="20.333333333333336" y="0.0" width="115.66666666666666" height="115.66666666666667"/>
+                                                            <rect key="frame" x="20" y="0.0" width="116" height="116"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="RjL-r6-iHU" secondAttribute="height" multiplier="1:1" id="ouY-tW-hYL"/>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="oeb-aw-DUy">
-                                                            <rect key="frame" x="55" y="119.66666666666667" width="46" height="20.333333333333329"/>
+                                                            <rect key="frame" x="55" y="119.99999999999999" width="46" height="20.333333333333329"/>
                                                             <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -469,8 +479,8 @@
                         <viewLayoutGuide key="safeArea" id="fvY-fH-I7a"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="2ye-e4-JT7" firstAttribute="top" secondItem="fvY-fH-I7a" secondAttribute="top" constant="100" id="0jw-Bs-qo5"/>
                             <constraint firstItem="GtP-zj-Kg5" firstAttribute="top" secondItem="VNV-OK-qaT" secondAttribute="bottom" constant="8" id="2Wm-KU-518"/>
+                            <constraint firstItem="2ye-e4-JT7" firstAttribute="top" secondItem="fvY-fH-I7a" secondAttribute="top" constant="16" id="CL4-95-Syc"/>
                             <constraint firstItem="GtP-zj-Kg5" firstAttribute="bottom" secondItem="fvY-fH-I7a" secondAttribute="bottom" constant="-16" id="LO3-1D-NsN"/>
                             <constraint firstItem="VNV-OK-qaT" firstAttribute="leading" secondItem="fvY-fH-I7a" secondAttribute="leading" constant="50" id="OGE-c1-E5t"/>
                             <constraint firstItem="fvY-fH-I7a" firstAttribute="trailing" secondItem="GtP-zj-Kg5" secondAttribute="trailing" constant="50" id="OM0-4X-ZFq"/>
@@ -482,7 +492,7 @@
                             <constraint firstItem="GtP-zj-Kg5" firstAttribute="leading" secondItem="fvY-fH-I7a" secondAttribute="leading" constant="50" id="z0v-vU-Wfz"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" selectedImage="bag" catalog="system" id="Cp3-St-bCg"/>
+                    <tabBarItem key="tabBarItem" title="Item" id="Cp3-St-bCg"/>
                     <connections>
                         <outlet property="collectionView" destination="2ye-e4-JT7" id="Xwh-og-bri"/>
                         <outlet property="placeOrderButton" destination="GtP-zj-Kg5" id="8CW-eQ-UvI"/>
@@ -517,8 +527,6 @@
     </scenes>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
     <resources>
-        <image name="bag" catalog="system" width="128" height="128"/>
-        <image name="menucard" catalog="system" width="108" height="128"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

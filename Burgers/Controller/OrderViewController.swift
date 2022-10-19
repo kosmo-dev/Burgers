@@ -92,8 +92,14 @@ class OrderViewController: UIViewController, OrderControllerDelegate, OrderContr
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .absolute(230))
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 3)
+                var group: NSCollectionLayoutGroup
+                if #available(iOS 16.0, *) {
+                    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .absolute(230))
+                    group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 3)
+                } else {
+                    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(230))
+                    group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 3)
+                }
                 group.interItemSpacing = .fixed(8)
                 group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0)
 
@@ -179,16 +185,18 @@ class OrderViewController: UIViewController, OrderControllerDelegate, OrderContr
     }
 
     @objc func status2() {
-        let oldOrder = orders[0]
+        let oldOrder = orders.last!
         let newOrder = Order(orderItems: oldOrder.order.orderItems, status: 2, id: oldOrder.order.id)
-        orders[0] = OrderDataSourceItem.order(newOrder)
+        orders.removeLast()
+        orders.append(OrderDataSourceItem.order(newOrder))
         applySnaphot()
     }
 
     @objc func status3() {
-        let oldOrder = orders[0]
+        let oldOrder = orders.last!
         let newOrder = Order(orderItems: oldOrder.order.orderItems, status: 3, id: oldOrder.order.id)
-        orders[0] = OrderDataSourceItem.order(newOrder)
+        orders.removeLast()
+        orders.append(OrderDataSourceItem.order(newOrder))
         applySnaphot()
     }
 }
