@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol OrderItemCollectionViewCellDelegate {
+protocol OrderItemCollectionViewCellDelegate: AnyObject {
     func addItemButtonTapped(item: MenuItem)
     func removeItemButtonTapped(item: MenuItem)
 }
@@ -15,7 +15,7 @@ protocol OrderItemCollectionViewCellDelegate {
 class OrderItemCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "OrderItemCollectionViewCellReuseIdentifier"
 
-    var delegate: OrderItemCollectionViewCellDelegate?
+    weak var delegate: OrderItemCollectionViewCellDelegate?
     var menuItem: MenuItem?
 
     @IBOutlet weak var menuItemTitleLabel: UILabel!
@@ -24,9 +24,6 @@ class OrderItemCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var addItemButtonTapped: UIButton!
     @IBOutlet weak var removeItemButton: UIButton!
     @IBOutlet weak var priceLabel: UILabel!
-
-    override func awakeFromNib() {
-    }
 
     func configureView(menuItem: MenuItem, numberOfItems: Int, image: UIImage) {
         menuItemTitleLabel.text = menuItem.name

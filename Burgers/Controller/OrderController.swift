@@ -19,9 +19,10 @@ extension OrderControlling {
     }
 }
 
-protocol OrderControllerDelegate {
+protocol OrderControllerDelegate: AnyObject {
     func numberOfItemsInOrderChanged(_ count: Int)
 }
+
 
 class OrderController {
     private(set) var order: [OrderItem] = []
@@ -32,7 +33,7 @@ class OrderController {
         }
     }
 
-    var delegate: OrderControllerDelegate?
+    weak var delegate: OrderControllerDelegate?
 
     func addToOrder(_ item: MenuItem) {
         if let index = order.firstIndex(where: {$0.menuItem.id == item.id}) {

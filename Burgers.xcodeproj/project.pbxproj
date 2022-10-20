@@ -11,6 +11,8 @@
 		3D1E810828FBDBC300F2EF9D /* OrderDataSourceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1E810728FBDBC300F2EF9D /* OrderDataSourceItem.swift */; };
 		3D1E810A28FBDD9600F2EF9D /* OrderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1E810928FBDD9600F2EF9D /* OrderCollectionViewCell.swift */; };
 		3D22C9D528F1A5B900BD768A /* HeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D22C9D428F1A5B900BD768A /* HeaderReusableView.swift */; };
+		3D448EB92901722A00AF3A21 /* HomeVCCompositionalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D448EB82901722A00AF3A21 /* HomeVCCompositionalLayout.swift */; };
+		3D448EBB2901723900AF3A21 /* OrderVCCompositionalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D448EBA2901723900AF3A21 /* OrderVCCompositionalLayout.swift */; };
 		3D5D9A1E28F2C7EF006B8E78 /* NewsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A1D28F2C7EF006B8E78 /* NewsItem.swift */; };
 		3D5D9A2028F2C93C006B8E78 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A1F28F2C93C006B8E78 /* Item.swift */; };
 		3D5D9A2228F2CC5B006B8E78 /* NewsItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A2128F2CC5B006B8E78 /* NewsItemCollectionViewCell.swift */; };
@@ -58,6 +60,8 @@
 		3D1E810728FBDBC300F2EF9D /* OrderDataSourceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDataSourceItem.swift; sourceTree = "<group>"; };
 		3D1E810928FBDD9600F2EF9D /* OrderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCollectionViewCell.swift; sourceTree = "<group>"; };
 		3D22C9D428F1A5B900BD768A /* HeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderReusableView.swift; sourceTree = "<group>"; };
+		3D448EB82901722A00AF3A21 /* HomeVCCompositionalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVCCompositionalLayout.swift; sourceTree = "<group>"; };
+		3D448EBA2901723900AF3A21 /* OrderVCCompositionalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderVCCompositionalLayout.swift; sourceTree = "<group>"; };
 		3D5D9A1D28F2C7EF006B8E78 /* NewsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItem.swift; sourceTree = "<group>"; };
 		3D5D9A1F28F2C93C006B8E78 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		3D5D9A2128F2CC5B006B8E78 /* NewsItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItemCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -112,6 +116,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D448EB6290171FB00AF3A21 /* HomeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3DED089B28EE1415000DEA5D /* HomeViewController.swift */,
+				3D448EB82901722A00AF3A21 /* HomeVCCompositionalLayout.swift */,
+			);
+			path = HomeViewController;
+			sourceTree = "<group>";
+		};
+		3D448EB72901720E00AF3A21 /* OrderViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3D5D9A6228F97416006B8E78 /* OrderViewController.swift */,
+				3D448EBA2901723900AF3A21 /* OrderVCCompositionalLayout.swift */,
+			);
+			path = OrderViewController;
+			sourceTree = "<group>";
+		};
 		3D5D9A1928F2C53A006B8E78 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -141,10 +163,10 @@
 		3D5D9A1B28F2C546006B8E78 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				3DED089B28EE1415000DEA5D /* HomeViewController.swift */,
+				3D448EB6290171FB00AF3A21 /* HomeViewController */,
+				3D448EB72901720E00AF3A21 /* OrderViewController */,
 				3D5D9A2328F36B10006B8E78 /* MenuItemViewController.swift */,
 				3D5D9A2528F4AC62006B8E78 /* NewsItemViewController.swift */,
-				3D5D9A6228F97416006B8E78 /* OrderViewController.swift */,
 				3D5D9A2728F539FB006B8E78 /* OrderController.swift */,
 				3D5D9A5E28F93486006B8E78 /* CacheController.swift */,
 			);
@@ -368,6 +390,7 @@
 				3D5D9A2028F2C93C006B8E78 /* Item.swift in Sources */,
 				3D5D9A5F28F93486006B8E78 /* CacheController.swift in Sources */,
 				3D1E810628FBD70B00F2EF9D /* Order.swift in Sources */,
+				3D448EB92901722A00AF3A21 /* HomeVCCompositionalLayout.swift in Sources */,
 				3DED088828EE05CC000DEA5D /* AppDelegate.swift in Sources */,
 				3DED08A628EE28CB000DEA5D /* APIService.swift in Sources */,
 				3D5D9A2628F4AC62006B8E78 /* NewsItemViewController.swift in Sources */,
@@ -385,6 +408,7 @@
 				3D6D06AE2900375C00EAB19A /* CustomButton.swift in Sources */,
 				3DED08A028EE15F8000DEA5D /* APIRequest.swift in Sources */,
 				3D5D9A1E28F2C7EF006B8E78 /* NewsItem.swift in Sources */,
+				3D448EBB2901723900AF3A21 /* OrderVCCompositionalLayout.swift in Sources */,
 				3DED089C28EE1415000DEA5D /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

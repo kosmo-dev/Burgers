@@ -10,23 +10,8 @@ import UIKit
 class HeaderReusableView: UICollectionReusableView {
     static let reuseIdentifier = "HeaderReuseIdentifier"
 
-    var scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.backgroundColor = .systemBackground
-        return scrollView
-    }()
-
-    var stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
-        stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-
+    var scrollView: UIScrollView?
+    var stackView: UIStackView?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,15 +22,19 @@ class HeaderReusableView: UICollectionReusableView {
     }
 
     func setupView(_ menuHeaders: [String]) {
+        scrollView = makeScrollView()
+        stackView = makeStackView()
+        guard let scrollView, let stackView else {return}
+
         addSubview(scrollView)
         scrollView.addSubview(stackView)
         for menuHeader in menuHeaders {
             stackView.addArrangedSubview(makeLabel(with: menuHeader))
         }
-        setupLayout()
+        setupLayout(scrollView, stackView)
     }
 
-    private func setupLayout() {
+    private func setupLayout(_ scrollView: UIScrollView, _ stackView: UIStackView) {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -71,7 +60,25 @@ class HeaderReusableView: UICollectionReusableView {
         return label
     }
 
+    private func makeScrollView() -> UIScrollView {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.backgroundColor = .systemBackground
+        return scrollView
+    }
+
+    private func makeStackView() -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }
+
     func scrollViewTo(offset: Int) {
-        self.scrollView.setContentOffset(CGPoint(x: offset, y: 0), animated: true)
+        guard let scrollView else {return}
+        scrollView.setContentOffset(CGPoint(x: offset, y: 0), animated: true)
     }
 }

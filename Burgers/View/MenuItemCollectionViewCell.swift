@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol MenuItemCellDelegate {
+protocol MenuItemCellDelegate: AnyObject {
     func chooseButtonWasTapped(cell: MenuItemCollectionViewCell)
 }
 
@@ -22,7 +22,7 @@ class MenuItemCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
 
     // MARK: Variables
-    var delegate: MenuItemCellDelegate?
+    weak var delegate: MenuItemCellDelegate?
     var menuItem: MenuItem?
     var image: UIImage?
 

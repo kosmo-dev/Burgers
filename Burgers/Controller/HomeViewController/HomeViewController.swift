@@ -21,34 +21,29 @@ class HomeViewController: UIViewController, OrderControlling, CacheControlling {
         case menu
     }
 
-    var requestTask: Task<Void, Never>? = nil
-
     var menuItems: [Item] = []
     var newsItems: [Item] = []
     var menuHeaders = ["BURGERS", "BOWLS", "SNACKS", "SALADS", "STEAKS", "DRINKS"]
-    
     var sections: [Section] = []
-    lazy var headerView = HeaderReusableView()
-
     lazy var dataSource = configureDataSource()
+
+    lazy var headerView = HeaderReusableView()
 
     // MARK: Outlets
     @IBOutlet weak var collectionView: UICollectionView!
 
-
+    // MARK: View Life Cycle
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        tabBarItem.image = UIImage(systemName: "menucard")
-        tabBarItem.selectedImage = UIImage(systemName: "menucard.fill")
+        tabBarItem.image = UIImage(systemName: "book")
+        tabBarItem.selectedImage = UIImage(systemName: "book.fill")
         tabBarItem.title = "Menu"
     }
 
-    // MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         collectionView.delegate = self
-
         collectionView.collectionViewLayout = generateLayout()
         collectionView.register(HeaderReusableView.self, forSupplementaryViewOfKind: "header", withReuseIdentifier: HeaderReusableView.reuseIdentifier)
 
@@ -56,11 +51,8 @@ class HomeViewController: UIViewController, OrderControlling, CacheControlling {
     }
 
     // MARK: Functions
-
     func update() {
-        requestTask?.cancel()
-
-        requestTask = Task {
+        Task {
             if let menuItemsDecoded = try? await MenuItemRequest().send() {
                 for i in menuItemsDecoded {
                     menuItems.append(Item.menu(i.value))
@@ -78,9 +70,50 @@ class HomeViewController: UIViewController, OrderControlling, CacheControlling {
 
             await fetchPhoto(from: newsItems)
         }
-
     }
 
+    func fetchPhoto(from itemsArray: [Item]) async {
+        for item in itemsArray {
+            var url: String {
+                switch item {
+                case .menu(let menu):
+                    return menu.photoCompressedURL
+                case .news(let news):
+                    return news.photoURL
+                }
+            }
+
+            guard let image = try? await MenuItemImageRequest().send(url: url) else {return}
+            switch item {
+            case .menu(_):
+                cacheController.addToImages(image, for: item.menuItem.id)
+            case .news(_):
+                cacheController.addToImages(image, for: item.newsItem.id)
+            }
+            updateSnaphot(with: [item])
+        }
+    }
+
+    // MARK: Segue Actions
+    @IBSegueAction func showMenuItem(_ coder: NSCoder, sender: UICollectionViewCell?) -> MenuItemViewController? {
+        guard let cell = sender,
+              let indexPath = collectionView.indexPath(for: cell),
+              let item = dataSource.itemIdentifier(for: indexPath)?.menuItem else {return nil}
+        let image = cacheController.images[item.id]
+        return MenuItemViewController(coder: coder, menuItem: item, image: image)
+    }
+
+    @IBSegueAction func showNewsItem(_ coder: NSCoder, sender: UICollectionViewCell?) -> NewsItemViewController? {
+        guard let cell = sender,
+              let indexPath = collectionView.indexPath(for: cell),
+              let item = dataSource.itemIdentifier(for: indexPath)?.newsItem else {return nil}
+        let image = cacheController.images[item.id]
+        return NewsItemViewController(coder: coder, newsItem: item, image: image)
+    }
+}
+
+// MARK: - Configure Data Source
+extension HomeViewController {
     func configureDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
 
@@ -129,111 +162,26 @@ class HomeViewController: UIViewController, OrderControlling, CacheControlling {
 
         dataSource.apply(snapshot, animatingDifferences: false)
     }
-
-    func generateLayout() -> UICollectionViewLayout {
-
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection in
-            let section = self.sections[sectionIndex]
-
-            switch section {
-            case .news:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-                let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalWidth(1/2.5))
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-
-                group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 16, trailing: 16)
-
-                let section = NSCollectionLayoutSection(group: group)
-                section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-
-                return section
-
-            case .menu:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-                let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1/4))
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-
-                group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
-
-                let section = NSCollectionLayoutSection(group: group)
-
-                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30))
-                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: "header", alignment: .top)
-                headerItem.pinToVisibleBounds = true
-                headerItem.zIndex = 2
-
-                section.boundarySupplementaryItems = [headerItem]
-
-                return section
-            }
-        }
-        return layout
-    }
-
-    func fetchPhoto(from itemsArray: [Item]) async {
-
-        for item in itemsArray {
-            var url: String {
-                switch item {
-                case .menu(let menu):
-                    return menu.photoCompressedURL
-                case .news(let news):
-                    return news.photoURL
-                }
-            }
-
-            if let image = try? await MenuItemImageRequest().send(url: url) {
-                switch item {
-                case .menu(_):
-                    cacheController.addToImages(image, for: item.menuItem.id)
-                case .news(_):
-                    cacheController.addToImages(image, for: item.newsItem.id)
-                }
-                updateSnaphot(with: [item])
-            }
-        }
-    }
-
-    @IBSegueAction func showMenuItem(_ coder: NSCoder, sender: UICollectionViewCell?) -> MenuItemViewController? {
-        guard let cell = sender,
-              let indexPath = collectionView.indexPath(for: cell),
-              let item = dataSource.itemIdentifier(for: indexPath)?.menuItem else {return nil}
-        let image = cacheController.images[item.id]
-        return MenuItemViewController(coder: coder, menuItem: item, image: image)
-    }
-
-    @IBSegueAction func showNewsItem(_ coder: NSCoder, sender: UICollectionViewCell?) -> NewsItemViewController? {
-        guard let cell = sender,
-              let indexPath = collectionView.indexPath(for: cell),
-              let item = dataSource.itemIdentifier(for: indexPath)?.newsItem else {return nil}
-        let image = cacheController.images[item.id]
-        return NewsItemViewController(coder: coder, newsItem: item, image: image)
-    }
 }
 
+// MARK: - UICollectionViewDelegate
 extension HomeViewController: UICollectionViewDelegate {
     func getMenuItem(indexPath: IndexPath) -> Item {
         return menuItems[indexPath.row]
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-
-            if !cacheController.images.contains(where: { $0.key == menuItems[indexPath.row].menuItem.id }) {
-            Task {
-                await fetchPhoto(from: [getMenuItem(indexPath: indexPath)])
-            }
+        guard !cacheController.images.contains(where: {$0.key == menuItems[indexPath.row].menuItem.id}) else {return}
+        Task {
+            await fetchPhoto(from: [getMenuItem(indexPath: indexPath)])
         }
     }
 }
 
+// MARK: - MenuItemCellDelegate
 extension HomeViewController: MenuItemCellDelegate {
     func chooseButtonWasTapped(cell: MenuItemCollectionViewCell) {
-        if let menuItem = cell.menuItem {
-            orderController.addToOrder(menuItem)
-        }
+        guard let menuItem = cell.menuItem else {return}
+        orderController.addToOrder(menuItem)
     }
 }
