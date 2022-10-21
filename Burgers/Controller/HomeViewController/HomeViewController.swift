@@ -23,11 +23,12 @@ class HomeViewController: UIViewController, OrderControlling, CacheControlling {
 
     var menuItems: [Item] = []
     var newsItems: [Item] = []
-    var menuHeaders = ["BURGERS", "BOWLS", "SNACKS", "SALADS", "STEAKS", "DRINKS"]
+    var menuHeaders: [String] = []
     var sections: [Section] = []
     lazy var dataSource = configureDataSource()
 
     lazy var headerView = HeaderReusableView()
+    lazy var headerViewHeight: CGFloat = 0
 
     // MARK: Outlets
     @IBOutlet weak var collectionView: UICollectionView!
@@ -58,6 +59,8 @@ class HomeViewController: UIViewController, OrderControlling, CacheControlling {
                     menuItems.append(Item.menu(i.value))
                 }
                 self.menuItems = self.menuItems.sorted(by: {$0.menuItem.id < $1.menuItem.id})
+                self.menuHeaders = menuItems.map {$0.menuItem.type.uppercased()}
+                self.menuHeaders = menuHeaders.makeUniqueElements()
             }
 
             if let newsItemsDecoded = try? await NewsItemRequest().send() {
@@ -138,6 +141,8 @@ extension HomeViewController {
 
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: "header", withReuseIdentifier: HeaderReusableView.reuseIdentifier, for: indexPath) as! HeaderReusableView
             headerView.setupView(self.menuHeaders)
+            headerView.delegate = self
+            self.headerViewHeight = headerView.bounds.height
             self.headerView = headerView
             return headerView
         }
@@ -176,6 +181,17 @@ extension HomeViewController: UICollectionViewDelegate {
             await fetchPhoto(from: [getMenuItem(indexPath: indexPath)])
         }
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let visibleRect = CGRect(origin: collectionView.contentOffset, size: collectionView.bounds.size)
+        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.minY + headerViewHeight)
+        guard let visibleIndexPath = collectionView.indexPathForItem(at: visiblePoint) else {return}
+        headerView.scrollViewTo(header: menuItems[visibleIndexPath.row].menuItem.type, index: visibleIndexPath.row)
+    }
+
+    func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        return true
+    }
 }
 
 // MARK: - MenuItemCellDelegate
@@ -183,5 +199,13 @@ extension HomeViewController: MenuItemCellDelegate {
     func chooseButtonWasTapped(cell: MenuItemCollectionViewCell) {
         guard let menuItem = cell.menuItem else {return}
         orderController.addToOrder(menuItem)
+    }
+}
+
+// MARK: - HeaderReusableViewDelegate
+extension HomeViewController: HeaderReusableViewDelegate {
+    func headerLabelWasTapped(_ header: String) {
+        guard let index = menuItems.firstIndex(where: {$0.menuItem.type.uppercased() == header}) else {return}
+        collectionView.scrollToItem(at: IndexPath(item: index, section: 1), at: .top, animated: true)
     }
 }
