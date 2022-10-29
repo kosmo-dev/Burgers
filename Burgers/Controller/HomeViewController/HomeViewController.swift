@@ -54,23 +54,28 @@ class HomeViewController: UIViewController, OrderControlling, CacheControlling {
     // MARK: Functions
     func update() {
         Task {
-            if let menuItemsDecoded = try? await MenuItemRequest().send() {
+            do {
+                let menuItemsDecoded = try await MenuItemRequest().send()
                 for i in menuItemsDecoded {
                     menuItems.append(Item.menu(i.value))
                 }
                 self.menuItems = self.menuItems.sorted(by: {$0.menuItem.id < $1.menuItem.id})
                 self.menuHeaders = menuItems.map {$0.menuItem.type.uppercased()}
                 self.menuHeaders = menuHeaders.makeUniqueElements()
+            } catch {
+                showErrorAlert()
             }
-
-            if let newsItemsDecoded = try? await NewsItemRequest().send() {
+            do {
+                let newsItemsDecoded = try await NewsItemRequest().send()
                 for i in newsItemsDecoded {
                     newsItems.append(Item.news(i))
                 }
                 self.newsItems = self.newsItems.sorted(by: {$0.newsItem.timestamp > $1.newsItem.timestamp})
+            } catch {
+                showErrorAlert()
             }
-            applySnaphot()
 
+            applySnaphot()
             await fetchPhoto(from: newsItems)
         }
     }
@@ -207,5 +212,19 @@ extension HomeViewController: HeaderReusableViewDelegate {
     func headerLabelWasTapped(_ header: String) {
         guard let index = menuItems.firstIndex(where: {$0.menuItem.type.uppercased() == header}) else {return}
         collectionView.scrollToItem(at: IndexPath(item: index, section: 1), at: .top, animated: true)
+    }
+}
+
+// MARK: - Error handling
+extension HomeViewController {
+    func showErrorAlert() {
+        let alert = UIAlertController(title: "Server is not responding", message: "It seems you do not have internet connection or server is unavailable. Do you want to try again?", preferredStyle: .alert)
+        let actionConfirm = UIAlertAction(title: "Try again", style: .default) { _ in
+            self.update()
+        }
+        let actionCancel = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(actionConfirm)
+        alert.addAction(actionCancel)
+        self.present(alert, animated: true)
     }
 }
