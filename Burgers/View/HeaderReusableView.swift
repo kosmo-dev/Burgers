@@ -55,6 +55,22 @@ class HeaderReusableView: UICollectionReusableView {
         }
     }
 
+    func setupViewWithOneLabel(_ label: String) {
+        let label = makeLabel(with: label)
+
+        label.isUserInteractionEnabled = false
+        label.backgroundColor = .systemBackground
+
+        addSubview(label)
+
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: topAnchor),
+            label.leadingAnchor.constraint(equalTo: leadingAnchor),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor),
+            label.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
+
     private func setupLayout(_ scrollView: UIScrollView, _ stackView: UIStackView) {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: topAnchor),

@@ -42,6 +42,7 @@ class OrderViewController: UIViewController, OrderControlling, CacheControlling 
         super.viewDidLoad()
         applySnaphot()
         collectionView.collectionViewLayout = generateLayout()
+        collectionView.register(HeaderReusableView.self, forSupplementaryViewOfKind: "OrdersHeader", withReuseIdentifier: HeaderReusableView.reuseIdentifier)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -129,6 +130,14 @@ extension OrderViewController {
                 cell?.configureView(status: status)
                 return cell
             }
+        }
+        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) -> UICollectionReusableView? in
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: "OrdersHeader", withReuseIdentifier: HeaderReusableView.reuseIdentifier, for: indexPath) as? HeaderReusableView
+            if let headerView {
+                headerView.setupViewWithOneLabel("LAST ORDERS")
+            }
+            return headerView
+
         }
         return dataSource
     }

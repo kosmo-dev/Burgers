@@ -25,6 +25,14 @@ extension OrderViewController {
                 let section = NSCollectionLayoutSection(group: group)
                 section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0)
 
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30))
+                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: "OrdersHeader", alignment: .top)
+                headerItem.pinToVisibleBounds = true
+                headerItem.zIndex = 2
+                headerItem.contentInsets = NSDirectionalEdgeInsets(top: -8, leading: 8, bottom: -8, trailing: 8)
+
+                section.boundarySupplementaryItems = [headerItem]
+
                 return section
 
             case .currentOrder:
