@@ -105,6 +105,15 @@ class OrderViewController: UIViewController, OrderControlling, CacheControlling 
             applySnaphot()
         }
     }
+
+    // MARK: Segue Actions
+    @IBSegueAction func showOrderDetails(_ coder: NSCoder, sender: UICollectionViewCell?) -> OrderDetailViewController? {
+        guard let cell = sender,
+              let indexPath = collectionView.indexPath(for: cell),
+              let item = dataSource.itemIdentifier(for: indexPath)?.order else {return nil}
+        return OrderDetailViewController(coder: coder, order: item)
+    }
+
 }
 
 // MARK: - Configure Data Source
@@ -180,7 +189,6 @@ extension OrderViewController: OrderItemCollectionViewCellDelegate {
         orderController.removeFromOrder(item)
     }
 }
-
 
 // MARK: - UserControlling
 extension OrderViewController: UserControlling {

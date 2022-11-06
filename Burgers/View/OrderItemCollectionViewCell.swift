@@ -33,6 +33,11 @@ class OrderItemCollectionViewCell: UICollectionViewCell {
         self.menuItem = menuItem
     }
 
+    func removeButtons() {
+        addItemButtonTapped.isHidden = true
+        removeItemButton.isHidden = true
+    }
+
     @IBAction func addItemButtonTapped(_ sender: UIButton) {
         guard let menuItem else {return}
         delegate?.addItemButtonTapped(item: menuItem)
