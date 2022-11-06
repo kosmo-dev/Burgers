@@ -48,7 +48,7 @@ extension APIRequest {
 
         if let data = putData {
             request.httpBody = data
-            request.httpMethod = "POST"
+            request.httpMethod = "PUT"
         }
 
         return request

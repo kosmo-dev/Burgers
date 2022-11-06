@@ -20,10 +20,16 @@ struct NewsItemRequest: APIRequest {
     var requestType: APIRequestType = .data
 }
 
+struct LastOrdersRequest: APIRequest, UserControlling {
+    typealias Response = [String: Order]
+    var path: String = "/orders"
+    var requestType: APIRequestType = .data
+}
+
 struct PlaceOrderRequest: APIRequest {
     typealias Response = Void
 
-    var orderToPut: [OrderItem]
+    var orderToPut: Order
 
     var path = "/orders"
 

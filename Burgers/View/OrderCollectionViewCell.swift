@@ -15,7 +15,8 @@ class OrderCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var orderTitle: UILabel!
 
 
-    func configureView(status: Int) {
+    func configureView(status: Int, id: Int) {
+        orderTitle.text = "Order \(id)"
         switch status {
         case 1:
             configureDefaultView("Order accepted")
@@ -33,6 +34,11 @@ class OrderCollectionViewCell: UICollectionViewCell {
             backgroundColor = .systemGreen
             orderStatusLabel.textColor = .systemBackground
             orderTitle.textColor = .systemBackground
+        case 4:
+            configureDefaultView("Order finished")
+            backgroundColor = .systemGray2
+            orderStatusLabel.textColor = .label
+            orderTitle.textColor = .label
         default:
             configureDefaultView("Sending order")
         }

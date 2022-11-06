@@ -24,7 +24,7 @@ enum OrderDataSourceItem: Hashable {
         if case .order(let order) = self {
             return order
         } else {
-            return Order(orderItems: [OrderItem(menuItem: MenuItem(menuItemDescription: "", id: 0, ingredientsDescription: "", name: "", photoURL: "", photoCompressedURL: "", price: 0, type: ""), counts: 0)], status: 0, id: "\(UUID())")
+            return Order(orderItems: [OrderItem(menuItem: MenuItem(menuItemDescription: "", id: 0, ingredientsDescription: "", name: "", photoURL: "", photoCompressedURL: "", price: 0, type: ""), counts: 0)], status: 0, date: Date().timeIntervalSince1970, counter: 0, id: "\(UUID())")
         }
     }
 }

@@ -43,6 +43,8 @@ class OrderViewController: UIViewController, OrderControlling, CacheControlling 
         applySnaphot()
         collectionView.collectionViewLayout = generateLayout()
         collectionView.register(HeaderReusableView.self, forSupplementaryViewOfKind: "OrdersHeader", withReuseIdentifier: HeaderReusableView.reuseIdentifier)
+
+        updateLastOrderInfo()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -74,39 +76,34 @@ class OrderViewController: UIViewController, OrderControlling, CacheControlling 
         }
     }
 
+    func updateLastOrderInfo() {
+        Task {
+            orders.removeAll()
+            var lastOrderRequest = LastOrdersRequest()
+            lastOrderRequest.path += "/\(userController.getUserId())"
+            let lastOrdersDecoded = try await lastOrderRequest.send()
+            for orderId in lastOrdersDecoded {
+                orders.append(OrderDataSourceItem.order(orderId.value))
+            }
+            orders.sort(by: { $0.order.date > $1.order.date })
+            applySnaphot()
+        }
+    }
+
     // MARK: Actions
     @IBAction func placeOrderButtonTapped(_ sender: UIButton) {
-//        Task {
-//            var orderRequest = PlaceOrderRequest(orderToPut: orderController.order)
-//            orderRequest.path += "/\(UUID())"
-//            try await orderRequest.send()
-//            orderController.clearOrder()
-//        }
-        let newOrder = Order(orderItems: orderController.order, status: 1, id: UUID().uuidString)
-        orders.append(OrderDataSourceItem.order(newOrder))
-        applySnaphot()
-        orderController.clearOrder()
-        applySnaphot()
-
-        perform(#selector(status2), with: nil, afterDelay: 3)
-
-        perform(#selector(status3), with: nil, afterDelay: 10)
-    }
-
-    @objc func status2() {
-        let oldOrder = orders.last!
-        let newOrder = Order(orderItems: oldOrder.order.orderItems, status: 2, id: oldOrder.order.id)
-        orders.removeLast()
-        orders.append(OrderDataSourceItem.order(newOrder))
-        applySnaphot()
-    }
-
-    @objc func status3() {
-        let oldOrder = orders.last!
-        let newOrder = Order(orderItems: oldOrder.order.orderItems, status: 3, id: oldOrder.order.id)
-        orders.removeLast()
-        orders.append(OrderDataSourceItem.order(newOrder))
-        applySnaphot()
+        let uid = userController.getUserId()
+        let orderId = UUID().uuidString
+        let newOrder = Order(orderItems: orderController.order, status: 1, date: Date().timeIntervalSince1970, counter: orders.count + 1, id: orderId)
+        Task {
+            var orderRequest = PlaceOrderRequest(orderToPut: newOrder)
+            orderRequest.path += "/\(uid)/\(orderId)"
+            try await orderRequest.send()
+            orders.insert(OrderDataSourceItem.order(newOrder), at: 0)
+            applySnaphot()
+            orderController.clearOrder()
+            applySnaphot()
+        }
     }
 }
 
@@ -127,7 +124,8 @@ extension OrderViewController {
             case .orders:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OrderCollectionViewCell.reuseIdentifier, for: indexPath) as? OrderCollectionViewCell
                 let status = self.orders[indexPath.row].order.status
-                cell?.configureView(status: status)
+                let counter = self.orders[indexPath.row].order.counter
+                cell?.configureView(status: status, id: counter)
                 return cell
             }
         }

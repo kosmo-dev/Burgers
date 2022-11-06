@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct OrderItem: Encodable, Hashable {
+struct OrderItem: Codable, Hashable {
     var menuItem: MenuItem
     var counts: Int
 
@@ -17,5 +17,10 @@ struct OrderItem: Encodable, Hashable {
 
     static func == (lhs: OrderItem, rhs: OrderItem) -> Bool {
         return lhs.menuItem.id == rhs.menuItem.id && lhs.counts == rhs.counts
+    }
+
+    enum CodingKeys: CodingKey {
+        case menuItem
+        case counts
     }
 }
