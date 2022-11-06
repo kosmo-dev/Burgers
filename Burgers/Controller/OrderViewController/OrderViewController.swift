@@ -182,3 +182,8 @@ extension OrderViewController: OrderItemCollectionViewCellDelegate {
         orderController.removeFromOrder(item)
     }
 }
+
+
+// MARK: - UserControlling
+extension OrderViewController: UserControlling {
+}

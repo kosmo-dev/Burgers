@@ -24,7 +24,7 @@ protocol OrderControllerDelegate: AnyObject {
 }
 
 
-class OrderController {
+final class OrderController {
     private(set) var order: [OrderItem] = []
 
     private(set) var totalCount = 0 {

@@ -20,7 +20,7 @@ extension CacheControlling {
     }
 }
 
-class CacheController {
+final class CacheController {
     private(set) var images: [Int: UIImage] = [:]
 
     func addToImages(_ image: UIImage, for key: Int) {
