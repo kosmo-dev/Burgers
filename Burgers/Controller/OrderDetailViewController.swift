@@ -68,14 +68,27 @@ extension OrderDetailViewController: UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OrderItemCollectionViewCell.reuseIdentifier, for: indexPath) as? OrderItemCollectionViewCell
         let orderItem = order.orderItems[indexPath.row]
-        let image = self.cacheController.images[orderItem.menuItem.id] ?? UIImage(systemName: "photo")!
+        var image = UIImage()
+        if let fetchedImage = self.imageController.images[orderItem.menuItem.photoCompressedURL] {
+            image = fetchedImage
+        } else {
+            image = UIImage(systemName: "photo")!
+            Task {
+                await backgroundPhotoUpdate(url: orderItem.menuItem.photoCompressedURL)
+            }
+        }
         cell?.configureView(menuItem: orderItem.menuItem, numberOfItems: orderItem.counts, image: image)
         cell?.removeButtons()
         return cell ?? UICollectionViewCell()
     }
+
+    func backgroundPhotoUpdate(url: String) async {
+        await imageController.fetchImage(url: url)
+        collectionView.reloadData()
+    }
 }
 
-extension OrderDetailViewController: CacheControlling {
+extension OrderDetailViewController: ImageControlling {
 }
 
 extension OrderDetailViewController {

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OrderViewController: UIViewController, OrderControlling, CacheControlling {
+class OrderViewController: UIViewController, OrderControlling, ImageControlling {
 
     typealias DataSource = UICollectionViewDiffableDataSource<Section, OrderDataSourceItem>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, OrderDataSourceItem>
@@ -126,7 +126,7 @@ extension OrderViewController {
             switch section {
             case .currentOrder:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OrderItemCollectionViewCell.reuseIdentifier, for: indexPath) as? OrderItemCollectionViewCell
-                let image = self.cacheController.images[item.orderItem.menuItem.id] ?? UIImage(systemName: "photo")!
+                let image = self.imageController.images[item.orderItem.menuItem.photoCompressedURL] ?? UIImage(systemName: "photo")!
                 cell?.configureView(menuItem: item.orderItem.menuItem, numberOfItems: item.orderItem.counts, image: image)
                 cell?.delegate = self
                 return cell

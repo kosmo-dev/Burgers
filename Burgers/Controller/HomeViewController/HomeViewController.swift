@@ -8,7 +8,7 @@
 import UIKit
 //import FirebaseStorage
 
-class HomeViewController: UIViewController, OrderControlling, CacheControlling {
+class HomeViewController: UIViewController, OrderControlling, ImageControlling {
 
     let toMenuItemSegue = "toMenuItemSegue"
     let toNewsItemSegue = "toNewsItemSegue"
@@ -74,7 +74,6 @@ class HomeViewController: UIViewController, OrderControlling, CacheControlling {
             } catch {
                 showErrorAlert()
             }
-
             applySnaphot()
             await fetchPhoto(from: newsItems)
         }
@@ -90,14 +89,7 @@ class HomeViewController: UIViewController, OrderControlling, CacheControlling {
                     return news.photoURL
                 }
             }
-
-            guard let image = try? await MenuItemImageRequest().send(url: url) else {return}
-            switch item {
-            case .menu(_):
-                cacheController.addToImages(image, for: item.menuItem.id)
-            case .news(_):
-                cacheController.addToImages(image, for: item.newsItem.id)
-            }
+            await imageController.fetchImage(url: url)
             updateSnaphot(with: [item])
         }
     }
@@ -107,7 +99,7 @@ class HomeViewController: UIViewController, OrderControlling, CacheControlling {
         guard let cell = sender,
               let indexPath = collectionView.indexPath(for: cell),
               let item = dataSource.itemIdentifier(for: indexPath)?.menuItem else {return nil}
-        let image = cacheController.images[item.id]
+        let image = imageController.images[item.photoCompressedURL]
         return MenuItemViewController(coder: coder, menuItem: item, image: image)
     }
 
@@ -115,7 +107,7 @@ class HomeViewController: UIViewController, OrderControlling, CacheControlling {
         guard let cell = sender,
               let indexPath = collectionView.indexPath(for: cell),
               let item = dataSource.itemIdentifier(for: indexPath)?.newsItem else {return nil}
-        let image = cacheController.images[item.id]
+        let image = imageController.images[item.photoURL]
         return NewsItemViewController(coder: coder, newsItem: item, image: image)
     }
 }
@@ -130,13 +122,13 @@ extension HomeViewController {
             switch section {
             case .news:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsItemCollectionViewCell.reuseIdentifier, for: indexPath) as? NewsItemCollectionViewCell
-                let image: UIImage? = self.cacheController.images[item.newsItem.id]
+                let image = self.imageController.images[item.newsItem.photoURL]
                 cell?.configureCell(item.newsItem.name, image)
                 return cell
 
             case .menu:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuItemCollectionViewCell.reuseIdentifier, for: indexPath) as? MenuItemCollectionViewCell
-                let image: UIImage? = self.cacheController.images[item.menuItem.id]
+                let image = self.imageController.images[item.menuItem.photoCompressedURL]
                 cell?.configureCell(menuItem: item.menuItem, image: image)
                 cell?.delegate = self
                 return cell
@@ -181,7 +173,7 @@ extension HomeViewController: UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard !cacheController.images.contains(where: {$0.key == menuItems[indexPath.row].menuItem.id}) else {return}
+        guard !imageController.images.contains(where: {$0.key == menuItems[indexPath.row].menuItem.photoCompressedURL}) else {return}
         Task {
             await fetchPhoto(from: [getMenuItem(indexPath: indexPath)])
         }
