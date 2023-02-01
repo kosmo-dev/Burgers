@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MenuItemViewController: UIViewController, OrderControlling {
+final class MenuItemViewController: UIViewController, OrderControlling {
 
     var menuItem: MenuItem
     var menuImage: UIImage?

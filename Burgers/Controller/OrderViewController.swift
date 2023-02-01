@@ -7,28 +7,30 @@
 
 import UIKit
 
-class OrderViewController: UIViewController, OrderControlling, ImageControlling {
+final class OrderViewController: UIViewController, OrderControlling, ImageControlling {
 
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, OrderDataSourceItem>
-    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, OrderDataSourceItem>
+    // MARK: Outlets
+    @IBOutlet weak private var collectionView: UICollectionView!
+    @IBOutlet weak private var placeOrderButton: UIButton!
+    @IBOutlet weak private var totalPriceLabel: UILabel!
+    @IBOutlet weak private  var totalLabel: UILabel!
 
-    enum Section {
+
+    // MARK: - Private Properties
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, OrderDataSourceItem>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, OrderDataSourceItem>
+
+    private enum Section {
         case orders
         case currentOrder
     }
-    var sections: [Section] = []
-    lazy var dataSource = configureDataSource()
+    private var sections: [Section] = []
+    lazy private var dataSource = configureDataSource()
 
-    var orders: [OrderDataSourceItem] = []
-    var currentOrderItem: [OrderDataSourceItem] = []
+    private var orders: [OrderDataSourceItem] = []
+    private var currentOrderItem: [OrderDataSourceItem] = []
 
-    // MARK: Outlets
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var placeOrderButton: UIButton!
-    @IBOutlet weak var totalPriceLabel: UILabel!
-    @IBOutlet weak var totalLabel: UILabel!
-
-    // MARK: View Life Cycle
+    // MARK: - Initializers
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         tabBarItem.image = UIImage(systemName: "bag")
@@ -38,6 +40,7 @@ class OrderViewController: UIViewController, OrderControlling, ImageControlling 
         orderController.delegate = self
     }
 
+    // MARK: - Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         applySnaphot()
@@ -54,44 +57,8 @@ class OrderViewController: UIViewController, OrderControlling, ImageControlling 
         checkTotalPrice()
     }
 
-
-    // MARK: Functions
-    func checkOrderButton() {
-        guard let placeOrderButton = placeOrderButton else {return}
-        if orderController.totalCount > 0 {
-            placeOrderButton.isHidden = false
-        } else {
-            placeOrderButton.isHidden = true
-        }
-    }
-    func checkTotalPrice() {
-        guard let totalPriceLabel = totalPriceLabel else {return}
-        if orderController.totalCount > 0 {
-            totalPriceLabel.isHidden = false
-            totalLabel.isHidden = false
-            totalPriceLabel.text = "\(orderController.countTotalPrice()) P"
-        } else {
-            totalPriceLabel.isHidden = true
-            totalLabel.isHidden = true
-        }
-    }
-
-    func updateLastOrderInfo() {
-        Task {
-            orders.removeAll()
-            var lastOrderRequest = LastOrdersRequest()
-            lastOrderRequest.path += "/\(userController.getUserId())"
-            let lastOrdersDecoded = try await lastOrderRequest.send()
-            for orderId in lastOrdersDecoded {
-                orders.append(OrderDataSourceItem.order(orderId.value))
-            }
-            orders.sort(by: { $0.order.date > $1.order.date })
-            applySnaphot()
-        }
-    }
-
-    // MARK: Actions
-    @IBAction func placeOrderButtonTapped(_ sender: UIButton) {
+    // MARK: - Actions
+    @IBAction private func placeOrderButtonTapped(_ sender: UIButton) {
         let uid = userController.getUserId()
         let orderId = UUID().uuidString
         let newOrder = Order(orderItems: orderController.order, status: 1, date: Date().timeIntervalSince1970, counter: orders.count + 1, id: orderId)
@@ -106,8 +73,44 @@ class OrderViewController: UIViewController, OrderControlling, ImageControlling 
         }
     }
 
-    // MARK: Segue Actions
-    @IBSegueAction func showOrderDetails(_ coder: NSCoder, sender: UICollectionViewCell?) -> OrderDetailViewController? {
+    // MARK: - Private Functions
+    private func checkOrderButton() {
+        guard let placeOrderButton = placeOrderButton else {return}
+        if orderController.totalCount > 0 {
+            placeOrderButton.isHidden = false
+        } else {
+            placeOrderButton.isHidden = true
+        }
+    }
+
+    private func checkTotalPrice() {
+        guard let totalPriceLabel = totalPriceLabel else {return}
+        if orderController.totalCount > 0 {
+            totalPriceLabel.isHidden = false
+            totalLabel.isHidden = false
+            totalPriceLabel.text = "\(orderController.countTotalPrice()) P"
+        } else {
+            totalPriceLabel.isHidden = true
+            totalLabel.isHidden = true
+        }
+    }
+
+    private func updateLastOrderInfo() {
+        Task {
+            orders.removeAll()
+            var lastOrderRequest = LastOrdersRequest()
+            lastOrderRequest.path += "/\(userController.getUserId())"
+            let lastOrdersDecoded = try await lastOrderRequest.send()
+            for orderId in lastOrdersDecoded {
+                orders.append(OrderDataSourceItem.order(orderId.value))
+            }
+            orders.sort(by: { $0.order.date > $1.order.date })
+            applySnaphot()
+        }
+    }
+
+    // MARK: - Segue Actions
+    @IBSegueAction private func showOrderDetails(_ coder: NSCoder, sender: UICollectionViewCell?) -> OrderDetailViewController? {
         guard let cell = sender,
               let indexPath = collectionView.indexPath(for: cell),
               let item = dataSource.itemIdentifier(for: indexPath)?.order else {return nil}
@@ -118,7 +121,7 @@ class OrderViewController: UIViewController, OrderControlling, ImageControlling 
 
 // MARK: - Configure Data Source
 extension OrderViewController {
-    func configureDataSource() -> DataSource {
+    private func configureDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
 
             let section = self.sections[indexPath.section]
@@ -149,7 +152,7 @@ extension OrderViewController {
         return dataSource
     }
 
-    func applySnaphot() {
+    private func applySnaphot() {
         var snapshot = Snapshot()
 
         snapshot.appendSections([.currentOrder, .orders])
@@ -191,5 +194,57 @@ extension OrderViewController: OrderItemCollectionViewCellDelegate {
 }
 
 // MARK: - UserControlling
-extension OrderViewController: UserControlling {
+extension OrderViewController: UserControlling {}
+
+// MARK: - Compositional Layout
+extension OrderViewController {
+    private func generateLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection in
+
+            let section = self.sections[sectionIndex]
+
+            switch section {
+            case .orders:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0)
+
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(74))
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0)
+
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30))
+                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: "OrdersHeader", alignment: .top)
+                headerItem.contentInsets = NSDirectionalEdgeInsets(top: -8, leading: 8, bottom: -8, trailing: 8)
+
+                section.boundarySupplementaryItems = [headerItem]
+
+                return section
+
+            case .currentOrder:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+                var group: NSCollectionLayoutGroup
+                if #available(iOS 16.0, *) {
+                    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .absolute(230))
+                    group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 3)
+                } else {
+                    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(230))
+                    group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 3)
+                }
+                group.interItemSpacing = .fixed(8)
+                group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0)
+
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0)
+
+                return section
+            }
+        }
+        return layout
+    }
+
 }
