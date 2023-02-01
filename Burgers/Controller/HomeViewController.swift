@@ -6,34 +6,37 @@
 //
 
 import UIKit
-//import FirebaseStorage
 
-class HomeViewController: UIViewController, OrderControlling, ImageControlling {
+final class HomeViewController: UIViewController, OrderControlling, ImageControlling {
 
-    let toMenuItemSegue = "toMenuItemSegue"
-    let toNewsItemSegue = "toNewsItemSegue"
+    // MARK: - IB Outlets
+    @IBOutlet weak var collectionView: UICollectionView!
 
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
-    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
+    // MARK: - Private Properties
+    private let toMenuItemSegue = "toMenuItemSegue"
+    private let toNewsItemSegue = "toNewsItemSegue"
 
-    enum Section {
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
+
+    private enum Section {
         case news
         case menu
     }
 
-    var menuItems: [Item] = []
-    var newsItems: [Item] = []
-    var menuHeaders: [String] = []
-    var sections: [Section] = []
-    lazy var dataSource = configureDataSource()
+    private var menuItems: [Item] = []
+    private var menuHeaders: [String] = []
 
-    lazy var headerView = HeaderReusableView()
-    lazy var headerViewHeight: CGFloat = 0
+    private var sections: [Section] = []
+    lazy private var dataSource = configureDataSource()
 
-    // MARK: Outlets
-    @IBOutlet weak var collectionView: UICollectionView!
+    lazy private var headerView = HeaderReusableView()
+    lazy private var headerViewHeight: CGFloat = 0
 
-    // MARK: View Life Cycle
+    private var itemsFactory: ItemsFactoryProtocol?
+    private var alertPresenter: AlertPresenterProtocol?
+
+    // MARK: - Initializers
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         tabBarItem.image = UIImage(systemName: "book")
@@ -41,6 +44,7 @@ class HomeViewController: UIViewController, OrderControlling, ImageControlling {
         tabBarItem.title = "Menu"
     }
 
+    // MARK: - Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,38 +52,19 @@ class HomeViewController: UIViewController, OrderControlling, ImageControlling {
         collectionView.collectionViewLayout = generateLayout()
         collectionView.register(HeaderReusableView.self, forSupplementaryViewOfKind: "header", withReuseIdentifier: HeaderReusableView.reuseIdentifier)
 
-        update()
+        itemsFactory = ItemsFactory(delegate: self)
+        alertPresenter = AlertPresenter(delegate: self)
+
+        getMenuAndNewsItems()
     }
 
-    // MARK: Functions
-    func update() {
+    // MARK: - Private Methods
+    private func getMenuAndNewsItems() {
         Task {
-            do {
-                let menuItemsDecoded = try await MenuItemRequest().send()
-                for i in menuItemsDecoded {
-                    menuItems.append(Item.menu(i.value))
-                }
-                self.menuItems = self.menuItems.sorted(by: {$0.menuItem.id < $1.menuItem.id})
-                self.menuHeaders = menuItems.map {$0.menuItem.type.uppercased()}
-                self.menuHeaders = menuHeaders.makeUniqueElements()
-            } catch {
-                showErrorAlert()
-            }
-            do {
-                let newsItemsDecoded = try await NewsItemRequest().send()
-                for i in newsItemsDecoded {
-                    newsItems.append(Item.news(i))
-                }
-                self.newsItems = self.newsItems.sorted(by: {$0.newsItem.timestamp > $1.newsItem.timestamp})
-            } catch {
-                showErrorAlert()
-            }
-            applySnaphot()
-            await fetchPhoto(from: newsItems)
+            await itemsFactory?.getMenuAndNewsItems()
         }
     }
-
-    func fetchPhoto(from itemsArray: [Item]) async {
+    private func fetchPhoto(from itemsArray: [Item]) async {
         for item in itemsArray {
             var url: String {
                 switch item {
@@ -94,7 +79,7 @@ class HomeViewController: UIViewController, OrderControlling, ImageControlling {
         }
     }
 
-    // MARK: Segue Actions
+    // MARK: - Segue Actions
     @IBSegueAction func showMenuItem(_ coder: NSCoder, sender: UICollectionViewCell?) -> MenuItemViewController? {
         guard let cell = sender,
               let indexPath = collectionView.indexPath(for: cell),
@@ -114,7 +99,7 @@ class HomeViewController: UIViewController, OrderControlling, ImageControlling {
 
 // MARK: - Configure Data Source
 extension HomeViewController {
-    func configureDataSource() -> DataSource {
+    private func configureDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
 
             let section = self.sections[indexPath.section]
@@ -146,7 +131,7 @@ extension HomeViewController {
         return dataSource
     }
 
-    func applySnaphot() {
+    private func applySnaphot(_ menuItems: [Item], _ newsItems: [Item]) {
         var snapshot = Snapshot()
 
         snapshot.appendSections([.news, .menu])
@@ -154,21 +139,42 @@ extension HomeViewController {
         snapshot.appendItems(menuItems, toSection: .menu)
 
         sections = snapshot.sectionIdentifiers
-
-        dataSource.apply(snapshot, animatingDifferences: false)
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.dataSource.apply(snapshot, animatingDifferences: false)
+        }
     }
 
-    func updateSnaphot(with items: [Item]) {
+    private func updateSnaphot(with items: [Item]) {
         var snapshot = dataSource.snapshot()
         snapshot.reloadItems(items)
 
-        dataSource.apply(snapshot, animatingDifferences: false)
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.dataSource.apply(snapshot, animatingDifferences: false)
+        }
+    }
+}
+
+// MARK: - ItemsFactoryDelegate
+extension HomeViewController: ItemsFactoryDelegate {
+    func didReceivedItems(menuItems: [Item], newsItems: [Item], menuHeaders: [String]) {
+        self.menuItems = menuItems
+        self.menuHeaders = menuHeaders
+        applySnaphot(menuItems, newsItems)
+        Task {
+            await fetchPhoto(from: newsItems)
+        }
+    }
+
+    func failedReceiveMenuAndNewsItems() {
+        showErrorAlert()
     }
 }
 
 // MARK: - UICollectionViewDelegate
 extension HomeViewController: UICollectionViewDelegate {
-    func getMenuItem(indexPath: IndexPath) -> Item {
+    private func getMenuItem(indexPath: IndexPath) -> Item {
         return menuItems[indexPath.row]
     }
 
@@ -209,14 +215,74 @@ extension HomeViewController: HeaderReusableViewDelegate {
 
 // MARK: - Error handling
 extension HomeViewController {
-    func showErrorAlert() {
-        let alert = UIAlertController(title: "Server is not responding", message: "It seems you do not have internet connection or server is unavailable. Do you want to try again?", preferredStyle: .alert)
-        let actionConfirm = UIAlertAction(title: "Try again", style: .default) { _ in
-            self.update()
+    private func showErrorAlert() {
+        let alertModel = AlertModel(
+            title: "Server is not responding",
+            message: "It seems you do not have internet connection or server is unavailable. Do you want to try again?",
+            actionConfirmText: "Try again",
+            actionCancelText: "Cancel",
+            actionConfirmCompletion: { [weak self] in
+                guard let self else {return}
+                self.getMenuAndNewsItems()
+            },
+            actionCancelCompletion: {
+            })
+        alertPresenter?.show(alertModel: alertModel)
+    }
+}
+
+// MARK: - AlertPresenterDelegate
+extension HomeViewController: AlertPresenterDelegate {
+    func presentAlertView(alert: UIAlertController) {
+        DispatchQueue.main.async {
+            self.present(alert, animated: true)
         }
-        let actionCancel = UIAlertAction(title: "Cancel", style: .cancel)
-        alert.addAction(actionConfirm)
-        alert.addAction(actionCancel)
-        self.present(alert, animated: true)
+    }
+}
+
+// MARK: - CompositionalLayout
+extension HomeViewController {
+    private func generateLayout() -> UICollectionViewLayout {
+
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection in
+            let section = self.sections[sectionIndex]
+
+            switch section {
+            case .news:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalWidth(1/2.5))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+
+                group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 16, trailing: 16)
+
+                let section = NSCollectionLayoutSection(group: group)
+                section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+
+                return section
+
+            case .menu:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1/4))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+
+                group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
+
+                let section = NSCollectionLayoutSection(group: group)
+
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30))
+                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: "header", alignment: .top)
+                headerItem.pinToVisibleBounds = true
+                headerItem.zIndex = 2
+
+                section.boundarySupplementaryItems = [headerItem]
+
+                return section
+            }
+        }
+        return layout
     }
 }
