@@ -12,13 +12,13 @@ protocol ItemsFactoryProtocol {
 }
 
 protocol ItemsFactoryDelegate: AnyObject {
-    func didReceivedItems(menuItems: [Item], newsItems: [Item], menuHeaders: [String])
+    func didReceivedItems(menuItems: [DataSourceItem], newsItems: [DataSourceItem], menuHeaders: [String])
     func failedReceiveMenuAndNewsItems()
 }
 
 class ItemsFactory: ItemsFactoryProtocol {
-    private var menuItems = [Item]()
-    private var newsItems = [Item]()
+    private var menuItems = [DataSourceItem]()
+    private var newsItems = [DataSourceItem]()
     private var menuHeaders = [String]()
 
     weak private var delegate: ItemsFactoryDelegate?
@@ -31,7 +31,7 @@ class ItemsFactory: ItemsFactoryProtocol {
         do {
             let menuItemsDecoded = try await MenuItemRequest().send()
             for i in menuItemsDecoded {
-                menuItems.append(Item.menu(i.value))
+                menuItems.append(DataSourceItem.menu(i.value))
             }
             self.menuItems = self.menuItems.sorted(by: {$0.menuItem.id < $1.menuItem.id})
             self.menuHeaders = menuItems.map {$0.menuItem.type.uppercased()}
@@ -42,7 +42,7 @@ class ItemsFactory: ItemsFactoryProtocol {
         do {
             let newsItemsDecoded = try await NewsItemRequest().send()
             for i in newsItemsDecoded {
-                newsItems.append(Item.news(i))
+                newsItems.append(DataSourceItem.news(i))
             }
             self.newsItems = self.newsItems.sorted(by: {$0.newsItem.timestamp > $1.newsItem.timestamp})
         } catch {

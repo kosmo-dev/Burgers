@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Item: Hashable {
+enum DataSourceItem: Hashable {
     case news(NewsItem)
     case menu(MenuItem)
 

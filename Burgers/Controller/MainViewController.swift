@@ -1,5 +1,5 @@
 //
-//  HomeViewController.swift
+//  MainViewController.swift
 //  Burgers
 //
 //  Created by Вадим Кузьмин on 05.10.2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class HomeViewController: UIViewController, OrderControlling, ImageControlling {
+final class MainViewController: UIViewController, OrderControlling, ImageControlling {
 
     // MARK: - IB Outlets
     @IBOutlet weak var collectionView: UICollectionView!
@@ -16,15 +16,15 @@ final class HomeViewController: UIViewController, OrderControlling, ImageControl
     private let toMenuItemSegue = "toMenuItemSegue"
     private let toNewsItemSegue = "toNewsItemSegue"
 
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, DataSourceItem>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DataSourceItem>
 
     private enum Section {
         case news
         case menu
     }
 
-    private var menuItems: [Item] = []
+    private var menuItems: [DataSourceItem] = []
     private var menuHeaders: [String] = []
 
     private var sections: [Section] = []
@@ -64,7 +64,7 @@ final class HomeViewController: UIViewController, OrderControlling, ImageControl
             await itemsFactory?.getMenuAndNewsItems()
         }
     }
-    private func fetchPhoto(from itemsArray: [Item]) async {
+    private func fetchPhoto(from itemsArray: [DataSourceItem]) async {
         for item in itemsArray {
             var url: String {
                 switch item {
@@ -98,7 +98,7 @@ final class HomeViewController: UIViewController, OrderControlling, ImageControl
 }
 
 // MARK: - Configure Data Source
-extension HomeViewController {
+extension MainViewController {
     private func configureDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
 
@@ -131,7 +131,7 @@ extension HomeViewController {
         return dataSource
     }
 
-    private func applySnaphot(_ menuItems: [Item], _ newsItems: [Item]) {
+    private func applySnaphot(_ menuItems: [DataSourceItem], _ newsItems: [DataSourceItem]) {
         var snapshot = Snapshot()
 
         snapshot.appendSections([.news, .menu])
@@ -145,7 +145,7 @@ extension HomeViewController {
         }
     }
 
-    private func updateSnaphot(with items: [Item]) {
+    private func updateSnaphot(with items: [DataSourceItem]) {
         var snapshot = dataSource.snapshot()
         snapshot.reloadItems(items)
 
@@ -157,8 +157,8 @@ extension HomeViewController {
 }
 
 // MARK: - ItemsFactoryDelegate
-extension HomeViewController: ItemsFactoryDelegate {
-    func didReceivedItems(menuItems: [Item], newsItems: [Item], menuHeaders: [String]) {
+extension MainViewController: ItemsFactoryDelegate {
+    func didReceivedItems(menuItems: [DataSourceItem], newsItems: [DataSourceItem], menuHeaders: [String]) {
         self.menuItems = menuItems
         self.menuHeaders = menuHeaders
         applySnaphot(menuItems, newsItems)
@@ -173,8 +173,8 @@ extension HomeViewController: ItemsFactoryDelegate {
 }
 
 // MARK: - UICollectionViewDelegate
-extension HomeViewController: UICollectionViewDelegate {
-    private func getMenuItem(indexPath: IndexPath) -> Item {
+extension MainViewController: UICollectionViewDelegate {
+    private func getMenuItem(indexPath: IndexPath) -> DataSourceItem {
         return menuItems[indexPath.row]
     }
 
@@ -198,7 +198,7 @@ extension HomeViewController: UICollectionViewDelegate {
 }
 
 // MARK: - MenuItemCellDelegate
-extension HomeViewController: MenuItemCellDelegate {
+extension MainViewController: MenuItemCellDelegate {
     func chooseButtonWasTapped(cell: MenuItemCollectionViewCell) {
         guard let menuItem = cell.menuItem else {return}
         orderController.addToOrder(menuItem)
@@ -206,7 +206,7 @@ extension HomeViewController: MenuItemCellDelegate {
 }
 
 // MARK: - HeaderReusableViewDelegate
-extension HomeViewController: HeaderReusableViewDelegate {
+extension MainViewController: HeaderReusableViewDelegate {
     func headerLabelWasTapped(_ header: String) {
         guard let index = menuItems.firstIndex(where: {$0.menuItem.type.uppercased() == header}) else {return}
         collectionView.scrollToItem(at: IndexPath(item: index, section: 1), at: .top, animated: true)
@@ -214,7 +214,7 @@ extension HomeViewController: HeaderReusableViewDelegate {
 }
 
 // MARK: - Error handling
-extension HomeViewController {
+extension MainViewController {
     private func showErrorAlert() {
         let alertModel = AlertModel(
             title: "Server is not responding",
@@ -232,7 +232,7 @@ extension HomeViewController {
 }
 
 // MARK: - AlertPresenterDelegate
-extension HomeViewController: AlertPresenterDelegate {
+extension MainViewController: AlertPresenterDelegate {
     func presentAlertView(alert: UIAlertController) {
         DispatchQueue.main.async {
             self.present(alert, animated: true)
@@ -241,7 +241,7 @@ extension HomeViewController: AlertPresenterDelegate {
 }
 
 // MARK: - CompositionalLayout
-extension HomeViewController {
+extension MainViewController {
     private func generateLayout() -> UICollectionViewLayout {
 
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection in

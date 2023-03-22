@@ -87,7 +87,6 @@ extension APIRequest where Response: Decodable {
 extension APIRequest where Response == UIImage {
 
     func send(url: String) async throws -> UIImage {
-//        let (data, response) = try await URLSession.shared.data(for: request)
         guard let url = URL(string: url) else {return UIImage(systemName: "photo")!}
         let (data, response) = try await URLSession.shared.data(from: url)
 
