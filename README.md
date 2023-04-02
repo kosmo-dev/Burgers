@@ -14,7 +14,7 @@
 - Swift
 - UIKit
 
-- Данные меню и новостей доставляются с сервера через REST API спомощью URLSession и Codable
+- Данные для меню и новостей доставляются с сервера через REST API с помощью URLSession и Codable
 
 - Используется DiffableDataSource для collectionView
 
@@ -23,4 +23,4 @@
 Верстка UI:
 - Главные страницы: storyboard + UICollectionViewCompositionalLayout
 - Описания позиций меню и новостей: storyboard
-- Header View с разделами меню: программная верстка
+- Header View с разделами меню: верстка кодом
