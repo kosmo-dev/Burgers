@@ -14,6 +14,9 @@
 		3D3C29F72917AF9400C4B9AA /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3C29F62917AF9400C4B9AA /* UserController.swift */; };
 		3D3C29F92917DE0600C4B9AA /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3C29F82917DE0600C4B9AA /* OrderDetailViewController.swift */; };
 		3D448EBD2901AF4D00AF3A21 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D448EBC2901AF4D00AF3A21 /* ArrayExtension.swift */; };
+		3D4CC1A02A95F21200C71EC1 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4CC19F2A95F21200C71EC1 /* AppConfiguration.swift */; };
+		3D4CC1A42A95F3CD00C71EC1 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4CC1A32A95F3CD00C71EC1 /* MenuViewController.swift */; };
+		3D4CC1A62A95F3DB00C71EC1 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4CC1A52A95F3DB00C71EC1 /* CartViewController.swift */; };
 		3D5D9A1E28F2C7EF006B8E78 /* NewsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A1D28F2C7EF006B8E78 /* NewsItem.swift */; };
 		3D5D9A2028F2C93C006B8E78 /* DataSourceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A1F28F2C93C006B8E78 /* DataSourceItem.swift */; };
 		3D5D9A2228F2CC5B006B8E78 /* NewsItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A2128F2CC5B006B8E78 /* NewsItemCollectionViewCell.swift */; };
@@ -69,6 +72,9 @@
 		3D3C29F62917AF9400C4B9AA /* UserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
 		3D3C29F82917DE0600C4B9AA /* OrderDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailViewController.swift; sourceTree = "<group>"; };
 		3D448EBC2901AF4D00AF3A21 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
+		3D4CC19F2A95F21200C71EC1 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		3D4CC1A32A95F3CD00C71EC1 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		3D4CC1A52A95F3DB00C71EC1 /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
 		3D5D9A1D28F2C7EF006B8E78 /* NewsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItem.swift; sourceTree = "<group>"; };
 		3D5D9A1F28F2C93C006B8E78 /* DataSourceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceItem.swift; sourceTree = "<group>"; };
 		3D5D9A2128F2CC5B006B8E78 /* NewsItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItemCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -128,6 +134,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D4CC1A12A95F3A300C71EC1 /* MenuScene */ = {
+			isa = PBXGroup;
+			children = (
+				3D4CC1A32A95F3CD00C71EC1 /* MenuViewController.swift */,
+			);
+			path = MenuScene;
+			sourceTree = "<group>";
+		};
+		3D4CC1A22A95F3B700C71EC1 /* CartScene */ = {
+			isa = PBXGroup;
+			children = (
+				3D4CC1A52A95F3DB00C71EC1 /* CartViewController.swift */,
+			);
+			path = CartScene;
+			sourceTree = "<group>";
+		};
 		3D5D9A1928F2C53A006B8E78 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -232,7 +254,10 @@
 			children = (
 				3DED088728EE05CC000DEA5D /* AppDelegate.swift */,
 				3DED088928EE05CC000DEA5D /* SceneDelegate.swift */,
+				3D4CC19F2A95F21200C71EC1 /* AppConfiguration.swift */,
 				3DE3D2952A868B6000394BEB /* TabBarController */,
+				3D4CC1A12A95F3A300C71EC1 /* MenuScene */,
+				3D4CC1A22A95F3B700C71EC1 /* CartScene */,
 				3D5D9A1C28F2C613006B8E78 /* Service */,
 				3D5D9A1B28F2C546006B8E78 /* Controller */,
 				3D5D9A1A28F2C541006B8E78 /* View */,
@@ -403,6 +428,8 @@
 				3D1E810628FBD70B00F2EF9D /* Order.swift in Sources */,
 				3DED088828EE05CC000DEA5D /* AppDelegate.swift in Sources */,
 				3DED08A628EE28CB000DEA5D /* APIService.swift in Sources */,
+				3D4CC1A62A95F3DB00C71EC1 /* CartViewController.swift in Sources */,
+				3D4CC1A42A95F3CD00C71EC1 /* MenuViewController.swift in Sources */,
 				3D5D9A2628F4AC62006B8E78 /* NewsItemViewController.swift in Sources */,
 				3D3C29F92917DE0600C4B9AA /* OrderDetailViewController.swift in Sources */,
 				3DAF696429891E9C00EABAB9 /* ItemsFactory.swift in Sources */,
@@ -415,6 +442,7 @@
 				3DAF696A2989340700EABAB9 /* AlertPresenter.swift in Sources */,
 				3DED089E28EE1439000DEA5D /* MenuItem.swift in Sources */,
 				3D79E1A428FAA14500F165E7 /* OrderItem.swift in Sources */,
+				3D4CC1A02A95F21200C71EC1 /* AppConfiguration.swift in Sources */,
 				3D5D9A2428F36B10006B8E78 /* MenuItemViewController.swift in Sources */,
 				3D1E810828FBDBC300F2EF9D /* OrderDataSourceItem.swift in Sources */,
 				3D3C29F72917AF9400C4B9AA /* UserController.swift in Sources */,
@@ -684,6 +712,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -714,6 +743,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
