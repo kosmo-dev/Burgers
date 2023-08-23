@@ -29,6 +29,7 @@ final class OrderViewController: UIViewController, OrderControlling, ImageContro
 
     private var orders: [OrderDataSourceItem] = []
     private var currentOrderItem: [OrderDataSourceItem] = []
+    private var orderListenerClient: FirebaseSSEClient?
 
     // MARK: - Initializers
     required init?(coder: NSCoder) {
@@ -57,6 +58,11 @@ final class OrderViewController: UIViewController, OrderControlling, ImageContro
         checkTotalPrice()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        orderListenerClient?.stopListening()
+    }
+
     // MARK: - Actions
     @IBAction private func placeOrderButtonTapped(_ sender: UIButton) {
         let uid = userController.getUserId()
@@ -70,6 +76,8 @@ final class OrderViewController: UIViewController, OrderControlling, ImageContro
             applySnaphot()
             orderController.clearOrder()
             applySnaphot()
+            print("burgers-ae4c1-default-rtdb.europe-west1.firebasedatabase.app\(orderRequest.path).json")
+            listenToOrderUpdates(endPoint: "https://burgers-ae4c1-default-rtdb.europe-west1.firebasedatabase.app\(orderRequest.path).json")
         }
     }
 
@@ -106,6 +114,18 @@ final class OrderViewController: UIViewController, OrderControlling, ImageContro
             }
             orders.sort(by: { $0.order.date > $1.order.date })
             applySnaphot()
+        }
+    }
+
+    private func listenToOrderUpdates(endPoint: String) {
+        if let url = URL(string: endPoint) {
+            orderListenerClient = FirebaseSSEClient(url: url)
+
+            orderListenerClient?.onReceiveUpdate = { orderStatus in
+                self.updateLastOrderInfo()
+            }
+
+            orderListenerClient?.listenForUpdates()
         }
     }
 

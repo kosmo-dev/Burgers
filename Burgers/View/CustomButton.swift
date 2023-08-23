@@ -30,8 +30,6 @@ class CustomButton: UIButton {
             } completion: { _ in
                 self.isUserInteractionEnabled = true
             }
-
         }
-
     }
 }
