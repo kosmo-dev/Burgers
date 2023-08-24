@@ -22,8 +22,8 @@ final class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        appConfiguration.menuViewController.tabBarItem = UITabBarItem(title: "Menu", image: UIImage(systemName: "menucard"), selectedImage: UIImage(systemName: "menucard.fill"))
-        appConfiguration.cartViewController.tabBarItem = UITabBarItem(title: "Cart", image:UIImage(systemName: "bag"), selectedImage: UIImage(systemName: "bag.fill"))
+        appConfiguration.menuViewController.tabBarItem = UITabBarItem(title: S.TabBarController.menuViewControllerTitle, image: UIImage(systemName: "menucard"), selectedImage: UIImage(systemName: "menucard.fill"))
+        appConfiguration.cartViewController.tabBarItem = UITabBarItem(title: S.TabBarController.cartViewControllerTitle, image:UIImage(systemName: "bag"), selectedImage: UIImage(systemName: "bag.fill"))
 
         viewControllers = [appConfiguration.menuViewController, appConfiguration.cartViewController]
 
