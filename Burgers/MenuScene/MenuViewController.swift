@@ -9,6 +9,11 @@ import UIKit
 
 class MenuViewController: UIViewController {
     // MARK: - Private Properties
+    private enum Section {
+        case news
+        case menu
+    }
+
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.text = S.MenuViewController.title
@@ -26,14 +31,17 @@ class MenuViewController: UIViewController {
         return collectionView
     }()
 
-    private let dataSource = ["Black", "Jack", "Steve", "Steak", "Blake", "Lewis", "Clark", "Greek", "Caesar", "Jucie", "Lemonade"]
+    private let menuDataSource = ["Black", "Jack", "Steve", "Steak", "Blake", "Lewis", "Clark", "Greek", "Caesar", "Jucie", "Lemonade"]
+    private let newsDataSource = ["New Burger", "New Lemonade", "2+1 on Friday", "Happy Hours", "New Steak"]
+    private let sections: [Section] = [.news, .menu]
 
 // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
-        configureLayout()
         collectionView.register(MenuItemCell.self)
+        collectionView.register(NewsItemCell.self)
+        configureLayout()
     }
 
     // MARK: - Private Methods
@@ -58,71 +66,69 @@ class MenuViewController: UIViewController {
 
 // MARK: - UICollectionViewDataSource
 extension MenuViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        sections.count
+    }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        dataSource.count
+        let section = sections[section]
+        switch section {
+        case .news:
+            return newsDataSource.count
+        case .menu:
+            return menuDataSource.count
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: MenuItemCell = collectionView.dequeReusableCell(indexPath: indexPath)
-        cell.configureCell(text: dataSource[indexPath.item])
-        return cell
+        let section = sections[indexPath.section]
+        switch section {
+        case .news:
+            let cell: NewsItemCell = collectionView.dequeueReusableCell(indexPath: indexPath)
+            cell.configureCell(text: newsDataSource[indexPath.item])
+            return cell
+        case .menu:
+            let cell: MenuItemCell = collectionView.dequeueReusableCell(indexPath: indexPath)
+            cell.configureCell(text: menuDataSource[indexPath.item])
+            return cell
+        }
     }
 }
 
 // MARK: - CompositionalLayout
 extension MenuViewController {
     private func generateCompositionalLayout() -> UICollectionViewCompositionalLayout {
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let layout = UICollectionViewCompositionalLayout { [weak self] (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            guard let self else { return nil }
+            let section = self.sections[sectionIndex]
 
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(150))
-            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            switch section {
+            case .news:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-            group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalWidth(1/2.5))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
-            let section = NSCollectionLayoutSection(group: group)
-            return section
+                group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 16, trailing: 16)
+
+                let section = NSCollectionLayoutSection(group: group)
+                section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+
+                return section
+            case .menu:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(150))
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+
+                group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
+
+                let section = NSCollectionLayoutSection(group: group)
+                return section
+            }
         }
         return layout
     }
-//    let layout1 = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection in
-//        let section = self.sections[sectionIndex]
-//
-//        switch section {
-//        case .news:
-//            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-//            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//
-//            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalWidth(1/2.5))
-//            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-//
-//            group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 16, trailing: 16)
-//
-//            let section = NSCollectionLayoutSection(group: group)
-//            section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-//
-//            return section
-//
-//        case .menu:
-//            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-//            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//
-//            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1/4))
-//            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-//
-//            group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
-//
-//            let section = NSCollectionLayoutSection(group: group)
-//
-//            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30))
-//            let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: "header", alignment: .top)
-//            headerItem.pinToVisibleBounds = true
-//            headerItem.zIndex = 2
-//
-//            section.boundarySupplementaryItems = [headerItem]
-//
-//            return section
-//        }
-//    }
 }

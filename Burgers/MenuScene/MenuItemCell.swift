@@ -21,7 +21,7 @@ final class MenuItemCell: UICollectionViewCell, ReuseIdentifying {
     private let title: UILabel = {
         let title = UILabel()
         title.font = UIFont.systemFont(ofSize: 22, weight: .black)
-        title.textColor = .label
+        title.textColor = .black
         title.translatesAutoresizingMaskIntoConstraints = false
         return title
     }()
@@ -29,7 +29,7 @@ final class MenuItemCell: UICollectionViewCell, ReuseIdentifying {
     private let priceLabel: UILabel = {
         let priceLabel = UILabel()
         priceLabel.font = UIFont.systemFont(ofSize: 18, weight: .thin)
-        priceLabel.textColor = .label
+        priceLabel.textColor = .black
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
         return priceLabel
     }()
@@ -38,7 +38,7 @@ final class MenuItemCell: UICollectionViewCell, ReuseIdentifying {
         let menuDescription = UILabel()
         menuDescription.font = UIFont.systemFont(ofSize: 11, weight: .light)
         menuDescription.numberOfLines = 2
-        menuDescription.textColor = .label
+        menuDescription.textColor = .black
         menuDescription.translatesAutoresizingMaskIntoConstraints = false
         return menuDescription
     }()

@@ -37,9 +37,9 @@ final class CustomButton: UIButton {
     }
 
     private func configure(title: String) {
-        backgroundColor = .label
+        backgroundColor = .black
         setTitle(title, for: .normal)
-        setTitleColor(.systemBackground, for: .normal)
+        setTitleColor(.white, for: .normal)
         layer.cornerRadius = 5
         layer.masksToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
