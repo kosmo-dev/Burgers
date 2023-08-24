@@ -15,5 +15,6 @@ struct S {
 
     struct MenuViewController {
         static let title = "BURGERS"
+        static let chooseButtonTitle = "Choose"
     }
 }
