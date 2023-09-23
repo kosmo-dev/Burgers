@@ -248,6 +248,15 @@
 			path = TabBarController;
 			sourceTree = "<group>";
 		};
+		3DEBBCC62ABE816400406F80 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				3D4CC1A12A95F3A300C71EC1 /* MenuScene */,
+				3D4CC1A22A95F3B700C71EC1 /* CartScene */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
 		3DED087B28EE05CC000DEA5D = {
 			isa = PBXGroup;
 			children = (
@@ -275,8 +284,7 @@
 				3DED088928EE05CC000DEA5D /* SceneDelegate.swift */,
 				3D4CC19F2A95F21200C71EC1 /* AppConfiguration.swift */,
 				3DE3D2952A868B6000394BEB /* TabBarController */,
-				3D4CC1A12A95F3A300C71EC1 /* MenuScene */,
-				3D4CC1A22A95F3B700C71EC1 /* CartScene */,
+				3DEBBCC62ABE816400406F80 /* Scenes */,
 				3D5D9A1C28F2C613006B8E78 /* Service */,
 				3D5D9A1B28F2C546006B8E78 /* Controller */,
 				3D5D9A1A28F2C541006B8E78 /* View */,
