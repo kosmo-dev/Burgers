@@ -6,14 +6,10 @@
 //
 
 import UIKit
+import Combine
 
 class MenuViewController: UIViewController {
     // MARK: - Private Properties
-    private enum Section {
-        case news
-        case menu
-    }
-
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.text = S.MenuViewController.title
@@ -31,17 +27,35 @@ class MenuViewController: UIViewController {
         return collectionView
     }()
 
-    private let menuDataSource = ["Black", "Jack", "Steve", "Steak", "Blake", "Lewis", "Clark", "Greek", "Caesar", "Jucie", "Lemonade"]
-    private let newsDataSource = ["New Burger", "New Lemonade", "2+1 on Friday", "Happy Hours", "New Steak"]
-    private let sections: [Section] = [.news, .menu]
+    private var viewModel: MenuViewModelProtocol
 
-// MARK: - View Life Cycle
+    private var menuDataSourceSubscriber: AnyCancellable?
+    private var newsDataSourceSubscriber: AnyCancellable?
+    private var sectionsSubscriber: AnyCancellable?
+
+    private var menuDataSource: [String] = []
+    private var newsDataSource: [String] = []
+    private var sections: [MenuViewModel.Section] = []
+
+    // MARK: - Initializers
+    init(viewModel: MenuViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.register(MenuItemCell.self)
         collectionView.register(NewsItemCell.self)
         configureLayout()
+        setSubscriptions()
+        viewModel.viewDidLoad()
     }
 
     // MARK: - Private Methods
@@ -61,6 +75,23 @@ class MenuViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+
+    private func setSubscriptions() {
+        menuDataSourceSubscriber = viewModel.menuDataSourcePublisher.sink { [weak self] menu in
+            self?.menuDataSource = menu
+            self?.collectionView.reloadData()
+        }
+
+        newsDataSourceSubscriber = viewModel.newsDataSourcePublisher.sink { [weak self] news in
+            self?.newsDataSource = news
+            self?.collectionView.reloadData()
+        }
+
+        sectionsSubscriber = viewModel.sectionsPublisher.sink { [weak self] sections in
+            self?.sections = sections
+            self?.collectionView.reloadData()
+        }
     }
 }
 
@@ -89,7 +120,7 @@ extension MenuViewController: UICollectionViewDataSource {
             return cell
         case .menu:
             let cell: MenuItemCell = collectionView.dequeueReusableCell(indexPath: indexPath)
-            cell.configureCell(text: menuDataSource[indexPath.item])
+            cell.configureCell(text: menuDataSource[indexPath.row])
             return cell
         }
     }
@@ -99,8 +130,7 @@ extension MenuViewController: UICollectionViewDataSource {
 extension MenuViewController {
     private func generateCompositionalLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            guard let self else { return nil }
-            let section = self.sections[sectionIndex]
+            guard let section = self?.sections[sectionIndex] else { return nil }
 
             switch section {
             case .news:

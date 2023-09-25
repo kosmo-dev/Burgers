@@ -12,7 +12,8 @@ final class AppConfiguration {
     let cartViewController: UIViewController
 
     init() {
-        menuViewController = MenuViewController()
+        let menuViewModel = MenuViewModel()
+        menuViewController = MenuViewController(viewModel: menuViewModel)
         cartViewController = CartViewController()
     }
 }
