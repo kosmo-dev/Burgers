@@ -16,13 +16,13 @@ protocol MenuViewModelProtocol {
 }
 
 final class MenuViewModel: MenuViewModelProtocol {
-    @Published private var menuDataSource: [String] = []
-    @Published private var newsDataSource: [String] = []
-    @Published private var sections: [Section] = []
-
     var menuDataSourcePublisher: Published<[String]>.Publisher { $menuDataSource }
     var newsDataSourcePublisher: Published<[String]>.Publisher { $newsDataSource }
     var sectionsPublisher: Published<[Section]>.Publisher { $sections }
+    
+    @Published private var menuDataSource: [String] = []
+    @Published private var newsDataSource: [String] = []
+    @Published private var sections: [Section] = []
 
     func viewDidLoad() {
         menuDataSource = ["Black", "Jack", "Steve", "Steak", "Blake", "Lewis", "Clark", "Greek", "Caesar", "Jucie", "Lemonade"]

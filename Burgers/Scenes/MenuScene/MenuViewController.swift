@@ -50,20 +50,23 @@ class MenuViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.dataSource = self
-        collectionView.register(MenuItemCell.self)
-        collectionView.register(NewsItemCell.self)
+        configureCollectionView()
         configureLayout()
         setSubscriptions()
         viewModel.viewDidLoad()
     }
 
     // MARK: - Private Methods
+    private func configureCollectionView() {
+        collectionView.dataSource = self
+        collectionView.register(MenuItemCell.self)
+        collectionView.register(NewsItemCell.self)
+    }
+
     private func configureLayout() {
         view.backgroundColor = .white
         view.addSubview(titleLabel)
         view.addSubview(collectionView)
-
 
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
