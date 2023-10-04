@@ -38,6 +38,8 @@
 		3DAF696429891E9C00EABAB9 /* ItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF696329891E9C00EABAB9 /* ItemsFactory.swift */; };
 		3DAF696A2989340700EABAB9 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF69692989340700EABAB9 /* AlertPresenter.swift */; };
 		3DAF696C2989343400EABAB9 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF696B2989343400EABAB9 /* AlertModel.swift */; };
+		3DCAD96B2AC1C76700AE6C50 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCAD96A2AC1C76700AE6C50 /* NetworkClient.swift */; };
+		3DCAD96D2AC1C7C000AE6C50 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCAD96C2AC1C7C000AE6C50 /* NetworkRequest.swift */; };
 		3DE3D2942A868B5600394BEB /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE3D2932A868B5600394BEB /* TabBarController.swift */; };
 		3DEBBCC82ABE845400406F80 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEBBCC72ABE845400406F80 /* MenuViewModel.swift */; };
 		3DED088828EE05CC000DEA5D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DED088728EE05CC000DEA5D /* AppDelegate.swift */; };
@@ -103,6 +105,8 @@
 		3DAF696329891E9C00EABAB9 /* ItemsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsFactory.swift; sourceTree = "<group>"; };
 		3DAF69692989340700EABAB9 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		3DAF696B2989343400EABAB9 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
+		3DCAD96A2AC1C76700AE6C50 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
+		3DCAD96C2AC1C7C000AE6C50 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		3DE3D2932A868B5600394BEB /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		3DEBBCC72ABE845400406F80 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		3DED088428EE05CC000DEA5D /* Burgers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Burgers.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -217,6 +221,7 @@
 		3D5D9A1C28F2C613006B8E78 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				3DCAD9692AC1C75300AE6C50 /* Network */,
 				3DED08A528EE28CB000DEA5D /* APIService.swift */,
 				3DED089F28EE15F8000DEA5D /* APIRequest.swift */,
 				3D448EBC2901AF4D00AF3A21 /* ArrayExtension.swift */,
@@ -241,6 +246,15 @@
 				3D5D9A4928F5FED8006B8E78 /* BurgersAPITests.swift */,
 			);
 			path = BurgersAPITests;
+			sourceTree = "<group>";
+		};
+		3DCAD9692AC1C75300AE6C50 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				3DCAD96A2AC1C76700AE6C50 /* NetworkClient.swift */,
+				3DCAD96C2AC1C7C000AE6C50 /* NetworkRequest.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		3DE3D2952A868B6000394BEB /* TabBarController */ = {
@@ -460,6 +474,7 @@
 				3D5D9A5F28F93486006B8E78 /* ImageController.swift in Sources */,
 				3D1E810628FBD70B00F2EF9D /* Order.swift in Sources */,
 				3DED088828EE05CC000DEA5D /* AppDelegate.swift in Sources */,
+				3DCAD96B2AC1C76700AE6C50 /* NetworkClient.swift in Sources */,
 				3DED08A628EE28CB000DEA5D /* APIService.swift in Sources */,
 				3D4CC1A62A95F3DB00C71EC1 /* CartViewController.swift in Sources */,
 				3D4CC1A42A95F3CD00C71EC1 /* MenuViewController.swift in Sources */,
@@ -485,6 +500,7 @@
 				3DED08A428EE165D000DEA5D /* MenuItemCollectionViewCell.swift in Sources */,
 				3DED088A28EE05CC000DEA5D /* SceneDelegate.swift in Sources */,
 				3DE3D2942A868B5600394BEB /* TabBarController.swift in Sources */,
+				3DCAD96D2AC1C7C000AE6C50 /* NetworkRequest.swift in Sources */,
 				3D6D06AE2900375C00EAB19A /* CustomButton.swift in Sources */,
 				3DED08A028EE15F8000DEA5D /* APIRequest.swift in Sources */,
 				3D5D9A1E28F2C7EF006B8E78 /* NewsItem.swift in Sources */,
@@ -748,7 +764,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -779,7 +795,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
