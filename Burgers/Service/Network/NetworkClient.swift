@@ -40,7 +40,14 @@ struct NetworkClient {
 
     func send<T:Decodable>(request: NetworkRequest, type: T.Type) -> AnyPublisher<T, Error> {
         return send(request: request)
-            .decode(type: type, decoder: decoder)
+            .tryMap({ data in
+                do {
+                    let menu = try decoder.decode(type, from: data)
+                    return menu
+                } catch {
+                    throw NetworkClientError.parsingError
+                }
+            })
             .eraseToAnyPublisher()
     }
 

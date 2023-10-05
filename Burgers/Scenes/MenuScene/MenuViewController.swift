@@ -33,8 +33,8 @@ class MenuViewController: UIViewController {
     private var newsDataSourceSubscriber: AnyCancellable?
     private var sectionsSubscriber: AnyCancellable?
 
-    private var menuDataSource: [String] = []
-    private var newsDataSource: [String] = []
+    private var menuDataSource: [MenuItem] = []
+    private var newsDataSource: [NewsItem] = []
     private var sections: [MenuViewModel.Section] = []
 
     // MARK: - Initializers
@@ -119,11 +119,11 @@ extension MenuViewController: UICollectionViewDataSource {
         switch section {
         case .news:
             let cell: NewsItemCell = collectionView.dequeueReusableCell(indexPath: indexPath)
-            cell.configureCell(text: newsDataSource[indexPath.item])
+            cell.configureCell(text: newsDataSource[indexPath.item].name)
             return cell
         case .menu:
             let cell: MenuItemCell = collectionView.dequeueReusableCell(indexPath: indexPath)
-            cell.configureCell(text: menuDataSource[indexPath.row])
+            cell.configureCell(text: menuDataSource[indexPath.row].name)
             return cell
         }
     }
