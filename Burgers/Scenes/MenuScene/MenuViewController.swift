@@ -28,7 +28,6 @@ class MenuViewController: UIViewController {
     }()
 
     private var viewModel: MenuViewModelProtocol
-
     private var cancellables: Set<AnyCancellable> = []
 
     // MARK: - Initializers
@@ -76,20 +75,6 @@ class MenuViewController: UIViewController {
     }
 
     private func setSubscriptions() {
-//        menuDataSourceSubscriber = viewModel.menuDataSourcePublisher.sink { [weak self] menu in
-//            self?.menuDataSource = menu
-//            self?.collectionView.reloadData()
-//        }
-//
-//        newsDataSourceSubscriber = viewModel.newsDataSourcePublisher.sink { [weak self] news in
-//            self?.newsDataSource = news
-//            self?.collectionView.reloadData()
-//        }
-//
-//        sectionsSubscriber = viewModel.sectionsPublisher.sink { [weak self] sections in
-//            self?.sections = sections
-//            self?.collectionView.reloadData()
-//        }
         viewModel.menuDataSourcePublisher.sink { [weak self] _ in
             self?.collectionView.reloadData()
         }
@@ -132,7 +117,13 @@ extension MenuViewController: UICollectionViewDataSource {
         switch section {
         case .news:
             let cell: NewsItemCell = collectionView.dequeueReusableCell(indexPath: indexPath)
-            cell.configureCell(text: viewModel.news[indexPath.item].name)
+            let news = viewModel.news[indexPath.row]
+            
+            cell.imageCancellable = viewModel.fetchImage(for: news.photoURL)
+                .sink(receiveValue: { image in
+                    cell.assignImage(image)
+                })
+            cell.configureCell(text: news.name)
             return cell
         case .menu:
             let cell: MenuItemCell = collectionView.dequeueReusableCell(indexPath: indexPath)
@@ -150,9 +141,6 @@ extension MenuViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension MenuViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        
-    }
 }
 
 // MARK: - CompositionalLayout

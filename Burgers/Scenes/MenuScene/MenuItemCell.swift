@@ -101,7 +101,7 @@ final class MenuItemCell: UICollectionViewCell, ReuseIdentifying {
             menuImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             menuImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
 
-            verticalStackView.widthAnchor.constraint(equalTo: menuImageView.widthAnchor, multiplier: 0.8),
+            menuImageView.widthAnchor.constraint(equalTo: verticalStackView.widthAnchor, multiplier: 0.8),
             chooseButton.widthAnchor.constraint(equalTo: verticalStackView.widthAnchor, multiplier: 0.5)
         ])
     }
