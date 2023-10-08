@@ -29,13 +29,7 @@ class MenuViewController: UIViewController {
 
     private var viewModel: MenuViewModelProtocol
 
-    private var menuDataSourceSubscriber: AnyCancellable?
-    private var newsDataSourceSubscriber: AnyCancellable?
-    private var sectionsSubscriber: AnyCancellable?
-
-    private var menuDataSource: [MenuItem] = []
-    private var newsDataSource: [NewsItem] = []
-    private var sections: [MenuViewModel.Section] = []
+    private var cancellables: Set<AnyCancellable> = []
 
     // MARK: - Initializers
     init(viewModel: MenuViewModelProtocol) {
@@ -59,6 +53,7 @@ class MenuViewController: UIViewController {
     // MARK: - Private Methods
     private func configureCollectionView() {
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.register(MenuItemCell.self)
         collectionView.register(NewsItemCell.self)
     }
@@ -81,51 +76,82 @@ class MenuViewController: UIViewController {
     }
 
     private func setSubscriptions() {
-        menuDataSourceSubscriber = viewModel.menuDataSourcePublisher.sink { [weak self] menu in
-            self?.menuDataSource = menu
+//        menuDataSourceSubscriber = viewModel.menuDataSourcePublisher.sink { [weak self] menu in
+//            self?.menuDataSource = menu
+//            self?.collectionView.reloadData()
+//        }
+//
+//        newsDataSourceSubscriber = viewModel.newsDataSourcePublisher.sink { [weak self] news in
+//            self?.newsDataSource = news
+//            self?.collectionView.reloadData()
+//        }
+//
+//        sectionsSubscriber = viewModel.sectionsPublisher.sink { [weak self] sections in
+//            self?.sections = sections
+//            self?.collectionView.reloadData()
+//        }
+        viewModel.menuDataSourcePublisher.sink { [weak self] _ in
             self?.collectionView.reloadData()
         }
+        .store(in: &cancellables)
 
-        newsDataSourceSubscriber = viewModel.newsDataSourcePublisher.sink { [weak self] news in
-            self?.newsDataSource = news
+        viewModel.newsDataSourcePublisher.sink { [weak self] _ in
             self?.collectionView.reloadData()
         }
+        .store(in: &cancellables)
 
-        sectionsSubscriber = viewModel.sectionsPublisher.sink { [weak self] sections in
-            self?.sections = sections
+        viewModel.sectionsPublisher.sink { [weak self] _ in
             self?.collectionView.reloadData()
         }
+        .store(in: &cancellables)
+    }
+
+    private func makeMenuCellModel(_ menuItem: MenuItem) -> MenuCellModel {
+        return MenuCellModel(id: menuItem.id, name: menuItem.name, photoURL: menuItem.photoURL, photoCompressedURL: menuItem.photoCompressedURL, price: menuItem.price, type: menuItem.type, menuItemDescription: menuItem.menuItemDescription)
     }
 }
 
 // MARK: - UICollectionViewDataSource
 extension MenuViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        sections.count
+        viewModel.sections.count
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let section = sections[section]
+        let section = viewModel.sections[section]
         switch section {
         case .news:
-            return newsDataSource.count
+            return viewModel.news.count
         case .menu:
-            return menuDataSource.count
+            return viewModel.menu.count
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = sections[indexPath.section]
+        let section = viewModel.sections[indexPath.section]
         switch section {
         case .news:
             let cell: NewsItemCell = collectionView.dequeueReusableCell(indexPath: indexPath)
-            cell.configureCell(text: newsDataSource[indexPath.item].name)
+            cell.configureCell(text: viewModel.news[indexPath.item].name)
             return cell
         case .menu:
             let cell: MenuItemCell = collectionView.dequeueReusableCell(indexPath: indexPath)
-            cell.configureCell(text: menuDataSource[indexPath.row].name)
+            let cellModel = makeMenuCellModel(viewModel.menu[indexPath.row])
+
+            cell.imageCancellable = viewModel.fetchImage(for: cellModel.photoCompressedURL)
+                .sink(receiveValue: { image in
+                    cell.assignImage(image)
+                })
+            cell.configureCell(cellModel)
             return cell
         }
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+extension MenuViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
     }
 }
 
@@ -133,7 +159,7 @@ extension MenuViewController: UICollectionViewDataSource {
 extension MenuViewController {
     private func generateCompositionalLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            guard let section = self?.sections[sectionIndex] else { return nil }
+            guard let section = self?.viewModel.sections[sectionIndex] else { return nil }
 
             switch section {
             case .news:

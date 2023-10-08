@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import UIKit
 
 enum NetworkClientError: Error {
     case httpStatusCode(Int)
@@ -16,7 +17,12 @@ enum NetworkClientError: Error {
     case badUrlRequest
 }
 
-struct NetworkClient {
+protocol NetworkClientProtocol {
+    func send<T:Decodable>(_ type: T.Type, request: NetworkRequest) -> AnyPublisher<T, Error>
+    func fetchImage(_ urlString: String) -> AnyPublisher<UIImage?, Error>
+}
+
+struct NetworkClient: NetworkClientProtocol {
     private let session: URLSession
     private let decoder: JSONDecoder
     private let encoder: JSONEncoder
@@ -28,26 +34,24 @@ struct NetworkClient {
         self.decoder = decoder
         self.encoder = encoder
     }
-
-    func send(request: NetworkRequest) -> AnyPublisher<Data, Error>  {
+    
+    func send<T:Decodable>(_ type: T.Type, request: NetworkRequest) -> AnyPublisher<T, Error> {
         guard let urlRequest = create(request: request) else {
             return Fail(error: NetworkClientError.badUrlRequest).eraseToAnyPublisher()
         }
         return session.dataTaskPublisher(for: urlRequest)
-            .tryMap { try handleResponse(data: $0.data, response: $0.response) }
+            .map(\.data)
+            .decode(type: type, decoder: decoder)
             .eraseToAnyPublisher()
     }
 
-    func send<T:Decodable>(request: NetworkRequest, type: T.Type) -> AnyPublisher<T, Error> {
-        return send(request: request)
-            .tryMap({ data in
-                do {
-                    let menu = try decoder.decode(type, from: data)
-                    return menu
-                } catch {
-                    throw NetworkClientError.parsingError
-                }
-            })
+    func fetchImage(_ urlString: String) -> AnyPublisher<UIImage?, Error> {
+        guard let url = URL(string: urlString) else {
+            return Fail(error: NetworkClientError.badUrlRequest).eraseToAnyPublisher()
+        }
+        return session.dataTaskPublisher(for: url)
+            .map { UIImage(data: $0.data) }
+            .catch { _ in Fail(error: NetworkClientError.parsingError) }
             .eraseToAnyPublisher()
     }
 

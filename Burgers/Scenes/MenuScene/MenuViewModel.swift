@@ -7,35 +7,46 @@
 
 import Foundation
 import Combine
+import UIKit
 
 protocol MenuViewModelProtocol {
+    var menu: [MenuItem] { get }
+    var news: [NewsItem] { get }
+    var sections: [MenuViewModel.Section] { get }
+
     var menuDataSourcePublisher: Published<[MenuItem]>.Publisher { get }
     var newsDataSourcePublisher: Published<[NewsItem]>.Publisher { get }
     var sectionsPublisher: Published<[MenuViewModel.Section]>.Publisher { get }
 
     func viewDidLoad()
+    func fetchImage(for urlString: String) -> AnyPublisher<UIImage?, Never>
 }
 
 final class MenuViewModel: MenuViewModelProtocol {
-    var menuDataSourcePublisher: Published<[MenuItem]>.Publisher { $menuDataSource }
-    var newsDataSourcePublisher: Published<[NewsItem]>.Publisher { $newsDataSource }
-    var sectionsPublisher: Published<[Section]>.Publisher { $sections }
-    
-    @Published private var menuDataSource: [MenuItem] = []
-    @Published private var newsDataSource: [NewsItem] = []
-    @Published private var sections: [Section] = []
+    @Published var menu: [MenuItem] = []
+    @Published var news: [NewsItem] = []
+    @Published var sections: [Section] = []
 
-    var menuCancellable: AnyCancellable?
-    var newsCancellable: AnyCancellable?
+    var menuDataSourcePublisher: Published<[MenuItem]>.Publisher { $menu }
+    var newsDataSourcePublisher: Published<[NewsItem]>.Publisher { $news }
+    var sectionsPublisher: Published<[Section]>.Publisher { $sections }
+
+    private var cancellables: Set<AnyCancellable> = []
+
+    let networkClient: NetworkClientProtocol
+    let imageLoader: ImageLoaderProtocol
     let menuRequest = MenuRequest()
     let newsRequest = NewsRequest()
-    let client = NetworkClient()
+
+    init(networkClient: NetworkClientProtocol, imageLoader: ImageLoaderProtocol) {
+        self.networkClient = networkClient
+        self.imageLoader = imageLoader
+    }
 
     func viewDidLoad() {
         sections = [.news, .menu]
 
-        menuCancellable = client
-            .send(request: menuRequest, type: [String: MenuItem].self)
+        networkClient.send([String: MenuItem].self, request: menuRequest)
             .map { items in
                 var menu: [MenuItem] = []
                 items.forEach { menu.append($0.value) }
@@ -43,21 +54,38 @@ final class MenuViewModel: MenuViewModelProtocol {
                 return menu
             }
             .receive(on: DispatchQueue.main)
-            .replaceError(with: [])
-            .sink(receiveValue: { [weak self] menu in
-                self?.menuDataSource = menu
-            })
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    print("Completed")
+                case .failure(let error):
+                    print("Failed with error: \(error)")
+                }
+            } receiveValue: { [weak self] menu in
+                self?.menu = menu
+            }
+            .store(in: &cancellables)
 
-        newsCancellable = client
-            .send(request: newsRequest, type: [NewsItem].self)
+        networkClient.send([NewsItem].self, request: newsRequest)
             .map { news in
                 return news.sorted(by: { $0.id < $1.id })
             }
             .receive(on: DispatchQueue.main)
-            .replaceError(with: [])
-            .sink(receiveValue: { [weak self] news in
-                self?.newsDataSource = news
-            })
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    print("Completed")
+                case .failure(let error):
+                    print("Failed with error: \(error)")
+                }
+            } receiveValue: { [weak self] news in
+                self?.news = news
+            }
+            .store(in: &cancellables)
+    }
+
+    func fetchImage(for urlString: String) -> AnyPublisher<UIImage?, Never> {
+        imageLoader.fetchImage(from: urlString)
     }
 }
 
@@ -67,12 +95,4 @@ extension MenuViewModel {
         case news
         case menu
     }
-}
-
-struct MenuRequest: NetworkRequest {
-    var endpoint: URL? = URL(string: "https://burgers-ae4c1-default-rtdb.europe-west1.firebasedatabase.app/menu.json")
-}
-
-struct NewsRequest: NetworkRequest {
-    var endpoint: URL? = URL(string: "https://burgers-ae4c1-default-rtdb.europe-west1.firebasedatabase.app/news.json")
 }
