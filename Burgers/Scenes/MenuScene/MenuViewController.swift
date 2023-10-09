@@ -55,6 +55,7 @@ class MenuViewController: UIViewController {
         collectionView.delegate = self
         collectionView.register(MenuItemCell.self)
         collectionView.register(NewsItemCell.self)
+        collectionView.register(HeaderView.self, kind: "Header")
     }
 
     private func configureLayout() {
@@ -90,10 +91,6 @@ class MenuViewController: UIViewController {
         }
         .store(in: &cancellables)
     }
-
-    private func makeMenuCellModel(_ menuItem: MenuItem) -> MenuCellModel {
-        return MenuCellModel(id: menuItem.id, name: menuItem.name, photoURL: menuItem.photoURL, photoCompressedURL: menuItem.photoCompressedURL, price: menuItem.price, type: menuItem.type, menuItemDescription: menuItem.menuItemDescription)
-    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -109,6 +106,16 @@ extension MenuViewController: UICollectionViewDataSource {
             return viewModel.news.count
         case .menu:
             return viewModel.menu.count
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let section = viewModel.sections[indexPath.section]
+        if section == .menu {
+            let view: HeaderView = collectionView.dequeueReusableView(indexPath: indexPath, kind: "Header")
+            return view
+        } else {
+            return UICollectionReusableView()
         }
     }
 
@@ -136,6 +143,10 @@ extension MenuViewController: UICollectionViewDataSource {
             cell.configureCell(cellModel)
             return cell
         }
+    }
+
+    private func makeMenuCellModel(_ menuItem: MenuItem) -> MenuCellModel {
+        return MenuCellModel(id: menuItem.id, name: menuItem.name, photoURL: menuItem.photoURL, photoCompressedURL: menuItem.photoCompressedURL, price: menuItem.price, type: menuItem.type, menuItemDescription: menuItem.menuItemDescription)
     }
 }
 
@@ -173,6 +184,12 @@ extension MenuViewController {
                 group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
 
                 let section = NSCollectionLayoutSection(group: group)
+
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30))
+                let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: "Header", alignment: .top)
+                header.pinToVisibleBounds = true
+
+                section.boundarySupplementaryItems = [header]
                 return section
             }
         }

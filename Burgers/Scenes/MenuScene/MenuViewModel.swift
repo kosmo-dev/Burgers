@@ -5,9 +5,8 @@
 //  Created by Вадим Кузьмин on 23.09.2023.
 //
 
-import Foundation
-import Combine
 import UIKit
+import Combine
 
 protocol MenuViewModelProtocol {
     var menu: [MenuItem] { get }
