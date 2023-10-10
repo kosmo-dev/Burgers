@@ -1,13 +1,13 @@
 //
-//  HeaderView.swift
+//  HeaderCell.swift
 //  Burgers
 //
-//  Created by Вадим Кузьмин on 08.10.2023.
+//  Created by Вадим Кузьмин on 10.10.2023.
 //
 
 import UIKit
 
-final class HeaderView: UICollectionReusableView, ReuseIdentifying {
+final class HeaderCell: UICollectionViewCell, ReuseIdentifying {
     private let label: UILabel = {
         let label = UILabel()
         label.text = "Header"
@@ -24,9 +24,13 @@ final class HeaderView: UICollectionReusableView, ReuseIdentifying {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func configureCell(text: String) {
+        label.text = text
+    }
+
     private func configureLayout() {
         backgroundColor = .white
-        
+
         addSubview(label)
 
         NSLayoutConstraint.activate([
@@ -36,8 +40,4 @@ final class HeaderView: UICollectionReusableView, ReuseIdentifying {
             label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
         ])
     }
-}
-
-#Preview {
-    HeaderView()
 }
