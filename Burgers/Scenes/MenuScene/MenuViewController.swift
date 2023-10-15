@@ -29,6 +29,7 @@ class MenuViewController: UIViewController {
 
     private var viewModel: MenuViewModelProtocol
     private var cancellables: Set<AnyCancellable> = []
+    private var headerView: HeaderView?
 
     // MARK: - Initializers
     init(viewModel: MenuViewModelProtocol) {
@@ -113,6 +114,7 @@ extension MenuViewController: UICollectionViewDataSource {
         let section = viewModel.sections[indexPath.section]
         if section == .menu {
             let view: HeaderView = collectionView.dequeueReusableView(indexPath: indexPath, kind: "Header")
+            headerView = view
             return view
         } else {
             return UICollectionReusableView()
@@ -152,6 +154,16 @@ extension MenuViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension MenuViewController: UICollectionViewDelegate {
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let headerViewHeight: CGFloat = 40
+//        let visibleRect = CGRect(origin: collectionView.contentOffset, size: collectionView.bounds.size)
+//        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.minY + headerViewHeight)
+//        guard let visibleIndexPath = collectionView.indexPathForItem(at: visiblePoint) else {return}
+//        print(visibleIndexPath)
+//        guard visibleIndexPath.section == 1 else { return }
+//        let scrollIndexPath = IndexPath(item: visibleIndexPath.item, section: 0)
+//        headerView?.collectionView.scrollToItem(at: scrollIndexPath, at: .left, animated: true)
+//    }
 }
 
 // MARK: - CompositionalLayout
@@ -185,7 +197,7 @@ extension MenuViewController {
 
                 let section = NSCollectionLayoutSection(group: group)
 
-                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30))
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(40))
                 let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: "Header", alignment: .top)
                 header.pinToVisibleBounds = true
 

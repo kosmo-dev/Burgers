@@ -11,6 +11,7 @@ final class HeaderCell: UICollectionViewCell, ReuseIdentifying {
     private let label: UILabel = {
         let label = UILabel()
         label.text = "Header"
+        label.font = UIFont.systemFont(ofSize: 22, weight: .black)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -35,8 +36,8 @@ final class HeaderCell: UICollectionViewCell, ReuseIdentifying {
 
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            label.leadingAnchor.constraint(equalTo: leadingAnchor),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor),
             label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
         ])
     }

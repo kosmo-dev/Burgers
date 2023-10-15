@@ -8,7 +8,7 @@
 import UIKit
 
 final class HeaderView: UICollectionReusableView, ReuseIdentifying {
-    private lazy var collectionView: UICollectionView = {
+    lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: generateCompositionalLayout())
         collectionView.backgroundColor = .white
         collectionView.showsVerticalScrollIndicator = false
@@ -22,13 +22,6 @@ final class HeaderView: UICollectionReusableView, ReuseIdentifying {
         super.init(frame: frame)
         configureLayout()
         configureCollectionView()
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.collectionView.scrollToItem(at: IndexPath(item: 5, section: 0), at: .right, animated: true)
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
-            self.collectionView.scrollToItem(at: IndexPath(item: 1, section: 0), at: .right, animated: true)
-        }
     }
 
     required init?(coder: NSCoder) {
@@ -42,8 +35,8 @@ final class HeaderView: UICollectionReusableView, ReuseIdentifying {
 
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
@@ -54,14 +47,15 @@ final class HeaderView: UICollectionReusableView, ReuseIdentifying {
     }
 
     private func generateCompositionalLayout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(50), heightDimension: .fractionalHeight(1))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(50), heightDimension: .estimated(40))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(50), heightDimension: .fractionalHeight(1))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .paging
+        section.interGroupSpacing = 8
+        section.orthogonalScrollingBehavior = .continuous
         return UICollectionViewCompositionalLayout(section: section)
     }
 }
