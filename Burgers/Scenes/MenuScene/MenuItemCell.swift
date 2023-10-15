@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import Combine
 
 final class MenuItemCell: UICollectionViewCell, ReuseIdentifying {
+    var imageCancellable: AnyCancellable?
+    
     // MARK: - Private properties
     private let verticalStackView: UIStackView = {
         let verticalStackView = UIStackView()
@@ -68,10 +71,19 @@ final class MenuItemCell: UICollectionViewCell, ReuseIdentifying {
     }
 
     // MARK: - Public methods
-    func configureCell(text: String) {
-        title.text = text
-        priceLabel.text = "500 P"
-        menuDescription.text = "Loren ipsum dolor set ami, loren ipsum dolor set ami"
+    func configureCell(_ menuCellModel: MenuCellModel) {
+        title.text = menuCellModel.name
+        priceLabel.text = "\(menuCellModel.price) P"
+        menuDescription.text = menuCellModel.menuItemDescription
+    }
+
+    func assignImage(_ image: UIImage?) {
+        menuImageView.image = image
+    }
+
+    override func prepareForReuse() {
+        menuImageView.image = UIImage(systemName: "photo")
+        imageCancellable?.cancel()
     }
 
     // MARK: - Private methods
@@ -89,7 +101,7 @@ final class MenuItemCell: UICollectionViewCell, ReuseIdentifying {
             menuImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             menuImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
 
-            verticalStackView.widthAnchor.constraint(equalTo: menuImageView.widthAnchor, multiplier: 0.8),
+            menuImageView.widthAnchor.constraint(equalTo: verticalStackView.widthAnchor, multiplier: 0.8),
             chooseButton.widthAnchor.constraint(equalTo: verticalStackView.widthAnchor, multiplier: 0.5)
         ])
     }
@@ -98,3 +110,10 @@ final class MenuItemCell: UICollectionViewCell, ReuseIdentifying {
         print("Button tapped")
     }
 }
+
+#Preview(body: {
+    let cell = MenuItemCell()
+    let cellModel = MenuCellModel(id: 0, name: "Burger", photoURL: "", photoCompressedURL: "", price: 500, type: "Burger", menuItemDescription: "Lorem ipsum dolor set ami")
+    cell.configureCell(cellModel)
+    return cell
+})

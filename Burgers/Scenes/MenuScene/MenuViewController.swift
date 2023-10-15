@@ -6,14 +6,10 @@
 //
 
 import UIKit
+import Combine
 
 class MenuViewController: UIViewController {
     // MARK: - Private Properties
-    private enum Section {
-        case news
-        case menu
-    }
-
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.text = S.MenuViewController.title
@@ -31,25 +27,42 @@ class MenuViewController: UIViewController {
         return collectionView
     }()
 
-    private let menuDataSource = ["Black", "Jack", "Steve", "Steak", "Blake", "Lewis", "Clark", "Greek", "Caesar", "Jucie", "Lemonade"]
-    private let newsDataSource = ["New Burger", "New Lemonade", "2+1 on Friday", "Happy Hours", "New Steak"]
-    private let sections: [Section] = [.news, .menu]
+    private var viewModel: MenuViewModelProtocol
+    private var cancellables: Set<AnyCancellable> = []
+    private var headerView: HeaderView?
 
-// MARK: - View Life Cycle
+    // MARK: - Initializers
+    init(viewModel: MenuViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.dataSource = self
-        collectionView.register(MenuItemCell.self)
-        collectionView.register(NewsItemCell.self)
+        configureCollectionView()
         configureLayout()
+        setSubscriptions()
+        viewModel.viewDidLoad()
     }
 
     // MARK: - Private Methods
+    private func configureCollectionView() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(MenuItemCell.self)
+        collectionView.register(NewsItemCell.self)
+        collectionView.register(HeaderView.self, kind: "Header")
+    }
+
     private func configureLayout() {
         view.backgroundColor = .white
         view.addSubview(titleLabel)
         view.addSubview(collectionView)
-
 
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
@@ -62,45 +75,102 @@ class MenuViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+
+    private func setSubscriptions() {
+        viewModel.menuDataSourcePublisher.sink { [weak self] _ in
+            self?.collectionView.reloadData()
+        }
+        .store(in: &cancellables)
+
+        viewModel.newsDataSourcePublisher.sink { [weak self] _ in
+            self?.collectionView.reloadData()
+        }
+        .store(in: &cancellables)
+
+        viewModel.sectionsPublisher.sink { [weak self] _ in
+            self?.collectionView.reloadData()
+        }
+        .store(in: &cancellables)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
 extension MenuViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        sections.count
+        viewModel.sections.count
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let section = sections[section]
+        let section = viewModel.sections[section]
         switch section {
         case .news:
-            return newsDataSource.count
+            return viewModel.news.count
         case .menu:
-            return menuDataSource.count
+            return viewModel.menu.count
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let section = viewModel.sections[indexPath.section]
+        if section == .menu {
+            let view: HeaderView = collectionView.dequeueReusableView(indexPath: indexPath, kind: "Header")
+            headerView = view
+            return view
+        } else {
+            return UICollectionReusableView()
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = sections[indexPath.section]
+        let section = viewModel.sections[indexPath.section]
         switch section {
         case .news:
             let cell: NewsItemCell = collectionView.dequeueReusableCell(indexPath: indexPath)
-            cell.configureCell(text: newsDataSource[indexPath.item])
+            let news = viewModel.news[indexPath.row]
+            
+            cell.imageCancellable = viewModel.fetchImage(for: news.photoURL)
+                .sink(receiveValue: { image in
+                    cell.assignImage(image)
+                })
+            cell.configureCell(text: news.name)
             return cell
         case .menu:
             let cell: MenuItemCell = collectionView.dequeueReusableCell(indexPath: indexPath)
-            cell.configureCell(text: menuDataSource[indexPath.item])
+            let cellModel = makeMenuCellModel(viewModel.menu[indexPath.row])
+
+            cell.imageCancellable = viewModel.fetchImage(for: cellModel.photoCompressedURL)
+                .sink(receiveValue: { image in
+                    cell.assignImage(image)
+                })
+            cell.configureCell(cellModel)
             return cell
         }
     }
+
+    private func makeMenuCellModel(_ menuItem: MenuItem) -> MenuCellModel {
+        return MenuCellModel(id: menuItem.id, name: menuItem.name, photoURL: menuItem.photoURL, photoCompressedURL: menuItem.photoCompressedURL, price: menuItem.price, type: menuItem.type, menuItemDescription: menuItem.menuItemDescription)
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+extension MenuViewController: UICollectionViewDelegate {
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let headerViewHeight: CGFloat = 40
+//        let visibleRect = CGRect(origin: collectionView.contentOffset, size: collectionView.bounds.size)
+//        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.minY + headerViewHeight)
+//        guard let visibleIndexPath = collectionView.indexPathForItem(at: visiblePoint) else {return}
+//        print(visibleIndexPath)
+//        guard visibleIndexPath.section == 1 else { return }
+//        let scrollIndexPath = IndexPath(item: visibleIndexPath.item, section: 0)
+//        headerView?.collectionView.scrollToItem(at: scrollIndexPath, at: .left, animated: true)
+//    }
 }
 
 // MARK: - CompositionalLayout
 extension MenuViewController {
     private func generateCompositionalLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            guard let self else { return nil }
-            let section = self.sections[sectionIndex]
+            guard let section = self?.viewModel.sections[sectionIndex] else { return nil }
 
             switch section {
             case .news:
@@ -126,6 +196,12 @@ extension MenuViewController {
                 group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
 
                 let section = NSCollectionLayoutSection(group: group)
+
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(40))
+                let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: "Header", alignment: .top)
+                header.pinToVisibleBounds = true
+
+                section.boundarySupplementaryItems = [header]
                 return section
             }
         }

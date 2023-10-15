@@ -12,7 +12,10 @@ final class AppConfiguration {
     let cartViewController: UIViewController
 
     init() {
-        menuViewController = MenuViewController()
+        let networkClient = NetworkClient()
+        let imageLoader = ImageLoader(networkClient: networkClient)
+        let menuViewModel = MenuViewModel(networkClient: networkClient, imageLoader: imageLoader)
+        menuViewController = MenuViewController(viewModel: menuViewModel)
         cartViewController = CartViewController()
     }
 }

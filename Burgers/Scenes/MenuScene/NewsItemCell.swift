@@ -6,18 +6,24 @@
 //
 
 import UIKit
+import Combine
 
-class NewsItemCell: UICollectionViewCell, ReuseIdentifying {
-    let imageView: UIImageView = {
+final class NewsItemCell: UICollectionViewCell, ReuseIdentifying {
+    var imageCancellable: AnyCancellable?
+
+    // MARK: - Private Properties
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "photo")
         imageView.contentMode = .scaleAspectFill
         imageView.tintColor = .black
+        imageView.layer.cornerRadius = 15
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
-    let title: UILabel = {
+    private let title: UILabel = {
         let title = UILabel()
         title.font = UIFont.systemFont(ofSize: 13, weight: .heavy)
         title.textColor = .white
@@ -29,6 +35,7 @@ class NewsItemCell: UICollectionViewCell, ReuseIdentifying {
         return title
     }()
 
+    // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -38,11 +45,21 @@ class NewsItemCell: UICollectionViewCell, ReuseIdentifying {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Public Methods
     func configureCell(text: String) {
-        imageView.image = UIImage(systemName: "photo")
         title.text = text
     }
 
+    func assignImage(_ image: UIImage?) {
+        imageView.image = image
+    }
+
+    override func prepareForReuse() {
+        imageView.image = UIImage(systemName: "photo")
+        imageCancellable?.cancel()
+    }
+
+    // MARK: - Private Methods
     private func configureView() {
         layer.cornerRadius = 15
         layer.borderWidth = 1
