@@ -48,6 +48,7 @@ class MenuViewController: UIViewController {
         configureLayout()
         setSubscriptions()
         viewModel.viewDidLoad()
+        viewModel.delegate = self
     }
 
     // MARK: - Private Methods
@@ -154,6 +155,9 @@ extension MenuViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension MenuViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        viewModel.menuCellTapped(at: indexPath)
+    }
 //    func scrollViewDidScroll(_ scrollView: UIScrollView) {
 //        let headerViewHeight: CGFloat = 40
 //        let visibleRect = CGRect(origin: collectionView.contentOffset, size: collectionView.bounds.size)
@@ -206,5 +210,12 @@ extension MenuViewController {
             }
         }
         return layout
+    }
+}
+
+// MARK: - MenuViewModelPresentationDelegate
+extension MenuViewController: MenuViewModelPresentationDelegate {
+    func present(viewController: UIViewController) {
+        present(viewController, animated: true)
     }
 }

@@ -85,7 +85,8 @@ final class MainViewController: UIViewController, OrderControlling, ImageControl
               let indexPath = collectionView.indexPath(for: cell),
               let item = dataSource.itemIdentifier(for: indexPath)?.menuItem else {return nil}
         let image = imageController.images[item.photoCompressedURL]
-        return MenuItemViewController(coder: coder, menuItem: item, image: image)
+        return nil
+//        return MenuItemViewController(coder: coder, menuItem: item, image: image)
     }
 
     @IBSegueAction func showNewsItem(_ coder: NSCoder, sender: UICollectionViewCell?) -> NewsItemViewController? {

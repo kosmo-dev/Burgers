@@ -17,20 +17,29 @@ protocol MenuViewModelProtocol {
     var newsDataSourcePublisher: Published<[NewsItem]>.Publisher { get }
     var sectionsPublisher: Published<[MenuViewModel.Section]>.Publisher { get }
 
+    var delegate: MenuViewModelPresentationDelegate? { get set }
+
     func viewDidLoad()
     func fetchImage(for urlString: String) -> AnyPublisher<UIImage?, Never>
+    func menuCellTapped(at indexPath: IndexPath)
+}
+
+protocol MenuViewModelPresentationDelegate: AnyObject {
+    func present(viewController: UIViewController)
 }
 
 final class MenuViewModel: MenuViewModelProtocol {
-    @Published var menu: [MenuItem] = []
-    @Published var news: [NewsItem] = []
-    @Published var sections: [Section] = []
+    @Published private(set) var menu: [MenuItem] = []
+    @Published private(set) var news: [NewsItem] = []
+    @Published private(set) var sections: [Section] = []
 
     var menuDataSourcePublisher: Published<[MenuItem]>.Publisher { $menu }
     var newsDataSourcePublisher: Published<[NewsItem]>.Publisher { $news }
     var sectionsPublisher: Published<[Section]>.Publisher { $sections }
 
     private var cancellables: Set<AnyCancellable> = []
+
+    weak var delegate: MenuViewModelPresentationDelegate?
 
     let networkClient: NetworkClientProtocol
     let imageLoader: ImageLoaderProtocol
@@ -81,6 +90,13 @@ final class MenuViewModel: MenuViewModelProtocol {
                 self?.news = news
             }
             .store(in: &cancellables)
+    }
+
+    func menuCellTapped(at indexPath: IndexPath) {
+        let menuItem = menu[indexPath.item]
+        let viewModel = MenuItemViewModel(imageLoader: imageLoader, menuItem: menuItem)
+        let viewController = MenuItemViewController(viewModel: viewModel)
+        delegate?.present(viewController: viewController)
     }
 
     func fetchImage(for urlString: String) -> AnyPublisher<UIImage?, Never> {
