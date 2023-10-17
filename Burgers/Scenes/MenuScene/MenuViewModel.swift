@@ -93,10 +93,22 @@ final class MenuViewModel: MenuViewModelProtocol {
     }
 
     func menuCellTapped(at indexPath: IndexPath) {
-        let menuItem = menu[indexPath.item]
-        let viewModel = MenuItemViewModel(imageLoader: imageLoader, menuItem: menuItem)
-        let viewController = MenuItemViewController(viewModel: viewModel)
-        delegate?.present(viewController: viewController)
+        let section = Section.fromRawValue(indexPath.section)
+
+        switch section {
+        case .news:
+            let newsItem = news[indexPath.item]
+            let viewModel = NewsItemViewModel(imageLoader: imageLoader, newsItem: newsItem)
+            let viewController = NewsItemViewController(viewModel: viewModel)
+            delegate?.present(viewController: viewController)
+        case .menu:
+            let menuItem = menu[indexPath.item]
+            let viewModel = MenuItemViewModel(imageLoader: imageLoader, menuItem: menuItem)
+            let viewController = MenuItemViewController(viewModel: viewModel)
+            delegate?.present(viewController: viewController)
+        default:
+            return
+        }
     }
 
     func fetchImage(for urlString: String) -> AnyPublisher<UIImage?, Never> {
@@ -106,8 +118,12 @@ final class MenuViewModel: MenuViewModelProtocol {
 
 // MARK: - Section Enum
 extension MenuViewModel {
-    enum Section {
-        case news
-        case menu
+    enum Section: Int {
+        case news = 0
+        case menu = 1
+
+        static func fromRawValue(_ value: Int) -> Section? {
+            return Section(rawValue: value)
+        }
     }
 }

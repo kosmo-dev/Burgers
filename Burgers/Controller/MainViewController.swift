@@ -94,7 +94,8 @@ final class MainViewController: UIViewController, OrderControlling, ImageControl
               let indexPath = collectionView.indexPath(for: cell),
               let item = dataSource.itemIdentifier(for: indexPath)?.newsItem else {return nil}
         let image = imageController.images[item.photoURL]
-        return NewsItemViewController(coder: coder, newsItem: item, image: image)
+//        return NewsItemViewController(coder: coder, newsItem: item, image: image)
+        return nil
     }
 }
 
