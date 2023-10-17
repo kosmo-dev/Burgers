@@ -22,7 +22,7 @@
 		3D5D9A2028F2C93C006B8E78 /* DataSourceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A1F28F2C93C006B8E78 /* DataSourceItem.swift */; };
 		3D5D9A2228F2CC5B006B8E78 /* NewsItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A2128F2CC5B006B8E78 /* NewsItemCollectionViewCell.swift */; };
 		3D5D9A2428F36B10006B8E78 /* MenuItemViewController_deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A2328F36B10006B8E78 /* MenuItemViewController_deprecated.swift */; };
-		3D5D9A2628F4AC62006B8E78 /* NewsItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A2528F4AC62006B8E78 /* NewsItemViewController.swift */; };
+		3D5D9A2628F4AC62006B8E78 /* NewsItemViewController_deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A2528F4AC62006B8E78 /* NewsItemViewController_deprecated.swift */; };
 		3D5D9A2828F539FB006B8E78 /* OrderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A2728F539FB006B8E78 /* OrderController.swift */; };
 		3D5D9A3028F5E329006B8E78 /* OrderControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A2F28F5E329006B8E78 /* OrderControllerTests.swift */; };
 		3D5D9A4A28F5FED8006B8E78 /* BurgersAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D9A4928F5FED8006B8E78 /* BurgersAPITests.swift */; };
@@ -47,6 +47,8 @@
 		3DAF696C2989343400EABAB9 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF696B2989343400EABAB9 /* AlertModel.swift */; };
 		3DCAD96B2AC1C76700AE6C50 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCAD96A2AC1C76700AE6C50 /* NetworkClient.swift */; };
 		3DCAD96D2AC1C7C000AE6C50 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCAD96C2AC1C7C000AE6C50 /* NetworkRequest.swift */; };
+		3DDA93752ADE5D67004FF7EF /* NewsItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDA93742ADE5D67004FF7EF /* NewsItemViewController.swift */; };
+		3DDA93772ADE5D71004FF7EF /* NewsItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDA93762ADE5D71004FF7EF /* NewsItemViewModel.swift */; };
 		3DE3D2942A868B5600394BEB /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE3D2932A868B5600394BEB /* TabBarController.swift */; };
 		3DEBBCC82ABE845400406F80 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEBBCC72ABE845400406F80 /* MenuViewModel.swift */; };
 		3DED088828EE05CC000DEA5D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DED088728EE05CC000DEA5D /* AppDelegate.swift */; };
@@ -94,7 +96,7 @@
 		3D5D9A1F28F2C93C006B8E78 /* DataSourceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceItem.swift; sourceTree = "<group>"; };
 		3D5D9A2128F2CC5B006B8E78 /* NewsItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		3D5D9A2328F36B10006B8E78 /* MenuItemViewController_deprecated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemViewController_deprecated.swift; sourceTree = "<group>"; };
-		3D5D9A2528F4AC62006B8E78 /* NewsItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItemViewController.swift; sourceTree = "<group>"; };
+		3D5D9A2528F4AC62006B8E78 /* NewsItemViewController_deprecated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItemViewController_deprecated.swift; sourceTree = "<group>"; };
 		3D5D9A2728F539FB006B8E78 /* OrderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderController.swift; sourceTree = "<group>"; };
 		3D5D9A2D28F5E329006B8E78 /* BurgersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BurgersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5D9A2F28F5E329006B8E78 /* OrderControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderControllerTests.swift; sourceTree = "<group>"; };
@@ -121,6 +123,8 @@
 		3DAF696B2989343400EABAB9 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		3DCAD96A2AC1C76700AE6C50 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		3DCAD96C2AC1C7C000AE6C50 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		3DDA93742ADE5D67004FF7EF /* NewsItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItemViewController.swift; sourceTree = "<group>"; };
+		3DDA93762ADE5D71004FF7EF /* NewsItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItemViewModel.swift; sourceTree = "<group>"; };
 		3DE3D2932A868B5600394BEB /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		3DEBBCC72ABE845400406F80 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		3DED088428EE05CC000DEA5D /* Burgers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Burgers.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -225,7 +229,7 @@
 				3DED089B28EE1415000DEA5D /* MainViewController.swift */,
 				3D5D9A6228F97416006B8E78 /* OrderViewController.swift */,
 				3D5D9A2328F36B10006B8E78 /* MenuItemViewController_deprecated.swift */,
-				3D5D9A2528F4AC62006B8E78 /* NewsItemViewController.swift */,
+				3D5D9A2528F4AC62006B8E78 /* NewsItemViewController_deprecated.swift */,
 				3D3C29F82917DE0600C4B9AA /* OrderDetailViewController.swift */,
 				3D5D9A2728F539FB006B8E78 /* OrderController.swift */,
 				3D5D9A5E28F93486006B8E78 /* ImageController.swift */,
@@ -301,6 +305,15 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		3DDA93732ADE5D4E004FF7EF /* NewsItemScene */ = {
+			isa = PBXGroup;
+			children = (
+				3DDA93742ADE5D67004FF7EF /* NewsItemViewController.swift */,
+				3DDA93762ADE5D71004FF7EF /* NewsItemViewModel.swift */,
+			);
+			path = NewsItemScene;
+			sourceTree = "<group>";
+		};
 		3DE3D2952A868B6000394BEB /* TabBarController */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,6 +325,7 @@
 		3DEBBCC62ABE816400406F80 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3DDA93732ADE5D4E004FF7EF /* NewsItemScene */,
 				3D9ADB572ADBD04300B2BDFD /* MenuItemScene */,
 				3D4CC1A12A95F3A300C71EC1 /* MenuScene */,
 				3D4CC1A22A95F3B700C71EC1 /* CartScene */,
@@ -526,9 +540,10 @@
 				3DED08A628EE28CB000DEA5D /* APIService.swift in Sources */,
 				3D4CC1A62A95F3DB00C71EC1 /* CartViewController.swift in Sources */,
 				3D4CC1A42A95F3CD00C71EC1 /* MenuViewController.swift in Sources */,
-				3D5D9A2628F4AC62006B8E78 /* NewsItemViewController.swift in Sources */,
+				3D5D9A2628F4AC62006B8E78 /* NewsItemViewController_deprecated.swift in Sources */,
 				3D3C29F92917DE0600C4B9AA /* OrderDetailViewController.swift in Sources */,
 				3DAF696429891E9C00EABAB9 /* ItemsFactory.swift in Sources */,
+				3DDA93752ADE5D67004FF7EF /* NewsItemViewController.swift in Sources */,
 				3D4CC1A82A95F86500C71EC1 /* Strings.swift in Sources */,
 				3D22C9D528F1A5B900BD768A /* HeaderReusableView.swift in Sources */,
 				3D5D9A6128F93A77006B8E78 /* OrderItemCollectionViewCell.swift in Sources */,
@@ -552,6 +567,7 @@
 				3DED08A428EE165D000DEA5D /* MenuItemCollectionViewCell.swift in Sources */,
 				3DED088A28EE05CC000DEA5D /* SceneDelegate.swift in Sources */,
 				3DE3D2942A868B5600394BEB /* TabBarController.swift in Sources */,
+				3DDA93772ADE5D71004FF7EF /* NewsItemViewModel.swift in Sources */,
 				3DCAD96D2AC1C7C000AE6C50 /* NetworkRequest.swift in Sources */,
 				3D6D06AE2900375C00EAB19A /* CustomButton.swift in Sources */,
 				3DED08A028EE15F8000DEA5D /* APIRequest.swift in Sources */,

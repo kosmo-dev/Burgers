@@ -33,11 +33,11 @@ final class MenuItemViewController: UIViewController {
         return descriptionLabel
     }()
 
-    private let image: UIImageView = {
-        let image = UIImageView()
-        image.contentMode = .scaleAspectFit
-        image.translatesAutoresizingMaskIntoConstraints = false
-        return image
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
 
     private let chooseButton = CustomButton(title: "Choose", action: #selector(chooseButtonTapped))
@@ -59,14 +59,14 @@ final class MenuItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureLayout()
-        configureSubscription()
+        setSubscription()
     }
 
     // MARK: - Private Methods
     private func configureLayout() {
         view.backgroundColor = .white
 
-        [titleLabel, priceLabel, descriptionLabel, image, chooseButton].forEach { view.addSubview($0) }
+        [titleLabel, priceLabel, descriptionLabel, imageView, chooseButton].forEach { view.addSubview($0) }
 
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
@@ -77,12 +77,12 @@ final class MenuItemViewController: UIViewController {
             priceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             priceLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
 
-            image.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            image.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 8),
-            image.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            image.widthAnchor.constraint(equalTo: image.heightAnchor, multiplier: 1),
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 8),
+            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1),
 
-            descriptionLabel.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 8),
+            descriptionLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
             descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
 
@@ -93,7 +93,7 @@ final class MenuItemViewController: UIViewController {
         ])
     }
 
-    private func configureSubscription() {
+    private func setSubscription() {
         viewModel.menuItemPublisher.sink { [weak self] item in
             guard let self, let item else { return }
             self.titleLabel.text = item.name
@@ -102,7 +102,7 @@ final class MenuItemViewController: UIViewController {
         }.store(in: &cancellables)
 
         viewModel.imagePublisher.sink { [weak self] image in
-            self?.image.image = image
+            self?.imageView.image = image
         }.store(in: &cancellables)
     }
 
