@@ -1,26 +1,34 @@
 # Burgers 
 
-### Pet project
+## Назначение приложения
+Приложение для просмотра меню, новостей и отправки заказа ресторана-бургерной. Данные поступают с мокового сервера.
 
-### Description
+## Краткое описание приложения ##
 
-Application for a burger restaurant. Features: view news, menu, descriptions of menu items, select dishes to order and send the order.
+- Главный экран состоит из списка новостей, меню и автоматически прокручивающегося списка категоий меню.
+- Новости и позиция в меню открывается модально.
+- На втором экране расположен текущий заказ и список размещенных ранее заказов. 
+
+## Стек технологий ##
+- Swift, UIKit
+- Архитектура: MVC
+- Верстка: Storyboards, некоторые экраны кодом
+- UICollectionViewCompositionalLayout, DiffableDataSource
+- Swift Concurrency
+- URLSession
+
+## Запись экрана с демонстрацией работы ##
 
 ![Screenshot](Screenshots/screen.gif?raw=true)
 
+## Установка ##
+Установка и запуск через Xcode.
 
-### Technology Stack
+Минимальная версия системы iOS 13.0.
 
-- Swift
-- UIKit
-
-- Data for menus and news get from the server via REST API using URLSession and Codable
-
-- DiffableDataSource for collectionView
-
-- Multithreading: async/await 
-
-UI Layout:
-- Main pages: storyboard + UICollectionViewCompositionalLayout
-- Descriptions of menu items and news: storyboard
-- Header View with menu sections: code layout
+## Планы по доработке ##
+Версия 2.0 (готовность 50%) : 
+- Архитектура MVVM (с использованием Combine)
+- Все экраны сверстаны кодом
+- Получение статуса заказа с использованием Server Sent Events
+- Переработанный дизайн текущего заказа
